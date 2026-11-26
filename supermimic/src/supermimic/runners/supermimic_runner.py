@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 import time
 from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
@@ -662,6 +663,14 @@ class SuperMimicRunner:
           critic_path = str(log_dir / "critic.pt")
           torch.save(critic.state_dict(), critic_path)
           checkpoint_files.append(critic_path)
+        # Versioned copies: the platform's file watcher reliably picks up *new* paths,
+        # while in-place overwrites of the same filename were never uploaded in practice.
+        for src in list(checkpoint_files):
+          stem = Path(src).stem
+          versioned = log_dir / f"{stem}_{step:07d}.pt"
+          if not versioned.exists():
+            shutil.copy2(src, versioned)
+            checkpoint_files.append(str(versioned))
         # Skip ONNX export on huge datasets.
         if (
           self._representation.actor_obs_mode == "proprio"
