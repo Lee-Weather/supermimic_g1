@@ -46,3 +46,7 @@ checkpoints/
 .DS_Store
 Thumbs.db
 desktop.ini
+# 本地运行产物（任务 payload / 日志轮询）
+task_payload.json
+project_payload.json
+cloud_logs_*.txt
