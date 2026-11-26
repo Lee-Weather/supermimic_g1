@@ -3,8 +3,8 @@
     "projectId": "PRO_20261126_004",
     "taskType": "1",
     "trainType": "1",
-    "taskName": "supermimic_g1_walk_retrain80k",
-    "taskDescription": "retrain after lost checkpoints; versioned ckpt every 5000 steps; 80k steps motion-only",
+    "taskName": "supermimic_g1_walk_4096env_6k",
+    "taskDescription": "4096 envs, 6000 steps, save every 100 steps (versioned filenames)",
     "taskTag": [],
     "goodsId": "ESKU000001",
     "goodsBackId": "SKUSL000002",
@@ -16,7 +16,7 @@
     "codeType": "2",
     "codeUrl": "[{\"codeUrl\": \"https://github.com/Lee-Weather/supermimic_g1.git\", \"versionType\": \"1\", \"versionName\": \"main\"}]",
     "mainCodeUri": "supermimic_g1/supermimic/src/supermimic/scripts/train.py",
-    "startScript": "gm-run supermimic_g1/cloud/launch.py --num-envs 1024 --iters 80000 --save-interval 5000",
+    "startScript": "gm-run supermimic_g1/cloud/launch.py --num-envs 4096 --iters 6000 --save-interval 100",
     "isOpen": "1"
   },
   "runtimeReminderConfig": {
