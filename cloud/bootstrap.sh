@@ -106,36 +106,38 @@ retry 4 uv pip install --python "$VENV" \
   -e "$ROOT/mjlab_research" \
   -e "$ROOT/supermimic"
 
-say "=== 4b. find a warp-lang build the driver can actually use ==="
-# warp 1.19 wheels are built with CUDA 13.x and refuse to run on drivers < 13.0
-# ("Insufficient CUDA driver version ... 12.2"), which silently leaves zero CUDA devices and
-# then fails with "Invalid device identifier: cuda:0" deep inside mujoco-warp. Walk down the
-# release list until warp reports a CUDA device.
-warp_cuda_devices() {
-  "$VENV/bin/python" - <<'PY' 2>/dev/null || echo 0
+say "=== 4b. pin a warp-lang build the driver can actually use ==="
+# warp 1.19/1.18 wheels are built with CUDA 13.4 and refuse to run on a 12.x driver
+# ("Insufficient CUDA driver version ... 12.2"), which leaves zero CUDA devices and then fails
+# with "Invalid device identifier: cuda:0" inside mujoco-warp. 1.17/1.16/1.15 are built with
+# CUDA 12.9 and do see the 4090 on this pod (verified in the log). Probe with a sentinel line,
+# because warp prints its init banner to stdout and would otherwise corrupt the count.
+WARP_OK=0
+for V in ${WARP_VERSIONS:-1.17.0 1.16.0 1.15.0}; do
+  say "trying warp-lang==$V"
+  if retry 2 uv pip install --python "$VENV" "warp-lang==$V" >/dev/null 2>&1; then
+    OUT=$("$VENV/bin/python" - <<'PY' 2>&1 || true
 import warnings
 warnings.filterwarnings("ignore")
 import warp as wp
 wp.init()
-devs = [d.alias for d in wp.get_devices()]
-print(sum(1 for d in devs if d.startswith("cuda")))
+n = len([d for d in wp.get_devices() if d.alias.startswith("cuda")])
+print(f"CUDA_DEVICES={n}")
 PY
-}
-WARP_OK=0
-for V in ${WARP_VERSIONS:-1.19.0 1.18.0 1.17.0 1.16.0 1.15.0}; do
-  say "trying warp-lang==$V"
-  if retry 2 uv pip install --python "$VENV" "warp-lang==$V" >/dev/null 2>&1; then
-    N=$(warp_cuda_devices || echo 0)
-    say "warp $V -> cuda devices: $N"
-    if [ "${N:-0}" -gt 0 ] 2>/dev/null; then WARP_OK=1; break; fi
+)
+    say "warp $V probe: $(echo "$OUT" | tr '\n' ' ')"
+    if echo "$OUT" | grep -qE 'CUDA_DEVICES=[1-9]'; then
+      WARP_OK=1
+      say "warp $V works"
+      break
+    fi
   else
     say "warp $V not installable"
   fi
 done
 if [ "$WARP_OK" != "1" ]; then
-  echo "[FATAL] no warp-lang build sees the GPU; the pod driver is too old for every wheel tried"
+  echo "[FATAL] no warp-lang build sees the GPU on this driver"
   nvidia-smi --query-gpu=driver_version --format=csv,noheader || true
-  "$VENV/bin/python" -c "import warp as wp; wp.init()" || true
   exit 4
 fi
 
