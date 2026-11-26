@@ -47,19 +47,34 @@ fi
 uv --version
 
 say "=== 2. python 3.13 venv ==="
-uv venv --python 3.13 "$VENV"
+# only-managed: never reuse the pod's 3.11 (Isaac Sim) interpreter as "3.13".
+uv venv --python 3.13 --python-preference only-managed "$VENV"
 # shellcheck disable=SC1091
 source "$VENV/bin/activate"
-python -c "import sys; print('python', sys.version.split()[0])"
+python -c "import sys; print('python', sys.version.split()[0], sys.executable)"
 
-say "=== 3. torch ($BACKEND) from the matching wheel index ==="
+say "=== 3. torch (>=2.14 required by mjlab) from a wheel index that works ==="
+install_torch() {
+  local idx="$1"
+  say "trying torch from $idx"
+  uv pip install --python "$VENV" torch --index-url "$idx" || return 1
+  "$VENV/bin/python" - <<'PY'
+import torch
+print("torch", torch.__version__, "cuda_available", torch.cuda.is_available(), flush=True)
+assert torch.__version__ >= "2.14", "torch too old for mjlab"
+PY
+}
 case "$BACKEND" in
-  --cu126) IDX="https://download.pytorch.org/whl/cu126" ;;
-  --cu128) IDX="https://download.pytorch.org/whl/cu128" ;;
-  --cpu)   IDX="https://download.pytorch.org/whl/cpu"   ;;
+  --cu126) CANDIDATES=("https://download.pytorch.org/whl/cu126" "https://download.pytorch.org/whl/cu128") ;;
+  --cu128) CANDIDATES=("https://download.pytorch.org/whl/cu128" "https://download.pytorch.org/whl/cu126") ;;
+  --cpu)   CANDIDATES=("https://download.pytorch.org/whl/cpu") ;;
   *) echo "[FATAL] unknown backend $BACKEND"; exit 2 ;;
 esac
-uv pip install --python "$VENV" torch --index-url "$IDX"
+for IDX in "${CANDIDATES[@]}"; do
+  if install_torch "$IDX"; then TORCH_OK=1; break; fi
+  say "torch install from $IDX failed, trying next"
+done
+[ "${TORCH_OK:-0}" = "1" ] || { echo "[FATAL] no torch wheel worked"; exit 3; }
 
 say "=== 4. mjlab + supermimic (editable; nvidia index for mujoco-warp) ==="
 uv pip install --python "$VENV" \

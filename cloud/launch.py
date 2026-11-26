@@ -1,4 +1,4 @@
-"""Cloud launcher shim for the Gradmotion/flux platform.
+﻿"""Cloud launcher shim for the Gradmotion/flux platform.
 
 Why a Python shim: the platform's SDK takes the task's ``startScript``, strips the leading
 ``gm-run`` and executes the result as ``<image-python> <second-token> <rest...>``. A shell
@@ -25,6 +25,32 @@ ROOT = Path(__file__).resolve().parents[1]
 VENV_PY = ROOT / "supermimic/.venv/bin/python"
 TRAIN = ROOT / "supermimic/src/supermimic/scripts/train.py"
 BOOTSTRAP = ROOT / "cloud/bootstrap.sh"
+
+# The pod's shell is polluted by the image's Isaac Sim / conda environment: PYTHONHOME and
+# PYTHONPATH point at IsaacLab's bundled stdlib, which makes any other interpreter abort with
+# "AssertionError: SRE module mismatch" (3.13 binary loading 3.11 stdlib). Strip them for
+# every child process we spawn.
+POLLUTED_KEYS = (
+  "PYTHONHOME",
+  "PYTHONPATH",
+  "PYTHONSTARTUP",
+  "PYTHONEXECUTABLE",
+  "PYTHONUSERBASE",
+  "PYTHONWARNINGS",
+  "CONDA_PREFIX",
+  "CONDA_DEFAULT_ENV",
+  "CONDA_PROMPT_MODIFIER",
+  "VIRTUAL_ENV",
+  "LD_LIBRARY_PATH",
+)
+
+
+def clean_env() -> dict[str, str]:
+  env = {k: v for k, v in os.environ.items() if k not in POLLUTED_KEYS}
+  env["PYTHONNOUSERSITE"] = "1"
+  env["PYTHONUNBUFFERED"] = "1"
+  env.setdefault("WANDB_MODE", "offline")
+  return env
 
 
 def probe() -> int:
@@ -53,7 +79,7 @@ def probe() -> int:
 
 def run(cmd: list[str]) -> int:
   print("+ " + " ".join(cmd), flush=True)
-  return subprocess.call(cmd, cwd=str(ROOT))
+  return subprocess.call(cmd, cwd=str(ROOT), env=clean_env())
 
 
 def main() -> int:

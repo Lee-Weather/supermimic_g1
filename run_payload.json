@@ -1,0 +1,26 @@
+{
+  "taskBaseInfo": {
+    "projectId": "PRO_20261126_004",
+    "taskType": "1",
+    "trainType": "1",
+    "taskName": "supermimic_g1_walk_1024_v2",
+    "taskDescription": "G1 walk-only 63 clips/37.2min; launch.py auto-bootstrap (py3.13+torch cu126) then train 1024 envs",
+    "taskTag": [],
+    "goodsId": "ESKU000001",
+    "goodsBackId": "SKUSL000002",
+    "gpuNum": 1,
+    "imageId": "BJX00000093",
+    "imageVersion": "V000136"
+  },
+  "taskCodeInfo": {
+    "codeType": "2",
+    "codeUrl": "[{\"codeUrl\": \"https://github.com/Lee-Weather/supermimic_g1.git\", \"versionType\": \"1\", \"versionName\": \"main\"}]",
+    "mainCodeUri": "supermimic_g1/supermimic/src/supermimic/scripts/train.py",
+    "startScript": "gm-run supermimic_g1/cloud/launch.py --num-envs 1024 --iters 100000 --save-interval 2000",
+    "isOpen": "1"
+  },
+  "runtimeReminderConfig": {
+    "enableRuntimeReminder": false,
+    "reminderDurations": []
+  }
+}
