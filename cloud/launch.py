@@ -119,7 +119,7 @@ def main() -> int:
     "--motion-file", args.motion_file,
     "--runner.max-iterations", str(args.iters),
     "--runner.save-interval", str(args.save_interval),
-    "--runner.headless",
+    "--runner.headless", "True",
     *extra,
   ]
   return run(cmd)

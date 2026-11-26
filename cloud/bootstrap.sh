@@ -4,9 +4,9 @@
 # Why this script exists: the official images top out at Python 3.11 while mjlab needs 3.13,
 # and the CUDA stack (mujoco-warp / warp-lang / torch) must match the pod driver.
 #
-# The venv lives OUTSIDE the workspace by default (``$SUPERMIMIC_VENV``, default
-# ``~/.cache/supermimic-venv``): the platform SDK watches the workspace and uploads every new
-# file, so a 30k-file venv inside it floods the upload queue and the console log.
+# The venv lives OUTSIDE the workspace (``$SUPERMIMIC_VENV``, default ``~/.cache/supermimic-venv``):
+# the platform SDK watches the workspace and uploads every new file, so a 30k-file venv
+# inside it floods the upload queue and the console log.
 #
 # Usage (from the repo root, after `git clone`):
 #   bash cloud/bootstrap.sh [--cu126|--cu128|--cpu]
@@ -108,11 +108,12 @@ fi
 
 say "=== 7. smoke: 20 iterations, 64 envs ==="
 cd "$ROOT"
+# tyro bool flags need an explicit value: `--runner.headless True`, not `--runner.headless`.
 "$VENV/bin/python" -u supermimic/src/supermimic/scripts/train.py SuperMimic-GenCoord-G1 \
   --num-envs 64 \
   --motion-file "$ROOT/datasets/walk_only/npz" \
   --runner.max-iterations 20 \
-  --runner.headless \
+  --runner.headless True \
   || { echo "[FATAL] smoke training failed"; exit 1; }
 
 say "=== bootstrap OK ==="
