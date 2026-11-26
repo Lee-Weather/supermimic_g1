@@ -29,8 +29,8 @@ while [ $# -gt 0 ]; do
 done
 
 if [ ! -x "$VENV/bin/python" ]; then
-  echo "[FATAL] venv missing; run: bash cloud/bootstrap.sh"
-  exit 1
+  echo "[info] venv missing -> running cloud/bootstrap.sh first (one-time, ~10 min)"
+  bash "$ROOT/cloud/bootstrap.sh" "${BOOTSTRAP_BACKEND:---cu126}"
 fi
 # shellcheck disable=SC1091
 source "$VENV/bin/activate"
