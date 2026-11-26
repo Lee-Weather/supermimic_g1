@@ -17,25 +17,42 @@ BACKEND="${1:---cu126}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV="$ROOT/supermimic/.venv"
 export WANDB_MODE="${WANDB_MODE:-offline}"
+export DEBIAN_FRONTEND=noninteractive
+export PYTHONUNBUFFERED=1
 
-echo "=== 0. host info ==="
+ts() { date '+%H:%M:%S'; }
+say() { echo "[$(ts)] $*"; }
+
+say "=== 0. host info ==="
 nvidia-smi || { echo "[FATAL] no GPU / no driver"; exit 1; }
 df -h "$ROOT" | tail -1
 
-echo "=== 1. install uv (user space) ==="
+say "=== 0b. basic tooling ==="
+for bin in curl git; do
+  if ! command -v "$bin" >/dev/null 2>&1; then
+    say "missing $bin -> trying apt-get"
+    if command -v apt-get >/dev/null 2>&1 && [ "$(id -u)" = "0" ]; then
+      apt-get update -qq && apt-get install -y -qq "$bin"
+    else
+      echo "[FATAL] $bin missing and cannot install (no root / no apt)"; exit 1
+    fi
+  fi
+done
+
+say "=== 1. install uv (user space) ==="
 if ! command -v uv >/dev/null 2>&1; then
   curl -LsSf https://astral.sh/uv/install.sh | sh
   export PATH="$HOME/.local/bin:$PATH"
 fi
 uv --version
 
-echo "=== 2. python 3.13 venv ==="
+say "=== 2. python 3.13 venv ==="
 uv venv --python 3.13 "$VENV"
 # shellcheck disable=SC1091
 source "$VENV/bin/activate"
 python -c "import sys; print('python', sys.version.split()[0])"
 
-echo "=== 3. torch ($BACKEND) from the matching wheel index ==="
+say "=== 3. torch ($BACKEND) from the matching wheel index ==="
 case "$BACKEND" in
   --cu126) IDX="https://download.pytorch.org/whl/cu126" ;;
   --cu128) IDX="https://download.pytorch.org/whl/cu128" ;;
@@ -44,39 +61,39 @@ case "$BACKEND" in
 esac
 uv pip install --python "$VENV" torch --index-url "$IDX"
 
-echo "=== 4. mjlab + supermimic (editable; nvidia index for mujoco-warp) ==="
+say "=== 4. mjlab + supermimic (editable; nvidia index for mujoco-warp) ==="
 uv pip install --python "$VENV" \
   --extra-index-url https://pypi.nvidia.com \
   -e "$ROOT/mjlab_research" \
   -e "$ROOT/supermimic"
 
-echo "=== 5. verify the CUDA stack ==="
-python - <<'PY'
+say "=== 5. verify the CUDA stack ==="
+python -u - <<'PY'
 import torch, warp, mujoco
 print("torch", torch.__version__, "cuda_available", torch.cuda.is_available(),
-      "cuda", torch.version.cuda, "gpu", torch.cuda.get_device_name(0))
-print("warp", warp.__version__)
-print("mujoco", mujoco.__version__)
+      "cuda", torch.version.cuda, "gpu", torch.cuda.get_device_name(0), flush=True)
+print("warp", warp.__version__, flush=True)
+print("mujoco", mujoco.__version__, flush=True)
 import mjlab.tasks  # noqa: F401
 import supermimic.tasks  # noqa: F401
-print("mjlab + supermimic import OK")
+print("mjlab + supermimic import OK", flush=True)
 PY
 
-echo "=== 6. pack the motion dataset (npz -> packed, ~20 s) ==="
+say "=== 6. pack the motion dataset (npz -> packed, ~20 s) ==="
 if [ -d "$ROOT/datasets/walk_only/npz" ] && [ ! -d "$ROOT/datasets/walk_only/packed" ]; then
-  python "$ROOT/mjlab_research/src/mjlab/scripts/pack_motions.py" \
+  python -u "$ROOT/mjlab_research/src/mjlab/scripts/pack_motions.py" \
     --input "$ROOT/datasets/walk_only/npz/*.npz" \
     --output "$ROOT/datasets/walk_only/packed"
 fi
 
-echo "=== 7. smoke: 20 iterations, 64 envs ==="
+say "=== 7. smoke: 20 iterations, 64 envs ==="
 cd "$ROOT"
-python supermimic/src/supermimic/scripts/train.py SuperMimic-GenCoord-G1 \
+python -u supermimic/src/supermimic/scripts/train.py SuperMimic-GenCoord-G1 \
   --num-envs 64 \
   --motion-file "$ROOT/datasets/walk_only/npz" \
   --runner.max-iterations 20 \
   --runner.headless \
   || { echo "[FATAL] smoke training failed"; exit 1; }
 
-echo "=== bootstrap OK ==="
+say "=== bootstrap OK ==="
 nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv
