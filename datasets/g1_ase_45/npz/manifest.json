@@ -1,0 +1,493 @@
+{
+  "schema": "mjlab MotionLoader NPZ (G1 29-DoF, 50 Hz, embedded wxyz quaternions)",
+  "source_dir": "E:\\G1\\G1_ase_h\\G1_ase\\ase\\data\\motions\\g1",
+  "output_dir": "datasets\\g1_ase_45\\npz",
+  "joint_names": [
+    "left_hip_pitch_joint",
+    "left_hip_roll_joint",
+    "left_hip_yaw_joint",
+    "left_knee_joint",
+    "left_ankle_pitch_joint",
+    "left_ankle_roll_joint",
+    "right_hip_pitch_joint",
+    "right_hip_roll_joint",
+    "right_hip_yaw_joint",
+    "right_knee_joint",
+    "right_ankle_pitch_joint",
+    "right_ankle_roll_joint",
+    "waist_yaw_joint",
+    "waist_roll_joint",
+    "waist_pitch_joint",
+    "left_shoulder_pitch_joint",
+    "left_shoulder_roll_joint",
+    "left_shoulder_yaw_joint",
+    "left_elbow_joint",
+    "left_wrist_roll_joint",
+    "left_wrist_pitch_joint",
+    "left_wrist_yaw_joint",
+    "right_shoulder_pitch_joint",
+    "right_shoulder_roll_joint",
+    "right_shoulder_yaw_joint",
+    "right_elbow_joint",
+    "right_wrist_roll_joint",
+    "right_wrist_pitch_joint",
+    "right_wrist_yaw_joint"
+  ],
+  "clip_count": 45,
+  "failed_count": 0,
+  "total_frames": 14738,
+  "total_seconds": 294.76,
+  "clips": [
+    {
+      "file": "A1_stand_g1_29.npz",
+      "source": "A1_stand_g1_29.npz",
+      "frames": 150,
+      "seconds": 3.0,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "675b9ab6e2ca5c8482935b8928523ec5125de3bb62f4c99d9dd4856560bef8c5"
+    },
+    {
+      "file": "A2_sway_g1_29.npz",
+      "source": "A2_sway_g1_29.npz",
+      "frames": 601,
+      "seconds": 12.02,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "2decc4b8d7c215ac0bbf58108cdd5a9403670436dcc15c03291b39c4edbced39"
+    },
+    {
+      "file": "Female1_A14_stand_to_skip_g1_29.npz",
+      "source": "Female1_A14_stand_to_skip_g1_29.npz",
+      "frames": 258,
+      "seconds": 5.16,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "b17e62186f83bab0c0f58473ca65e7d86d34e696a94f7a7696efe33f7e24638a"
+    },
+    {
+      "file": "Female1_A15_skip_to_stand_g1_29.npz",
+      "source": "Female1_A15_skip_to_stand_g1_29.npz",
+      "frames": 213,
+      "seconds": 4.26,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "31fbed26a7c65c5c8be2d65e24e01b7efb4cf1cfd6486f28054d1c080db29b7c"
+    },
+    {
+      "file": "Female1_B10_walk_turn_left_45_g1_29.npz",
+      "source": "Female1_B10_walk_turn_left_45_g1_29.npz",
+      "frames": 396,
+      "seconds": 7.92,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "aa8c5e1246a9d777bd7d780572fb3c9814f2044ed31a487d77906af24acd828b"
+    },
+    {
+      "file": "Female1_B11_walk_turn_left_135_g1_29.npz",
+      "source": "Female1_B11_walk_turn_left_135_g1_29.npz",
+      "frames": 468,
+      "seconds": 9.36,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "a6d02743db153490bd7162997d2fa8f6ba175d873a12bfde0c8b90ed1147a83a"
+    },
+    {
+      "file": "Female1_B13_walk_turn_right_45_g1_29.npz",
+      "source": "Female1_B13_walk_turn_right_45_g1_29.npz",
+      "frames": 415,
+      "seconds": 8.3,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "1daf1153b87f541a8f91557ac96d260b9d494c9122175e9f8d24a7ca52f5f897"
+    },
+    {
+      "file": "Female1_B14_walk_turn_right_135_g1_29.npz",
+      "source": "Female1_B14_walk_turn_right_135_g1_29.npz",
+      "frames": 448,
+      "seconds": 8.96,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "630b09e56930df0ff251c998c34f8c7e1f6e6663f29afebf78979110508a6842"
+    },
+    {
+      "file": "Female1_B15_walk_turn_around_g1_29.npz",
+      "source": "Female1_B15_walk_turn_around_g1_29.npz",
+      "frames": 530,
+      "seconds": 10.6,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "18a5b03591569435cafdd3bab9acc6895369da0b7454266a43bb64c174fbbf20"
+    },
+    {
+      "file": "Female1_B16_walk_turn_change_direction_g1_29.npz",
+      "source": "Female1_B16_walk_turn_change_direction_g1_29.npz",
+      "frames": 551,
+      "seconds": 11.02,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "33f784e6d7a2523cd73419259ef20898cd7cc0c2e67b534ddcadea026c297871"
+    },
+    {
+      "file": "Female1_B1_stand_to_walk_g1_29.npz",
+      "source": "Female1_B1_stand_to_walk_g1_29.npz",
+      "frames": 311,
+      "seconds": 6.22,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "8c77d247799cda54f86b3afd588b1517243b74379368b51348a18d2e78084ced"
+    },
+    {
+      "file": "Female1_B2_walk_to_stand_g1_29.npz",
+      "source": "Female1_B2_walk_to_stand_g1_29.npz",
+      "frames": 284,
+      "seconds": 5.68,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "b134e3ea1589187e12aeac41a0df32cce8b82c4007832d12282288d493f281fe"
+    },
+    {
+      "file": "Female1_B2_walk_to_stand_t2_g1_29.npz",
+      "source": "Female1_B2_walk_to_stand_t2_g1_29.npz",
+      "frames": 245,
+      "seconds": 4.9,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "e8fa314451f7cbaca0d151bad352aa7eb07e73d0e2aa3a9afbbd3ef15a893296"
+    },
+    {
+      "file": "Female1_B3_walk1_g1_29.npz",
+      "source": "Female1_B3_walk1_g1_29.npz",
+      "frames": 381,
+      "seconds": 7.62,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "21385cfea2e5dfb42a61c7dfd67d7d24c529dcd3252ff9a7ed00f465a320ef16"
+    },
+    {
+      "file": "Female1_B4_stand_to_walk_back_g1_29.npz",
+      "source": "Female1_B4_stand_to_walk_back_g1_29.npz",
+      "frames": 378,
+      "seconds": 7.56,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "426f59faf12e593c9198bc1a0779481fa7c398f050f6392d9c00f2e2e6be0c5c"
+    },
+    {
+      "file": "Female1_B5_walk_backwards_g1_29.npz",
+      "source": "Female1_B5_walk_backwards_g1_29.npz",
+      "frames": 577,
+      "seconds": 11.54,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "1be9fe942dab6c6a4598118320baf88302cf98fd58f66eaa0f479e190cb72cfa"
+    },
+    {
+      "file": "Female1_B6_walk_backwards_to_stand_g1_29.npz",
+      "source": "Female1_B6_walk_backwards_to_stand_g1_29.npz",
+      "frames": 409,
+      "seconds": 8.18,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "9537a36382fd49ef8fa6de4419441aecddaf3dbf69b56868fde95ed93d46c23e"
+    },
+    {
+      "file": "Female1_B7_walk_backwards_turn_forwards_g1_29.npz",
+      "source": "Female1_B7_walk_backwards_turn_forwards_g1_29.npz",
+      "frames": 433,
+      "seconds": 8.66,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "0c817572746249ac092ce6954e51df15dfae272ccd381ca3cddeb7029f02b470"
+    },
+    {
+      "file": "Female1_B9_walk_turn_left_90_g1_29.npz",
+      "source": "Female1_B9_walk_turn_left_90_g1_29.npz",
+      "frames": 355,
+      "seconds": 7.1,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "a2159e246ae924d43e2e3675d02df4bd8d69bac93e2d140ecd6e334815f59a5c"
+    },
+    {
+      "file": "Female1_C2_run_to_stand_g1_29.npz",
+      "source": "Female1_C2_run_to_stand_g1_29.npz",
+      "frames": 266,
+      "seconds": 5.32,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "0e673a536dec75ab11cc0606fa3ff432eb67292c29eea7332e62c88c405e63cd"
+    },
+    {
+      "file": "Female1_C3_Run_g1_29.npz",
+      "source": "Female1_C3_Run_g1_29.npz",
+      "frames": 85,
+      "seconds": 1.7,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "431aff1de7f503785fd3e5831885c37b281a2affb45fd9ef3ce6681397ede00e"
+    },
+    {
+      "file": "Female1_C4_run_to_walk_g1_29.npz",
+      "source": "Female1_C4_run_to_walk_g1_29.npz",
+      "frames": 177,
+      "seconds": 3.54,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "b0f4c1220dbccf104ded5a5a9af0d49048088a71eecb4437a09bff0ba050d7b0"
+    },
+    {
+      "file": "Female1_C5_walk_to_run_g1_29.npz",
+      "source": "Female1_C5_walk_to_run_g1_29.npz",
+      "frames": 271,
+      "seconds": 5.42,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "fc8bd7efedc78e72b041b3e61af7b6be8570bfc53ac7e3ee19b515e0dd129f86"
+    },
+    {
+      "file": "Female1_C6_stand_to_run_backwards_g1_29.npz",
+      "source": "Female1_C6_stand_to_run_backwards_g1_29.npz",
+      "frames": 374,
+      "seconds": 7.48,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "8f381de58fd276c78a2fa8dec4d5e1aca272942da6e3eeb747a4dc3275b3362e"
+    },
+    {
+      "file": "Female1_C7_run_backwards_g1_29.npz",
+      "source": "Female1_C7_run_backwards_g1_29.npz",
+      "frames": 155,
+      "seconds": 3.1,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "f71c0fe1e00a4e6e979527259218ef3b5b088dca08ba1f8898f37621431e7817"
+    },
+    {
+      "file": "Male1_Walk_B10_turn_left_45_g1_29.npz",
+      "source": "Male1_Walk_B10_turn_left_45_g1_29.npz",
+      "frames": 421,
+      "seconds": 8.42,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "ef0d6161ebf4a292c7c8177bcadd5ac1891b605b58e59c51bab11f9adfc58e52"
+    },
+    {
+      "file": "Male1_Walk_B13_turn_right_45_g1_29.npz",
+      "source": "Male1_Walk_B13_turn_right_45_g1_29.npz",
+      "frames": 465,
+      "seconds": 9.3,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "8867d184aaf9c95e65d22c0985e5d2f1bfb8e72787d784dd891714a507e481ca"
+    },
+    {
+      "file": "Male1_Walk_B15_turn_around_g1_29.npz",
+      "source": "Male1_Walk_B15_turn_around_g1_29.npz",
+      "frames": 570,
+      "seconds": 11.4,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "2c2508390bee5cb86ba8a0991059c1384c5471fecca24abb2f206eab8dd329d5"
+    },
+    {
+      "file": "Male1_Walk_B16_turn_change_g1_29.npz",
+      "source": "Male1_Walk_B16_turn_change_g1_29.npz",
+      "frames": 606,
+      "seconds": 12.12,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "b326544e2ee611b60ac1fda337a46b63ba5c1c01056589a792bd4773a02d803b"
+    },
+    {
+      "file": "Male1_Walk_B4_stand_to_walk_back_g1_29.npz",
+      "source": "Male1_Walk_B4_stand_to_walk_back_g1_29.npz",
+      "frames": 648,
+      "seconds": 12.96,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "b5d5540f6d724c1657d093d7a085aca671bfb1f686d01407338cfde1c4f27c49"
+    },
+    {
+      "file": "Male2_B10_turn_left_45_g1_29.npz",
+      "source": "Male2_B10_turn_left_45_g1_29.npz",
+      "frames": 299,
+      "seconds": 5.98,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "8416e11334cfb9656e1e8c1c748f81a1d299163254b32adcd543311bf5ade35b"
+    },
+    {
+      "file": "Male2_B11_turn_left_135_g1_29.npz",
+      "source": "Male2_B11_turn_left_135_g1_29.npz",
+      "frames": 325,
+      "seconds": 6.5,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "84ed40df6e2aec813154c5912cf6add1c7f6b9db09fcbaaf7d7d286f03973101"
+    },
+    {
+      "file": "Male2_B13_turn_right_90_g1_29.npz",
+      "source": "Male2_B13_turn_right_90_g1_29.npz",
+      "frames": 281,
+      "seconds": 5.62,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "a8f4038a5169d693b740b1b7dd58ec37fbb44e09d257498d284f516576de59b9"
+    },
+    {
+      "file": "Male2_B14_turn_right_45_g1_29.npz",
+      "source": "Male2_B14_turn_right_45_g1_29.npz",
+      "frames": 205,
+      "seconds": 4.1,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "51993797f2d2d0bec9b88ee04e36a9658e8ad46d79d00a80b8606f4cd53fb31a"
+    },
+    {
+      "file": "Male2_B14_turn_right_45_t2_g1_29.npz",
+      "source": "Male2_B14_turn_right_45_t2_g1_29.npz",
+      "frames": 290,
+      "seconds": 5.8,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "a2b69fad4f48762c52dd45a983ba7ecab31a3cbbf39ba175f08ac54fb57cbf92"
+    },
+    {
+      "file": "Male2_B15_turn_around_g1_29.npz",
+      "source": "Male2_B15_turn_around_g1_29.npz",
+      "frames": 375,
+      "seconds": 7.5,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "0827658ff1c45266bfeaf5bbfe6f79513294f36cd370bf30bd01a9816cc640c4"
+    },
+    {
+      "file": "Male2_B4_stand_to_walk_backwards_g1_29.npz",
+      "source": "Male2_B4_stand_to_walk_backwards_g1_29.npz",
+      "frames": 230,
+      "seconds": 4.6,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "7fad19ad26329a2a64b39f128d1812415cdbd03de1afcd284e48bada1c6af6d4"
+    },
+    {
+      "file": "Male2_B9_turn_left_90_g1_29.npz",
+      "source": "Male2_B9_turn_left_90_g1_29.npz",
+      "frames": 252,
+      "seconds": 5.04,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "3856cd4e81d1972dcf9c5ef8b025f528df661511bd6464db64d33cb107505804"
+    },
+    {
+      "file": "Male2_C1_stand_to_run_g1_29.npz",
+      "source": "Male2_C1_stand_to_run_g1_29.npz",
+      "frames": 205,
+      "seconds": 4.1,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "e246f1578ac01f0e18a007ce52db3526102997b1f7c5c7388075e0c07249509a"
+    },
+    {
+      "file": "Male2_C3_run_g1_29.npz",
+      "source": "Male2_C3_run_g1_29.npz",
+      "frames": 136,
+      "seconds": 2.72,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "6021c38701c7a4ea4de22e1b165fcbda08d3b1a3e7f67f692961d69dfe5471a0"
+    },
+    {
+      "file": "Male2_C4_run_to_walk_g1_29.npz",
+      "source": "Male2_C4_run_to_walk_g1_29.npz",
+      "frames": 193,
+      "seconds": 3.86,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "3ee5e2890cfa4ee67e22c241cffd36783e45548971106c1c263c8ccee6c69232"
+    },
+    {
+      "file": "Male2_C5_walk_to_run_g1_29.npz",
+      "source": "Male2_C5_walk_to_run_g1_29.npz",
+      "frames": 178,
+      "seconds": 3.56,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "43565195fc4bad079aeddda03beaddeda67fd45ced122109da5580239279c9fc"
+    },
+    {
+      "file": "S007_qk_walk1_g1_29.npz",
+      "source": "S007_qk_walk1_g1_29.npz",
+      "frames": 128,
+      "seconds": 2.56,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "691e2bb6098a03b064ce816ade86bfbc02cf51a7fbe0865cb14d44d0ad8f8fd1"
+    },
+    {
+      "file": "S008_run1_g1_29.npz",
+      "source": "S008_run1_g1_29.npz",
+      "frames": 90,
+      "seconds": 1.8,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "151f03fa2f1ed52a3fa86184d925b0c7a96d477d0f7f1480513461acf91e650c"
+    },
+    {
+      "file": "S009_sprint1_g1_29.npz",
+      "source": "S009_sprint1_g1_29.npz",
+      "frames": 110,
+      "seconds": 2.2,
+      "fps": 50.0,
+      "root_body_index": 0,
+      "notes": [],
+      "sha256": "5ac572a8bc4158996489b722d84e21dee627e65e2ca76957005566e809d86176"
+    }
+  ],
+  "failed": []
+}

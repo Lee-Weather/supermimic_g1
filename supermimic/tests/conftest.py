@@ -1,0 +1,168 @@
+"""Shared test fixtures and helpers."""
+
+from __future__ import annotations
+
+from unittest.mock import MagicMock
+
+import torch
+from tensordict import TensorDict
+
+from supermimic.sim_context import FootFrictionSpec, SimContext
+from supermimic.tasks.task_spec import TaskSpec
+
+# Shared dims for multi-encoder actor tests (G1 MaxCoord).
+OBS_DIM = 68
+MOTION_GOAL_DIM = 84
+VELOCITY_GOAL_DIM = 3
+ACTION_DIM = 29
+LATENT_DIM = 32
+
+# Termination thresholds the mocked env enforces, mirroring the G1 tracking cfg.
+ANCHOR_POS_THRESHOLD = 0.31
+ANCHOR_ORI_THRESHOLD = 0.63
+ANCHOR_BODY_INDEX = 3
+
+
+def make_actor_specs(velocity: bool = True) -> list[TaskSpec]:
+  """Motion (+ optional velocity) specs whose extract_training_goal is a stub.
+
+  Actor-forward tests drive the encoders directly and never extract goals
+  from a motion clip, so the stub guards against accidental use.
+  """
+
+  def stub(*args, **kwargs):
+    raise AssertionError("extract_training_goal called in actor test")
+
+  specs = [
+    TaskSpec(
+      name="motion",
+      goal_dim=MOTION_GOAL_DIM,
+      extract_training_goal=stub,
+    )
+  ]
+  if velocity:
+    specs.append(
+      TaskSpec(
+        name="velocity",
+        goal_dim=VELOCITY_GOAL_DIM,
+        extract_training_goal=stub,
+      )
+    )
+  return specs
+
+
+def make_actor_obs(batch: int, history_length: int = 1) -> TensorDict:
+  """Obs TensorDict with history + per-task goal keys for the multi-encoder
+  actor. The history repeats the current frame (reset padding)."""
+  obs = torch.randn(batch, OBS_DIM)
+  return TensorDict(
+    {
+      "history": obs.unsqueeze(1).repeat(1, history_length, 1),
+      "goal_motion": torch.randn(batch, MOTION_GOAL_DIM),
+      "goal_velocity": torch.randn(batch, VELOCITY_GOAL_DIM),
+    },
+    batch_size=[batch],
+  )
+
+
+def make_mock_sim_context() -> SimContext:
+  """One-spec SimContext for env-style tests; matches the 1-wide ``sim_ctx`` buffer field."""
+  return SimContext([FootFrictionSpec()], [(-1.0, 1.0)])
+
+
+def make_mock_dynamics() -> MagicMock:
+  """Mock ``Dynamics``: ``forward(rep_state, action, aux_state, sim_ctx)`` returns
+  random ``(aux_state, rep_state)`` shaped like its inputs."""
+  return MagicMock(
+    side_effect=lambda rs, a, aux, ctx: (torch.randn_like(aux), torch.randn_like(rs))
+  )
+
+
+def make_mock_wm_representation(batch: int) -> MagicMock:
+  """Mock MaxCoord ``StateRepresentation`` wired for the WM env's call path."""
+  rep = MagicMock()
+  rep.num_bodies = 14
+  rep.represent.side_effect = lambda x: torch.randn(*x.shape[:-1], 214, device=x.device)
+  rep.extract_aux_state.side_effect = lambda x: torch.randn(
+    *x.shape[:-1], 7, device=x.device
+  )
+  rep.compute_actor_sensor.side_effect = lambda rs, *a, **kw: rs
+  rep.joint_state.side_effect = lambda rs: rs[..., :58]
+  rep.add_proprio_noise.side_effect = lambda obs: obs
+  rep.compute_wm_goal.side_effect = lambda *a, **kw: (
+    torch.randn(batch, 87),  # wm_goal_obs
+    torch.randn(batch, MOTION_GOAL_DIM),  # actor_goal_obs
+  )
+  rep.compute_wm_reward_from_reference.side_effect = lambda *a, **kw: torch.zeros(batch)
+  return rep
+
+
+def make_mock_buffer() -> MagicMock:
+  buf = MagicMock()
+
+  def sample(sequence_length: int, batch_size: int) -> TensorDict:
+    return TensorDict(
+      {
+        "state": torch.randn(batch_size, sequence_length, 182),
+        "prev_action": torch.randn(batch_size, sequence_length, 29),
+        "motion_time": torch.zeros(batch_size, sequence_length, dtype=torch.long),
+        "sim_ctx": torch.zeros(batch_size, sequence_length, 1),
+      },
+      batch_size=[batch_size, sequence_length],
+    )
+
+  buf.sample = sample
+
+  def sample_causal(
+    sequence_length: int, batch_size: int
+  ) -> tuple[TensorDict, torch.Tensor]:
+    td = sample(sequence_length, batch_size)
+    # Distinct per frame: actor_obs[:, k] == k, to verify the ring seed order.
+    # Dim matches the mock representation's sensor (= rep_state, 214).
+    td["actor_obs"] = torch.arange(sequence_length).float().view(
+      1, sequence_length, 1
+    ) * torch.ones(batch_size, sequence_length, 214)
+    padded = torch.zeros(batch_size, sequence_length, dtype=torch.bool)
+    return td, padded
+
+  buf.sample_causal = sample_causal
+  return buf
+
+
+def make_mock_motion(num_frames: int = 10, num_bodies: int = 14) -> MagicMock:
+  """Mocked MotionLoader with random joints, the root pose at the origin, and every
+  tracked body (``body_state``) at rest at the origin."""
+
+  def body_state(frames: torch.Tensor) -> tuple[torch.Tensor, ...]:
+    zeros = torch.zeros(*frames.shape, num_bodies, 3)
+    quat = torch.tensor([1.0, 0.0, 0.0, 0.0]).repeat(*frames.shape, num_bodies, 1)
+    return zeros, quat, zeros, zeros
+
+  motion = MagicMock()
+  motion.body_state.side_effect = body_state
+  motion.root_pos_w = torch.zeros(num_frames, 3)
+  motion.root_quat_w = torch.tensor([1.0, 0.0, 0.0, 0.0]).repeat(num_frames, 1)
+  motion.joint_pos = torch.randn(num_frames, 29)
+  motion.joint_vel = torch.randn(num_frames, 29)
+  motion.motion_ends = torch.tensor([num_frames], dtype=torch.long)
+  return motion
+
+
+def make_mock_command_env() -> MagicMock:
+  """Mocked env exposing the motion command term and the termination thresholds."""
+  env = MagicMock()
+  term = env.unwrapped.command_manager.get_term.return_value
+  term.motion = make_mock_motion()
+  term.motion_anchor_body_index = ANCHOR_BODY_INDEX
+  env.cfg.terminations = {
+    "anchor_pos": MagicMock(params={"threshold": ANCHOR_POS_THRESHOLD}),
+    "anchor_ori": MagicMock(params={"threshold": ANCHOR_ORI_THRESHOLD}),
+  }
+  return env
+
+
+def identity_aux(batch_size: int) -> torch.Tensor:
+  """Return a ``(batch_size, 7)`` aux state with identity quaternion."""
+  aux = torch.zeros(batch_size, 7)
+  aux[..., 3] = 1.0
+  return aux

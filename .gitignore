@@ -1,0 +1,48 @@
+﻿# 鈹€鈹€ 澶栭儴 / 娲剧敓鏁版嵁锛坖unction 鎸囧悜 E:\G1\datasets锛夆攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+datasets/source/
+datasets/lafan1_g1/
+datasets/walk_gapfill/
+datasets/*/packed/
+
+# 鈹€鈹€ vendored 涓婃父浠撳簱鍏冩暟鎹紙淇濈暀鍦ㄦ湰鍦帮紝涓嶆彁浜わ級鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+supermimic/.git.upstream/
+mjlab_research/.git.upstream/
+
+# 鈹€鈹€ 浣撶Н澶т笖璁粌涓嶉渶瑕佺殑鏂囨。 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+mjlab_research/docs/
+mjlab_research/notebooks/
+mjlab_research/tests/
+mjlab_research/typings/
+mjlab_research/.github/
+mjlab_research/.claude/
+supermimic/.github/
+
+# 鈹€鈹€ 鏈湴宸ュ叿 / 棰勮 / 瀵嗛挜锛坈zy 鍐呭惈 flux-cli api_key.json锛岀粷涓嶆彁浜わ級鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+czy/
+
+# 鈹€鈹€ Python / 鏋勫缓浜х墿 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+*.egg-info/
+.uv/
+
+# 鈹€鈹€ 璁粌浜х墿涓庢棩蹇?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+logs/
+outputs/
+wandb/
+checkpoints/
+*.log
+*.pt
+*.csv
+
+# 鈹€鈹€ 绯荤粺 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,2074 @@
+{
+  "schema": "mjlab MotionLoader NPZ (Unitree G1 29-DoF, 50 Hz, wxyz quaternions)",
+  "datasets_root": "E:\\G1\\G1_supermimic\\datasets",
+  "summary": {
+    "clip_count": 209,
+    "total_seconds": 19787.72,
+    "total_minutes": 329.8,
+    "problems": 0
+  },
+  "groups": {
+    "g1_ase_45": {
+      "clip_dir": "E:\\G1\\G1_supermimic\\datasets\\g1_ase_45\\npz",
+      "clip_count": 45,
+      "total_frames": 14738,
+      "total_seconds": 294.76,
+      "clips": [
+        {
+          "file": "A1_stand_g1_29.npz",
+          "frames": 150,
+          "seconds": 3.0,
+          "bytes": 39378,
+          "sha256": "675b9ab6e2ca5c8482935b8928523ec5125de3bb62f4c99d9dd4856560bef8c5",
+          "ok": true
+        },
+        {
+          "file": "A2_sway_g1_29.npz",
+          "frames": 601,
+          "seconds": 12.02,
+          "bytes": 156872,
+          "sha256": "2decc4b8d7c215ac0bbf58108cdd5a9403670436dcc15c03291b39c4edbced39",
+          "ok": true
+        },
+        {
+          "file": "Female1_A14_stand_to_skip_g1_29.npz",
+          "frames": 258,
+          "seconds": 5.16,
+          "bytes": 69638,
+          "sha256": "8f6bf4eb5d147cad1fcf1ce7b44bdb19e60786ac1558b2dd307e5ebe1fb6d0f6",
+          "ok": true
+        },
+        {
+          "file": "Female1_A15_skip_to_stand_g1_29.npz",
+          "frames": 213,
+          "seconds": 4.26,
+          "bytes": 57747,
+          "sha256": "31fbed26a7c65c5c8be2d65e24e01b7efb4cf1cfd6486f28054d1c080db29b7c",
+          "ok": true
+        },
+        {
+          "file": "Female1_B10_walk_turn_left_45_g1_29.npz",
+          "frames": 396,
+          "seconds": 7.92,
+          "bytes": 105811,
+          "sha256": "aa8c5e1246a9d777bd7d780572fb3c9814f2044ed31a487d77906af24acd828b",
+          "ok": true
+        },
+        {
+          "file": "Female1_B11_walk_turn_left_135_g1_29.npz",
+          "frames": 468,
+          "seconds": 9.36,
+          "bytes": 124591,
+          "sha256": "a6d02743db153490bd7162997d2fa8f6ba175d873a12bfde0c8b90ed1147a83a",
+          "ok": true
+        },
+        {
+          "file": "Female1_B13_walk_turn_right_45_g1_29.npz",
+          "frames": 415,
+          "seconds": 8.3,
+          "bytes": 110814,
+          "sha256": "00e046a163ced76a15dc3d72a46ee1df679e9746dfe21e16512e27e3325e597f",
+          "ok": true
+        },
+        {
+          "file": "Female1_B14_walk_turn_right_135_g1_29.npz",
+          "frames": 448,
+          "seconds": 8.96,
+          "bytes": 119450,
+          "sha256": "630b09e56930df0ff251c998c34f8c7e1f6e6663f29afebf78979110508a6842",
+          "ok": true
+        },
+        {
+          "file": "Female1_B15_walk_turn_around_g1_29.npz",
+          "frames": 530,
+          "seconds": 10.6,
+          "bytes": 140812,
+          "sha256": "18a5b03591569435cafdd3bab9acc6895369da0b7454266a43bb64c174fbbf20",
+          "ok": true
+        },
+        {
+          "file": "Female1_B16_walk_turn_change_direction_g1_29.npz",
+          "frames": 551,
+          "seconds": 11.02,
+          "bytes": 146003,
+          "sha256": "33f784e6d7a2523cd73419259ef20898cd7cc0c2e67b534ddcadea026c297871",
+          "ok": true
+        },
+        {
+          "file": "Female1_B1_stand_to_walk_g1_29.npz",
+          "frames": 311,
+          "seconds": 6.22,
+          "bytes": 82869,
+          "sha256": "8c77d247799cda54f86b3afd588b1517243b74379368b51348a18d2e78084ced",
+          "ok": true
+        },
+        {
+          "file": "Female1_B2_walk_to_stand_g1_29.npz",
+          "frames": 284,
+          "seconds": 5.68,
+          "bytes": 76011,
+          "sha256": "b134e3ea1589187e12aeac41a0df32cce8b82c4007832d12282288d493f281fe",
+          "ok": true
+        },
+        {
+          "file": "Female1_B2_walk_to_stand_t2_g1_29.npz",
+          "frames": 245,
+          "seconds": 4.9,
+          "bytes": 65912,
+          "sha256": "e8fa314451f7cbaca0d151bad352aa7eb07e73d0e2aa3a9afbbd3ef15a893296",
+          "ok": true
+        },
+        {
+          "file": "Female1_B3_walk1_g1_29.npz",
+          "frames": 381,
+          "seconds": 7.62,
+          "bytes": 101906,
+          "sha256": "4bd4d73f0e3d0130529ab3a119cba9b19dab17523c7531abb9a168dfeddbf705",
+          "ok": true
+        },
+        {
+          "file": "Female1_B4_stand_to_walk_back_g1_29.npz",
+          "frames": 378,
+          "seconds": 7.56,
+          "bytes": 101092,
+          "sha256": "426f59faf12e593c9198bc1a0779481fa7c398f050f6392d9c00f2e2e6be0c5c",
+          "ok": true
+        },
+        {
+          "file": "Female1_B5_walk_backwards_g1_29.npz",
+          "frames": 577,
+          "seconds": 11.54,
+          "bytes": 153472,
+          "sha256": "bdea08ba8ba8e8410da2868aa5ff45527de7c6e6daeebec4b5ebe3fa2d8f3a63",
+          "ok": true
+        },
+        {
+          "file": "Female1_B6_walk_backwards_to_stand_g1_29.npz",
+          "frames": 409,
+          "seconds": 8.18,
+          "bytes": 108816,
+          "sha256": "9537a36382fd49ef8fa6de4419441aecddaf3dbf69b56868fde95ed93d46c23e",
+          "ok": true
+        },
+        {
+          "file": "Female1_B7_walk_backwards_turn_forwards_g1_29.npz",
+          "frames": 433,
+          "seconds": 8.66,
+          "bytes": 116201,
+          "sha256": "f3e0debfad8f644f3b77a819681f53b21200dc81f4d8f9c40ed0d9084e7b7bdc",
+          "ok": true
+        },
+        {
+          "file": "Female1_B9_walk_turn_left_90_g1_29.npz",
+          "frames": 355,
+          "seconds": 7.1,
+          "bytes": 94995,
+          "sha256": "a2159e246ae924d43e2e3675d02df4bd8d69bac93e2d140ecd6e334815f59a5c",
+          "ok": true
+        },
+        {
+          "file": "Female1_C2_run_to_stand_g1_29.npz",
+          "frames": 266,
+          "seconds": 5.32,
+          "bytes": 71318,
+          "sha256": "0e673a536dec75ab11cc0606fa3ff432eb67292c29eea7332e62c88c405e63cd",
+          "ok": true
+        },
+        {
+          "file": "Female1_C3_Run_g1_29.npz",
+          "frames": 85,
+          "seconds": 1.7,
+          "bytes": 24029,
+          "sha256": "aa1a782d68c40ee7acb1baa1a6c750b4c56090f071c807611fc0f3fb00b8d438",
+          "ok": true
+        },
+        {
+          "file": "Female1_C4_run_to_walk_g1_29.npz",
+          "frames": 177,
+          "seconds": 3.54,
+          "bytes": 48164,
+          "sha256": "b0f4c1220dbccf104ded5a5a9af0d49048088a71eecb4437a09bff0ba050d7b0",
+          "ok": true
+        },
+        {
+          "file": "Female1_C5_walk_to_run_g1_29.npz",
+          "frames": 271,
+          "seconds": 5.42,
+          "bytes": 72578,
+          "sha256": "fc8bd7efedc78e72b041b3e61af7b6be8570bfc53ac7e3ee19b515e0dd129f86",
+          "ok": true
+        },
+        {
+          "file": "Female1_C6_stand_to_run_backwards_g1_29.npz",
+          "frames": 374,
+          "seconds": 7.48,
+          "bytes": 99393,
+          "sha256": "8f381de58fd276c78a2fa8dec4d5e1aca272942da6e3eeb747a4dc3275b3362e",
+          "ok": true
+        },
+        {
+          "file": "Female1_C7_run_backwards_g1_29.npz",
+          "frames": 155,
+          "seconds": 3.1,
+          "bytes": 42045,
+          "sha256": "aa23584634475dce2e0fdaf030f1bbde7b3eeeff38eb19bb5c9a288363a05386",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B10_turn_left_45_g1_29.npz",
+          "frames": 421,
+          "seconds": 8.42,
+          "bytes": 112203,
+          "sha256": "acbd47e8bdfa3f01af0bd47cfec4599f6890af86952deb24e630fbbd7b89688c",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B13_turn_right_45_g1_29.npz",
+          "frames": 465,
+          "seconds": 9.3,
+          "bytes": 123506,
+          "sha256": "55ad137229ce712680695fe43ed7a75318091e5b4f4d7a8ba72dd032194e4a8f",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B15_turn_around_g1_29.npz",
+          "frames": 570,
+          "seconds": 11.4,
+          "bytes": 150955,
+          "sha256": "23e18c7b85597b2a43a21330097503efc653b924c30e94cca2cc0003d0990efc",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B16_turn_change_g1_29.npz",
+          "frames": 606,
+          "seconds": 12.12,
+          "bytes": 159818,
+          "sha256": "a70a0fc15a7fbb517d72a054f66edb18f74ddcbbd6c3a0b372f7ff916fa28ba6",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B4_stand_to_walk_back_g1_29.npz",
+          "frames": 648,
+          "seconds": 12.96,
+          "bytes": 170387,
+          "sha256": "b5973df9c54241542e12750d25c4e3df0c5295cdfdb5ddc09dbe1224486582c5",
+          "ok": true
+        },
+        {
+          "file": "Male2_B10_turn_left_45_g1_29.npz",
+          "frames": 299,
+          "seconds": 5.98,
+          "bytes": 81063,
+          "sha256": "8416e11334cfb9656e1e8c1c748f81a1d299163254b32adcd543311bf5ade35b",
+          "ok": true
+        },
+        {
+          "file": "Male2_B11_turn_left_135_g1_29.npz",
+          "frames": 325,
+          "seconds": 6.5,
+          "bytes": 88017,
+          "sha256": "84ed40df6e2aec813154c5912cf6add1c7f6b9db09fcbaaf7d7d286f03973101",
+          "ok": true
+        },
+        {
+          "file": "Male2_B13_turn_right_90_g1_29.npz",
+          "frames": 281,
+          "seconds": 5.62,
+          "bytes": 76206,
+          "sha256": "d5a1fa061577b71caa11bde6e3e6979c0b07c764e72b25b122d475b8d6e198b0",
+          "ok": true
+        },
+        {
+          "file": "Male2_B14_turn_right_45_g1_29.npz",
+          "frames": 205,
+          "seconds": 4.1,
+          "bytes": 55291,
+          "sha256": "51993797f2d2d0bec9b88ee04e36a9658e8ad46d79d00a80b8606f4cd53fb31a",
+          "ok": true
+        },
+        {
+          "file": "Male2_B14_turn_right_45_t2_g1_29.npz",
+          "frames": 290,
+          "seconds": 5.8,
+          "bytes": 78519,
+          "sha256": "7a3f062462a7fa99f563306416c4dcf2139b306b0b21ebde31594f4d500672c5",
+          "ok": true
+        },
+        {
+          "file": "Male2_B15_turn_around_g1_29.npz",
+          "frames": 375,
+          "seconds": 7.5,
+          "bytes": 101089,
+          "sha256": "c60f56c5426448e2702e878cdc513fb21011d3245cef771453c54019e6640953",
+          "ok": true
+        },
+        {
+          "file": "Male2_B4_stand_to_walk_backwards_g1_29.npz",
+          "frames": 230,
+          "seconds": 4.6,
+          "bytes": 62814,
+          "sha256": "ba6287f7d52a01ab193c5aa817daf30b01032cf8aeedb01ca3e506e2835f7cbc",
+          "ok": true
+        },
+        {
+          "file": "Male2_B9_turn_left_90_g1_29.npz",
+          "frames": 252,
+          "seconds": 5.04,
+          "bytes": 68605,
+          "sha256": "3856cd4e81d1972dcf9c5ef8b025f528df661511bd6464db64d33cb107505804",
+          "ok": true
+        },
+        {
+          "file": "Male2_C1_stand_to_run_g1_29.npz",
+          "frames": 205,
+          "seconds": 4.1,
+          "bytes": 55297,
+          "sha256": "e246f1578ac01f0e18a007ce52db3526102997b1f7c5c7388075e0c07249509a",
+          "ok": true
+        },
+        {
+          "file": "Male2_C3_run_g1_29.npz",
+          "frames": 136,
+          "seconds": 2.72,
+          "bytes": 36958,
+          "sha256": "de82dba0710ea23db3ab3624686fc3a75329190d932ce8437a0b639d0bb37996",
+          "ok": true
+        },
+        {
+          "file": "Male2_C4_run_to_walk_g1_29.npz",
+          "frames": 193,
+          "seconds": 3.86,
+          "bytes": 52880,
+          "sha256": "3ee5e2890cfa4ee67e22c241cffd36783e45548971106c1c263c8ccee6c69232",
+          "ok": true
+        },
+        {
+          "file": "Male2_C5_walk_to_run_g1_29.npz",
+          "frames": 178,
+          "seconds": 3.56,
+          "bytes": 48782,
+          "sha256": "5647c51bcc9baa88436b3a0f95bf634b6cb6abd9a0e31f01908677ab15ecd3a2",
+          "ok": true
+        },
+        {
+          "file": "S007_qk_walk1_g1_29.npz",
+          "frames": 128,
+          "seconds": 2.56,
+          "bytes": 35295,
+          "sha256": "691e2bb6098a03b064ce816ade86bfbc02cf51a7fbe0865cb14d44d0ad8f8fd1",
+          "ok": true
+        },
+        {
+          "file": "S008_run1_g1_29.npz",
+          "frames": 90,
+          "seconds": 1.8,
+          "bytes": 25657,
+          "sha256": "151f03fa2f1ed52a3fa86184d925b0c7a96d477d0f7f1480513461acf91e650c",
+          "ok": true
+        },
+        {
+          "file": "S009_sprint1_g1_29.npz",
+          "frames": 110,
+          "seconds": 2.2,
+          "bytes": 30868,
+          "sha256": "5ac572a8bc4158996489b722d84e21dee627e65e2ca76957005566e809d86176",
+          "ok": true
+        }
+      ],
+      "problems": []
+    },
+    "g1_ase_45_packed": {
+      "packed_dir": "E:\\G1\\G1_supermimic\\datasets\\g1_ase_45\\packed",
+      "clip_count": 45,
+      "total_frames": 14738,
+      "total_seconds": 294.76,
+      "fields": {
+        "joint_pos": [
+          14738,
+          29
+        ],
+        "joint_vel": [
+          14738,
+          29
+        ],
+        "root_pos_w": [
+          14738,
+          3
+        ],
+        "root_quat_w": [
+          14738,
+          4
+        ],
+        "root_lin_vel_w": [
+          14738,
+          3
+        ],
+        "root_ang_vel_w": [
+          14738,
+          3
+        ]
+      },
+      "motion_names": [
+        "A1_stand_g1_29",
+        "A2_sway_g1_29",
+        "Female1_A14_stand_to_skip_g1_29",
+        "Female1_A15_skip_to_stand_g1_29",
+        "Female1_B10_walk_turn_left_45_g1_29",
+        "Female1_B11_walk_turn_left_135_g1_29",
+        "Female1_B13_walk_turn_right_45_g1_29",
+        "Female1_B14_walk_turn_right_135_g1_29",
+        "Female1_B15_walk_turn_around_g1_29",
+        "Female1_B16_walk_turn_change_direction_g1_29",
+        "Female1_B1_stand_to_walk_g1_29",
+        "Female1_B2_walk_to_stand_g1_29",
+        "Female1_B2_walk_to_stand_t2_g1_29",
+        "Female1_B3_walk1_g1_29",
+        "Female1_B4_stand_to_walk_back_g1_29",
+        "Female1_B5_walk_backwards_g1_29",
+        "Female1_B6_walk_backwards_to_stand_g1_29",
+        "Female1_B7_walk_backwards_turn_forwards_g1_29",
+        "Female1_B9_walk_turn_left_90_g1_29",
+        "Female1_C2_run_to_stand_g1_29",
+        "Female1_C3_Run_g1_29",
+        "Female1_C4_run_to_walk_g1_29",
+        "Female1_C5_walk_to_run_g1_29",
+        "Female1_C6_stand_to_run_backwards_g1_29",
+        "Female1_C7_run_backwards_g1_29",
+        "Male1_Walk_B10_turn_left_45_g1_29",
+        "Male1_Walk_B13_turn_right_45_g1_29",
+        "Male1_Walk_B15_turn_around_g1_29",
+        "Male1_Walk_B16_turn_change_g1_29",
+        "Male1_Walk_B4_stand_to_walk_back_g1_29",
+        "Male2_B10_turn_left_45_g1_29",
+        "Male2_B11_turn_left_135_g1_29",
+        "Male2_B13_turn_right_90_g1_29",
+        "Male2_B14_turn_right_45_g1_29",
+        "Male2_B14_turn_right_45_t2_g1_29",
+        "Male2_B15_turn_around_g1_29",
+        "Male2_B4_stand_to_walk_backwards_g1_29",
+        "Male2_B9_turn_left_90_g1_29",
+        "Male2_C1_stand_to_run_g1_29",
+        "Male2_C3_run_g1_29",
+        "Male2_C4_run_to_walk_g1_29",
+        "Male2_C5_walk_to_run_g1_29",
+        "S007_qk_walk1_g1_29",
+        "S008_run1_g1_29",
+        "S009_sprint1_g1_29"
+      ],
+      "bytes": 4189079,
+      "problems": []
+    },
+    "lafan1_g1": {
+      "clip_dir": "E:\\G1\\G1_supermimic\\datasets\\lafan1_g1\\npz",
+      "clip_count": 71,
+      "total_frames": 763762,
+      "total_seconds": 15275.24,
+      "clips": [
+        {
+          "file": "aiming1_subject1.npz",
+          "frames": 11972,
+          "seconds": 239.44,
+          "bytes": 3159477,
+          "sha256": "fe590e69e5b50e43634ad208955c9f673290cf98bf197db645a90876992c46fe",
+          "ok": true
+        },
+        {
+          "file": "aiming1_subject4.npz",
+          "frames": 11972,
+          "seconds": 239.44,
+          "bytes": 3103878,
+          "sha256": "cf3086a9adc114d5482d74edb30870b68124a1affc8c04a15527a9513aca2126",
+          "ok": true
+        },
+        {
+          "file": "aiming2_subject2.npz",
+          "frames": 15285,
+          "seconds": 305.7,
+          "bytes": 4047394,
+          "sha256": "c5a7759568f8ac725f7122b342f57e2c9cfe63ba11b56cb0469cb2d7408c663a",
+          "ok": true
+        },
+        {
+          "file": "aiming2_subject3.npz",
+          "frames": 15285,
+          "seconds": 305.7,
+          "bytes": 3959407,
+          "sha256": "acf787d8685d1efcc01f4a158c3b85615569ce70ac4de518951e6d8e90bd2ea6",
+          "ok": true
+        },
+        {
+          "file": "aiming2_subject5.npz",
+          "frames": 15285,
+          "seconds": 305.7,
+          "bytes": 4000829,
+          "sha256": "fcfb4c66c8c073de3479c95c8e7aab0c396c827ddef7ce831f501e53cf197b18",
+          "ok": true
+        },
+        {
+          "file": "dance1_subject1.npz",
+          "frames": 6574,
+          "seconds": 131.48,
+          "bytes": 1728061,
+          "sha256": "bcca92c89c7d1f1f8ba0a6a761aa78f4681cdafb02ad1b22fa06399786a795c2",
+          "ok": true
+        },
+        {
+          "file": "dance1_subject2.npz",
+          "frames": 6574,
+          "seconds": 131.48,
+          "bytes": 1733621,
+          "sha256": "4712993e40dfc554d2ff285023781bc7eb06c2b41bcc622b9b652ec3ad0fa28f",
+          "ok": true
+        },
+        {
+          "file": "dance1_subject3.npz",
+          "frames": 6574,
+          "seconds": 131.48,
+          "bytes": 1722628,
+          "sha256": "9446a4f1e4bec7d393a0da692471c49d92baee873b84a45de5386d184fd3bf58",
+          "ok": true
+        },
+        {
+          "file": "dance2_subject1.npz",
+          "frames": 11284,
+          "seconds": 225.68,
+          "bytes": 2952822,
+          "sha256": "d6dc93711294d0f635b9a534b70dcd141f1b02b398d5e36fac9fdc15efa93f7d",
+          "ok": true
+        },
+        {
+          "file": "dance2_subject2.npz",
+          "frames": 11284,
+          "seconds": 225.68,
+          "bytes": 2970287,
+          "sha256": "6160443233e0bf5a9f69bb61c38511aa3246a397a6133bebe8b4ba580047f4b2",
+          "ok": true
+        },
+        {
+          "file": "dance2_subject3.npz",
+          "frames": 11284,
+          "seconds": 225.68,
+          "bytes": 2949915,
+          "sha256": "974d53eb848debd7c69e71fef2b48c949f3ba4fd6fc5c76e34bd05ad6aec4442",
+          "ok": true
+        },
+        {
+          "file": "dance2_subject4.npz",
+          "frames": 11284,
+          "seconds": 225.68,
+          "bytes": 2964569,
+          "sha256": "aa4b05bce59eec784444fa43c030988a81fb6ce54b128d82314d6e138049e194",
+          "ok": true
+        },
+        {
+          "file": "dance2_subject5.npz",
+          "frames": 11284,
+          "seconds": 225.68,
+          "bytes": 2975820,
+          "sha256": "5faf701aa66275be3d0a6c9af2f66b85eff2bcffa7dfeb4d6d1704f492041193",
+          "ok": true
+        },
+        {
+          "file": "fallAndGetUp1_subject1.npz",
+          "frames": 8410,
+          "seconds": 168.2,
+          "bytes": 2197018,
+          "sha256": "cc1e197350b637c9060ef150709b0e381089681a3be2263336bcd71ba9cc71aa",
+          "ok": true
+        },
+        {
+          "file": "fallAndGetUp1_subject4.npz",
+          "frames": 8410,
+          "seconds": 168.2,
+          "bytes": 2142475,
+          "sha256": "5296edf0f0abc96abb2354fa0414cd4a13be53f52c9cdb50dc94ca391b33b93f",
+          "ok": true
+        },
+        {
+          "file": "fallAndGetUp1_subject5.npz",
+          "frames": 8410,
+          "seconds": 168.2,
+          "bytes": 2171735,
+          "sha256": "b86159d518673767170d0984df0c772aa857b759ae5879454ea90be6176595bb",
+          "ok": true
+        },
+        {
+          "file": "fallAndGetUp2_subject2.npz",
+          "frames": 8195,
+          "seconds": 163.9,
+          "bytes": 2122202,
+          "sha256": "9a77381eab9566c1ff795c1689d9e09b45de7485906269c2dc9ed3db04bcaf24",
+          "ok": true
+        },
+        {
+          "file": "fallAndGetUp2_subject3.npz",
+          "frames": 8195,
+          "seconds": 163.9,
+          "bytes": 2107882,
+          "sha256": "18acee700aaf66aad661bc8ecea814144ab0511287bd5224db97bbb63fc632f8",
+          "ok": true
+        },
+        {
+          "file": "fallAndGetUp3_subject1.npz",
+          "frames": 5109,
+          "seconds": 102.18,
+          "bytes": 1337375,
+          "sha256": "8fd79f862f5b4e1b9e8a90fec483c20e71c562fb706182a91dedbe51b8d52cd4",
+          "ok": true
+        },
+        {
+          "file": "fight1_subject2.npz",
+          "frames": 12244,
+          "seconds": 244.88,
+          "bytes": 3228142,
+          "sha256": "4a81aa8ba016ff260df43edcd04fbe020155ee25f423450dc7501403a2325f96",
+          "ok": true
+        },
+        {
+          "file": "fight1_subject3.npz",
+          "frames": 12244,
+          "seconds": 244.88,
+          "bytes": 3177084,
+          "sha256": "e0b4b28c80e79651e7337c63422c7219514178ea0721c0954642c0a2d2ec323f",
+          "ok": true
+        },
+        {
+          "file": "fight1_subject5.npz",
+          "frames": 12244,
+          "seconds": 244.88,
+          "bytes": 3215400,
+          "sha256": "762c123793d672ed1cf5438950d9d337e70e87b027a15fd93ac8e1e56b9e60df",
+          "ok": true
+        },
+        {
+          "file": "fightAndSports1_subject1.npz",
+          "frames": 12257,
+          "seconds": 245.14,
+          "bytes": 3202180,
+          "sha256": "0afc1694bcebb791a20b16997715037a54a33e1bee645c42d2d93c8d41033935",
+          "ok": true
+        },
+        {
+          "file": "fightAndSports1_subject4.npz",
+          "frames": 12257,
+          "seconds": 245.14,
+          "bytes": 3194991,
+          "sha256": "510efd5a45dd648603c321101650c42c2ef361a74ba3d64a6b52000d3c86394f",
+          "ok": true
+        },
+        {
+          "file": "ground1_subject1.npz",
+          "frames": 7902,
+          "seconds": 158.04,
+          "bytes": 2081464,
+          "sha256": "5cb34b54e9ac2485ca3bad9bb11a6a425b5432d2152846001e9b85377b376839",
+          "ok": true
+        },
+        {
+          "file": "ground1_subject4.npz",
+          "frames": 7902,
+          "seconds": 158.04,
+          "bytes": 2025409,
+          "sha256": "79677eddb7fbf7db84e3a9ffcc043d950113f0207de041dc8406da636b0a915d",
+          "ok": true
+        },
+        {
+          "file": "ground1_subject5.npz",
+          "frames": 7902,
+          "seconds": 158.04,
+          "bytes": 2043185,
+          "sha256": "aafd8052c51c8f0083c7bd84198e9353dee331ccff1ace7f716d951dc8a449c6",
+          "ok": true
+        },
+        {
+          "file": "ground2_subject2.npz",
+          "frames": 9249,
+          "seconds": 184.98,
+          "bytes": 2335764,
+          "sha256": "29cc01d0ed4f057da76228a8320a71aad93ff9085cfa6670031cc566d2633cd4",
+          "ok": true
+        },
+        {
+          "file": "ground2_subject3.npz",
+          "frames": 9249,
+          "seconds": 184.98,
+          "bytes": 2363067,
+          "sha256": "022645c45780731e893b89cdd584532eb3f284b412ba4e721c9f8adafc44eefb",
+          "ok": true
+        },
+        {
+          "file": "jumps1_subject1.npz",
+          "frames": 12222,
+          "seconds": 244.44,
+          "bytes": 3226352,
+          "sha256": "51beb681c868fb636ed5905cc7808f668317e65b3d487d1189fa28856f824ba5",
+          "ok": true
+        },
+        {
+          "file": "jumps1_subject2.npz",
+          "frames": 12222,
+          "seconds": 244.44,
+          "bytes": 3211535,
+          "sha256": "900e7930212000873aadcf83f148a584561e8158cb6bb157300064ebcd682cea",
+          "ok": true
+        },
+        {
+          "file": "jumps1_subject5.npz",
+          "frames": 12222,
+          "seconds": 244.44,
+          "bytes": 3232645,
+          "sha256": "5f821bfeb579bc3b9ffba5e3e4b7d4b1d6ec580144f8a3898b147f41c94df35f",
+          "ok": true
+        },
+        {
+          "file": "multipleActions1_subject1.npz",
+          "frames": 7644,
+          "seconds": 152.88,
+          "bytes": 2003985,
+          "sha256": "f26feedf11d60e4a72f0ffb1c28f399ea8e28ee5c7a784fa1d5093836814eca6",
+          "ok": true
+        },
+        {
+          "file": "multipleActions1_subject2.npz",
+          "frames": 7644,
+          "seconds": 152.88,
+          "bytes": 2016751,
+          "sha256": "75e3fea384f705c9127cb8c460305dfd0bca64302335dee6e77568b10d802de6",
+          "ok": true
+        },
+        {
+          "file": "multipleActions1_subject3.npz",
+          "frames": 7644,
+          "seconds": 152.88,
+          "bytes": 1994693,
+          "sha256": "e904ae7601963d5508c18523f580725a8f9446888f66640d5014c1eca429217a",
+          "ok": true
+        },
+        {
+          "file": "multipleActions1_subject4.npz",
+          "frames": 7644,
+          "seconds": 152.88,
+          "bytes": 1994637,
+          "sha256": "fe77818c670cca024892e51c53f98f6308f16d8b5995557892a74193c8c3c700",
+          "ok": true
+        },
+        {
+          "file": "obstacles2_subject1.npz",
+          "frames": 12204,
+          "seconds": 244.08,
+          "bytes": 3218227,
+          "sha256": "dc7dcc7f5aeb3f64f16edc7268c2033763ed94687f3eca1187187e99ef268d37",
+          "ok": true
+        },
+        {
+          "file": "obstacles2_subject2.npz",
+          "frames": 12204,
+          "seconds": 244.08,
+          "bytes": 3217140,
+          "sha256": "4f4925ea140e047c72add5e8dca20055257911e5d8fe063035fd9a8348d1978e",
+          "ok": true
+        },
+        {
+          "file": "obstacles2_subject5.npz",
+          "frames": 12204,
+          "seconds": 244.08,
+          "bytes": 3215831,
+          "sha256": "cddd2568d7136dc649999d0f48449582efd2a83fd0d9e6f819f4dcf5275c52d7",
+          "ok": true
+        },
+        {
+          "file": "obstacles3_subject3.npz",
+          "frames": 6554,
+          "seconds": 131.08,
+          "bytes": 1716879,
+          "sha256": "3e534cfa3697f6e151f92264a3e3e9495c01982986c89e8e7b1c33f5701396c7",
+          "ok": true
+        },
+        {
+          "file": "obstacles3_subject4.npz",
+          "frames": 6554,
+          "seconds": 131.08,
+          "bytes": 1718524,
+          "sha256": "a9107195a547657f0dd8ca9df2bb5cf31ef02cc36d501f8a20d536ddff994bd5",
+          "ok": true
+        },
+        {
+          "file": "obstacles4_subject4.npz",
+          "frames": 12334,
+          "seconds": 246.68,
+          "bytes": 3214678,
+          "sha256": "e1dbaf9d87aa7fe004bc125d833066605e7ba83c82ea8838c99e8034d83c11c5",
+          "ok": true
+        },
+        {
+          "file": "obstacles5_subject2.npz",
+          "frames": 12309,
+          "seconds": 246.18,
+          "bytes": 3201452,
+          "sha256": "708c1b9ea7c667ebe32d87c2f8ef436bc27809089baed8d687654133129db873",
+          "ok": true
+        },
+        {
+          "file": "obstacles5_subject4.npz",
+          "frames": 12309,
+          "seconds": 246.18,
+          "bytes": 3125583,
+          "sha256": "f2f7a2fb962ae348790b3b6c1d5af7e8fe1bc4d9e6df41e3eccc732271672674",
+          "ok": true
+        },
+        {
+          "file": "obstacles6_subject1.npz",
+          "frames": 12584,
+          "seconds": 251.68,
+          "bytes": 3227198,
+          "sha256": "d95ff54f8467236a1898a88374f0b78121321eae9cd331ab3256b451559b2d89",
+          "ok": true
+        },
+        {
+          "file": "obstacles6_subject4.npz",
+          "frames": 12584,
+          "seconds": 251.68,
+          "bytes": 3161050,
+          "sha256": "e4e32184e4b026bf5bc015dada7b1c555305df7162def7196356420cfc7fb1f9",
+          "ok": true
+        },
+        {
+          "file": "obstacles6_subject5.npz",
+          "frames": 12584,
+          "seconds": 251.68,
+          "bytes": 3216562,
+          "sha256": "36070ca94cc90ee17fbac57951a3589f328df0de323772fe3a44e43807f78d3f",
+          "ok": true
+        },
+        {
+          "file": "push1_subject2.npz",
+          "frames": 5109,
+          "seconds": 102.18,
+          "bytes": 1345297,
+          "sha256": "2ddb6bc7d9b2822882086dc8d2decd690d167803b779b92d696256a4a1afcb35",
+          "ok": true
+        },
+        {
+          "file": "pushAndFall1_subject1.npz",
+          "frames": 8264,
+          "seconds": 165.28,
+          "bytes": 2173700,
+          "sha256": "9d237e8110314139e9ed12ca24246ba7f857981a1f1e4a76011f27ebc10f31bd",
+          "ok": true
+        },
+        {
+          "file": "pushAndFall1_subject4.npz",
+          "frames": 8264,
+          "seconds": 165.28,
+          "bytes": 2156164,
+          "sha256": "8a77abe42fbb1bcfcf6c814361bc24d0cd433a389bbdf5f497e90f9229c5c176",
+          "ok": true
+        },
+        {
+          "file": "pushAndStumble1_subject2.npz",
+          "frames": 11334,
+          "seconds": 226.68,
+          "bytes": 2985198,
+          "sha256": "f27bc86d972c72b6d5a4e8532e9eeeb2d0c281b123f8843f0233339abafb7dfd",
+          "ok": true
+        },
+        {
+          "file": "pushAndStumble1_subject3.npz",
+          "frames": 11334,
+          "seconds": 226.68,
+          "bytes": 2964673,
+          "sha256": "e236c9cf2aa3bf925ab4220f7a1a7e2f9543b62e74031183ba9d8c1637626348",
+          "ok": true
+        },
+        {
+          "file": "pushAndStumble1_subject5.npz",
+          "frames": 11334,
+          "seconds": 226.68,
+          "bytes": 2992077,
+          "sha256": "4b4cb32e28e288843b0561035b6e29de543d4cd58759494a0ed45bb1db80e21d",
+          "ok": true
+        },
+        {
+          "file": "run1_subject2.npz",
+          "frames": 11890,
+          "seconds": 237.8,
+          "bytes": 3141888,
+          "sha256": "083b645176583ec89d8f6bbe3e5c06db2b346bb0f33a6357951ba4db2e49581b",
+          "ok": true
+        },
+        {
+          "file": "run1_subject5.npz",
+          "frames": 11890,
+          "seconds": 237.8,
+          "bytes": 3132543,
+          "sha256": "dae0ef9fc7018b11bb0e6079ae9fe93e61caba1e656fe031d425db3b62187f65",
+          "ok": true
+        },
+        {
+          "file": "run2_subject1.npz",
+          "frames": 12240,
+          "seconds": 244.8,
+          "bytes": 3221531,
+          "sha256": "6cf84e061166aac19f46aeb19f11dbbb07d5cd3e74630b0ae7f45dd77b1859dc",
+          "ok": true
+        },
+        {
+          "file": "run2_subject4.npz",
+          "frames": 12240,
+          "seconds": 244.8,
+          "bytes": 3208319,
+          "sha256": "0467a88d5a86b460ac49b6e02a65aabf4d615aea6b36678f0e08f248725ffc46",
+          "ok": true
+        },
+        {
+          "file": "sprint1_subject2.npz",
+          "frames": 13655,
+          "seconds": 273.1,
+          "bytes": 3603710,
+          "sha256": "c6d0e230d6bf1259da1305396a76669926c1cfbec93b2bd098c49ec040330bc4",
+          "ok": true
+        },
+        {
+          "file": "sprint1_subject4.npz",
+          "frames": 13655,
+          "seconds": 273.1,
+          "bytes": 3564023,
+          "sha256": "46422734b58f1bc205c12b1b161ad1c8079da9cf1fd43e97851fb4e29eb2c38f",
+          "ok": true
+        },
+        {
+          "file": "walk1_subject1.npz",
+          "frames": 13065,
+          "seconds": 261.3,
+          "bytes": 3450409,
+          "sha256": "fd3b9cd2f9f6b2070fd0f67a4abb6f917a78080faa59e428b0e81cafba1eedec",
+          "ok": true
+        },
+        {
+          "file": "walk1_subject2.npz",
+          "frames": 13065,
+          "seconds": 261.3,
+          "bytes": 3452057,
+          "sha256": "4ae67dae4806a1e970b0bc5ff4024bdd9ffdd48177b4336a97ac60e799efbe83",
+          "ok": true
+        },
+        {
+          "file": "walk1_subject5.npz",
+          "frames": 13065,
+          "seconds": 261.3,
+          "bytes": 3445117,
+          "sha256": "23b1b651595e4e94a2acd77298f5404440f5564b23835588904496630d2d9518",
+          "ok": true
+        },
+        {
+          "file": "walk2_subject1.npz",
+          "frames": 11909,
+          "seconds": 238.18,
+          "bytes": 3124132,
+          "sha256": "ba501461aaff97a963b9832e2a1888b7e25c357a5bec170662860f4196535301",
+          "ok": true
+        },
+        {
+          "file": "walk2_subject3.npz",
+          "frames": 11909,
+          "seconds": 238.18,
+          "bytes": 3103971,
+          "sha256": "21154546704fea1b774d21804a133a5a18f682df7309298d136d183c76f0208d",
+          "ok": true
+        },
+        {
+          "file": "walk2_subject4.npz",
+          "frames": 11909,
+          "seconds": 238.18,
+          "bytes": 3133340,
+          "sha256": "081f0b4fc5112ccfe8dc0aaa9e50f18cdb792b2523275e7de00a03294be22e35",
+          "ok": true
+        },
+        {
+          "file": "walk3_subject1.npz",
+          "frames": 12330,
+          "seconds": 246.6,
+          "bytes": 3239424,
+          "sha256": "669ece945c1062e36eb94fbce6d93f8148c4617aa097bd23a2d7bfc23cf3e887",
+          "ok": true
+        },
+        {
+          "file": "walk3_subject2.npz",
+          "frames": 12330,
+          "seconds": 246.6,
+          "bytes": 3260006,
+          "sha256": "058b5f609e1a7946ed27578b262ad5f18c5cce9f4de42ab371a0e42ce069b42f",
+          "ok": true
+        },
+        {
+          "file": "walk3_subject3.npz",
+          "frames": 12330,
+          "seconds": 246.6,
+          "bytes": 3205074,
+          "sha256": "c6337ca2812db70a1bd05a2304ac7b777391df8c76ef458ffa8feb3f935dbddd",
+          "ok": true
+        },
+        {
+          "file": "walk3_subject4.npz",
+          "frames": 12330,
+          "seconds": 246.6,
+          "bytes": 3232021,
+          "sha256": "b9a56470dfb58f0b23385771958d18a1dd1f95ab622ed267cacf8af19140b747",
+          "ok": true
+        },
+        {
+          "file": "walk3_subject5.npz",
+          "frames": 12330,
+          "seconds": 246.6,
+          "bytes": 3194293,
+          "sha256": "5eb6c7b74d30bfc582513a6ed284d13569bd35cee906dc37a1784863dcbe3cc8",
+          "ok": true
+        },
+        {
+          "file": "walk4_subject1.npz",
+          "frames": 8195,
+          "seconds": 163.9,
+          "bytes": 2137984,
+          "sha256": "01a474d099f131c8447fb5b1c9d4aefdc2e249d62f7422ab84a432a2e152647a",
+          "ok": true
+        }
+      ],
+      "problems": []
+    },
+    "lafan1_g1_packed": {
+      "packed_dir": "E:\\G1\\G1_supermimic\\datasets\\lafan1_g1\\packed",
+      "clip_count": 71,
+      "total_frames": 763762,
+      "total_seconds": 15275.24,
+      "fields": {
+        "joint_pos": [
+          763762,
+          29
+        ],
+        "joint_vel": [
+          763762,
+          29
+        ],
+        "root_pos_w": [
+          763762,
+          3
+        ],
+        "root_quat_w": [
+          763762,
+          4
+        ],
+        "root_lin_vel_w": [
+          763762,
+          3
+        ],
+        "root_ang_vel_w": [
+          763762,
+          3
+        ]
+      },
+      "motion_names": [
+        "aiming1_subject1",
+        "aiming1_subject4",
+        "aiming2_subject2",
+        "aiming2_subject3",
+        "aiming2_subject5",
+        "dance1_subject1",
+        "dance1_subject2",
+        "dance1_subject3",
+        "dance2_subject1",
+        "dance2_subject2",
+        "dance2_subject3",
+        "dance2_subject4",
+        "dance2_subject5",
+        "fallAndGetUp1_subject1",
+        "fallAndGetUp1_subject4",
+        "fallAndGetUp1_subject5",
+        "fallAndGetUp2_subject2",
+        "fallAndGetUp2_subject3",
+        "fallAndGetUp3_subject1",
+        "fight1_subject2",
+        "fight1_subject3",
+        "fight1_subject5",
+        "fightAndSports1_subject1",
+        "fightAndSports1_subject4",
+        "ground1_subject1",
+        "ground1_subject4",
+        "ground1_subject5",
+        "ground2_subject2",
+        "ground2_subject3",
+        "jumps1_subject1",
+        "jumps1_subject2",
+        "jumps1_subject5",
+        "multipleActions1_subject1",
+        "multipleActions1_subject2",
+        "multipleActions1_subject3",
+        "multipleActions1_subject4",
+        "obstacles2_subject1",
+        "obstacles2_subject2",
+        "obstacles2_subject5",
+        "obstacles3_subject3",
+        "obstacles3_subject4",
+        "obstacles4_subject4",
+        "obstacles5_subject2",
+        "obstacles5_subject4",
+        "obstacles6_subject1",
+        "obstacles6_subject4",
+        "obstacles6_subject5",
+        "push1_subject2",
+        "pushAndFall1_subject1",
+        "pushAndFall1_subject4",
+        "pushAndStumble1_subject2",
+        "pushAndStumble1_subject3",
+        "pushAndStumble1_subject5",
+        "run1_subject2",
+        "run1_subject5",
+        "run2_subject1",
+        "run2_subject4",
+        "sprint1_subject2",
+        "sprint1_subject4",
+        "walk1_subject1",
+        "walk1_subject2",
+        "walk1_subject5",
+        "walk2_subject1",
+        "walk2_subject3",
+        "walk2_subject4",
+        "walk3_subject1",
+        "walk3_subject2",
+        "walk3_subject3",
+        "walk3_subject4",
+        "walk3_subject5",
+        "walk4_subject1"
+      ],
+      "bytes": 216912104,
+      "problems": []
+    },
+    "walk_gapfill": {
+      "clip_dir": "E:\\G1\\G1_supermimic\\datasets\\walk_gapfill\\npz",
+      "clip_count": 30,
+      "total_frames": 99194,
+      "total_seconds": 1983.88,
+      "clips": [
+        {
+          "file": "120_19_stageii_g1.npz",
+          "frames": 5330,
+          "seconds": 106.6,
+          "bytes": 1389338,
+          "sha256": "1be45d0a59fe137779edab4f2f9ac497da6dd6eb0b3ee78705686b1828f53fbb",
+          "ok": true
+        },
+        {
+          "file": "120_20_stageii_g1.npz",
+          "frames": 4473,
+          "seconds": 89.46,
+          "bytes": 1167174,
+          "sha256": "3ed6b21c2361b216777d005e58c94b96bade46e4ac637d10f343c863a9460f76",
+          "ok": true
+        },
+        {
+          "file": "15_03_stageii_g1.npz",
+          "frames": 5229,
+          "seconds": 104.58,
+          "bytes": 1382590,
+          "sha256": "a2142f0b5e0419c74165935c61f22eea8fa073b7cf2da3388b23b39494aced1d",
+          "ok": true
+        },
+        {
+          "file": "15_14_stageii_g1.npz",
+          "frames": 3744,
+          "seconds": 74.88,
+          "bytes": 991275,
+          "sha256": "c92bd04b2df83cb9f1004e9a33e91e2f392b0e2681c987b0ee9126c65f830b4d",
+          "ok": true
+        },
+        {
+          "file": "35_27_stageii_g1.npz",
+          "frames": 4086,
+          "seconds": 81.72,
+          "bytes": 1080866,
+          "sha256": "49bbe0d509d4b4dba0ca5b7e9816965fa648424d20906e022b9113848b76816b",
+          "ok": true
+        },
+        {
+          "file": "38_04_stageii_g1.npz",
+          "frames": 3596,
+          "seconds": 71.92,
+          "bytes": 947452,
+          "sha256": "b897b41b1a8f4568d2ec377606317ac8cc5c135c095c50da10065661100a7abf",
+          "ok": true
+        },
+        {
+          "file": "41_09_stageii_g1.npz",
+          "frames": 3216,
+          "seconds": 64.32,
+          "bytes": 854897,
+          "sha256": "7859fdede60d49e7067a1e295150e7804fea67b31a23e2cecc764b7db643dac4",
+          "ok": true
+        },
+        {
+          "file": "56_05_stageii_g1.npz",
+          "frames": 3066,
+          "seconds": 61.32,
+          "bytes": 803189,
+          "sha256": "d608e05d2e59a366e368a911a8138e1838c1a5b0ca38854312391b5558987f06",
+          "ok": true
+        },
+        {
+          "file": "56_07_stageii_g1.npz",
+          "frames": 3925,
+          "seconds": 78.5,
+          "bytes": 1036337,
+          "sha256": "8c9811677ab0206d005368884c4c3cb85d7ba82a0a02878cc5499b2bdc199339",
+          "ok": true
+        },
+        {
+          "file": "86_10_stageii_g1.npz",
+          "frames": 3160,
+          "seconds": 63.2,
+          "bytes": 828255,
+          "sha256": "99fdce5f6636e79b66a850557278ee1b4aa762f01ad569086ee8737503c038ce",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_01-01_01_120_stageii_g1.npz",
+          "frames": 4285,
+          "seconds": 85.7,
+          "bytes": 1119371,
+          "sha256": "dcb327e1718d0aba4deed746236292a6dc9c55d697fc3d5830ccb51058cee6fc",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_01-01_02_120_stageii_g1.npz",
+          "frames": 3645,
+          "seconds": 72.9,
+          "bytes": 954751,
+          "sha256": "d573e1e86ca535cc037dc5a692ff5d365a6a5237518fbb8be83760f80b1c088b",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_01-01_03_120_stageii_g1.npz",
+          "frames": 3737,
+          "seconds": 74.74,
+          "bytes": 978182,
+          "sha256": "77b8fd294d0bf72f9f1938ad42139a2755a4e08b6ba5ae8fbc2f3c9ea186d6e5",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_02-02_01_120_stageii_g1.npz",
+          "frames": 2783,
+          "seconds": 55.66,
+          "bytes": 731401,
+          "sha256": "e43a18684a8be5484a2acb732ee0a91c030f72e9b63847689aa904083d994b26",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_02-02_02_120_stageii_g1.npz",
+          "frames": 2956,
+          "seconds": 59.12,
+          "bytes": 776286,
+          "sha256": "bc79b9f63f07a7ac84497ee3d17f891e3d0848c6c5e6d4fbc851c3b6c0f222fb",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-01_01_120_stageii_g1.npz",
+          "frames": 3143,
+          "seconds": 62.86,
+          "bytes": 820823,
+          "sha256": "953117b0085e765856e93f7a6bf5de3c4dde536b5d427197595d02733d61f62f",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-01_02_120_stageii_g1.npz",
+          "frames": 3192,
+          "seconds": 63.84,
+          "bytes": 833885,
+          "sha256": "9d1b3ecf1c2250b3ef19b718f9e7973c21eab385cd3a546ad3776d167aa3ebe8",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-01_03_120_stageii_g1.npz",
+          "frames": 3203,
+          "seconds": 64.06,
+          "bytes": 834833,
+          "sha256": "17df8e871c55df93cb256944b5039ab4804ec9ca53b96492a14cfdc38a77507f",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-03_02_120_stageii_g1.npz",
+          "frames": 1581,
+          "seconds": 31.62,
+          "bytes": 409837,
+          "sha256": "b128b69a0343fc2aeec2fd82f4da6d0c399b6626850b759ff33445fadfcc6dbc",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-03_03_120_stageii_g1.npz",
+          "frames": 1493,
+          "seconds": 29.86,
+          "bytes": 389948,
+          "sha256": "e6d23fb38d00e3e79664569b2f9fde031390394ba0cd6bd46be669a5646246d9",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_03-01_01_120_stageii_g1.npz",
+          "frames": 3473,
+          "seconds": 69.46,
+          "bytes": 892302,
+          "sha256": "81f505e2470d03b13a75b414e8ea1ab53d319fb430a66a68e19da8b0f6c4dfa4",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-01_01_120_stageii_g1.npz",
+          "frames": 3484,
+          "seconds": 69.68,
+          "bytes": 912205,
+          "sha256": "6c72e50e18f7202963bf898c2423a5cd90a3ff5c3b371c3d18400ad44d377a0f",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-01_02_120_stageii_g1.npz",
+          "frames": 3440,
+          "seconds": 68.8,
+          "bytes": 904525,
+          "sha256": "fc897bad6a0da73d657596ca9b96762704460fec025e3e1fe3f4604a871da0b3",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-03_01_120_stageii_g1.npz",
+          "frames": 1637,
+          "seconds": 32.74,
+          "bytes": 430243,
+          "sha256": "6a5094bd3515d6d60c5139038bc642fbde48d8c6b03b97762598f2a00447ee06",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-03_02_120_stageii_g1.npz",
+          "frames": 1675,
+          "seconds": 33.5,
+          "bytes": 440845,
+          "sha256": "0d489d71f55b11557f3a1e5bf078494bb6d4c362ae0a8638851c94ff2eb2e31c",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_02-02_02_120_stageii_g1.npz",
+          "frames": 3542,
+          "seconds": 70.84,
+          "bytes": 932108,
+          "sha256": "3546a111c45426de0474f55b3ed3635be2033c6d8eec4cd00ea5dc1d745c9033",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_02-02_03_120_stageii_g1.npz",
+          "frames": 1765,
+          "seconds": 35.3,
+          "bytes": 465560,
+          "sha256": "506c8c77c8babbe38b7920b97d2b2c2d32c98088bdd9a4363c72fa14b139cc9d",
+          "ok": true
+        },
+        {
+          "file": "HDM_tr_01-01_01_120_stageii_g1.npz",
+          "frames": 3705,
+          "seconds": 74.1,
+          "bytes": 969290,
+          "sha256": "e05d4d1c8663f8eed951b2c600e6b383b98958eed812be6d6bb5dfa26b3d82c4",
+          "ok": true
+        },
+        {
+          "file": "HDM_tr_03-01_01_120_stageii_g1.npz",
+          "frames": 3941,
+          "seconds": 78.82,
+          "bytes": 1035535,
+          "sha256": "a2fd6eccaf857770c60f84378c4f67ffc243ff31fbb3dec5e3359e13ee2cf4cc",
+          "ok": true
+        },
+        {
+          "file": "HDM_tr_05-03_04_120_stageii_g1.npz",
+          "frames": 2689,
+          "seconds": 53.78,
+          "bytes": 702200,
+          "sha256": "2f5d59341da4fdf79356faf131621144f5a885119cf3a391a716bb2aaa932046",
+          "ok": true
+        }
+      ],
+      "problems": []
+    },
+    "walk_gapfill_packed": {
+      "packed_dir": "E:\\G1\\G1_supermimic\\datasets\\walk_gapfill\\packed",
+      "clip_count": 30,
+      "total_frames": 99194,
+      "total_seconds": 1983.88,
+      "fields": {
+        "joint_pos": [
+          99194,
+          29
+        ],
+        "joint_vel": [
+          99194,
+          29
+        ],
+        "root_pos_w": [
+          99194,
+          3
+        ],
+        "root_quat_w": [
+          99194,
+          4
+        ],
+        "root_lin_vel_w": [
+          99194,
+          3
+        ],
+        "root_ang_vel_w": [
+          99194,
+          3
+        ]
+      },
+      "motion_names": [
+        "120_19_stageii_g1",
+        "120_20_stageii_g1",
+        "15_03_stageii_g1",
+        "15_14_stageii_g1",
+        "35_27_stageii_g1",
+        "38_04_stageii_g1",
+        "41_09_stageii_g1",
+        "56_05_stageii_g1",
+        "56_07_stageii_g1",
+        "86_10_stageii_g1",
+        "HDM_bk_01-01_01_120_stageii_g1",
+        "HDM_bk_01-01_02_120_stageii_g1",
+        "HDM_bk_01-01_03_120_stageii_g1",
+        "HDM_bk_02-02_01_120_stageii_g1",
+        "HDM_bk_02-02_02_120_stageii_g1",
+        "HDM_dg_01-01_01_120_stageii_g1",
+        "HDM_dg_01-01_02_120_stageii_g1",
+        "HDM_dg_01-01_03_120_stageii_g1",
+        "HDM_dg_01-03_02_120_stageii_g1",
+        "HDM_dg_01-03_03_120_stageii_g1",
+        "HDM_dg_03-01_01_120_stageii_g1",
+        "HDM_mm_01-01_01_120_stageii_g1",
+        "HDM_mm_01-01_02_120_stageii_g1",
+        "HDM_mm_01-03_01_120_stageii_g1",
+        "HDM_mm_01-03_02_120_stageii_g1",
+        "HDM_mm_02-02_02_120_stageii_g1",
+        "HDM_mm_02-02_03_120_stageii_g1",
+        "HDM_tr_01-01_01_120_stageii_g1",
+        "HDM_tr_03-01_01_120_stageii_g1",
+        "HDM_tr_05-03_04_120_stageii_g1"
+      ],
+      "bytes": 28173823,
+      "problems": []
+    },
+    "walk_only": {
+      "clip_dir": "E:\\G1\\G1_supermimic\\datasets\\walk_only\\npz",
+      "clip_count": 63,
+      "total_frames": 111692,
+      "total_seconds": 2233.84,
+      "clips": [
+        {
+          "file": "120_19_stageii_g1.npz",
+          "frames": 5330,
+          "seconds": 106.6,
+          "bytes": 1389338,
+          "sha256": "1be45d0a59fe137779edab4f2f9ac497da6dd6eb0b3ee78705686b1828f53fbb",
+          "ok": true
+        },
+        {
+          "file": "120_20_stageii_g1.npz",
+          "frames": 4473,
+          "seconds": 89.46,
+          "bytes": 1167174,
+          "sha256": "3ed6b21c2361b216777d005e58c94b96bade46e4ac637d10f343c863a9460f76",
+          "ok": true
+        },
+        {
+          "file": "15_03_stageii_g1.npz",
+          "frames": 5229,
+          "seconds": 104.58,
+          "bytes": 1382590,
+          "sha256": "a2142f0b5e0419c74165935c61f22eea8fa073b7cf2da3388b23b39494aced1d",
+          "ok": true
+        },
+        {
+          "file": "15_14_stageii_g1.npz",
+          "frames": 3744,
+          "seconds": 74.88,
+          "bytes": 991275,
+          "sha256": "c92bd04b2df83cb9f1004e9a33e91e2f392b0e2681c987b0ee9126c65f830b4d",
+          "ok": true
+        },
+        {
+          "file": "35_27_stageii_g1.npz",
+          "frames": 4086,
+          "seconds": 81.72,
+          "bytes": 1080866,
+          "sha256": "49bbe0d509d4b4dba0ca5b7e9816965fa648424d20906e022b9113848b76816b",
+          "ok": true
+        },
+        {
+          "file": "38_04_stageii_g1.npz",
+          "frames": 3596,
+          "seconds": 71.92,
+          "bytes": 947452,
+          "sha256": "b897b41b1a8f4568d2ec377606317ac8cc5c135c095c50da10065661100a7abf",
+          "ok": true
+        },
+        {
+          "file": "41_09_stageii_g1.npz",
+          "frames": 3216,
+          "seconds": 64.32,
+          "bytes": 854897,
+          "sha256": "7859fdede60d49e7067a1e295150e7804fea67b31a23e2cecc764b7db643dac4",
+          "ok": true
+        },
+        {
+          "file": "56_05_stageii_g1.npz",
+          "frames": 3066,
+          "seconds": 61.32,
+          "bytes": 803189,
+          "sha256": "d608e05d2e59a366e368a911a8138e1838c1a5b0ca38854312391b5558987f06",
+          "ok": true
+        },
+        {
+          "file": "56_07_stageii_g1.npz",
+          "frames": 3925,
+          "seconds": 78.5,
+          "bytes": 1036337,
+          "sha256": "8c9811677ab0206d005368884c4c3cb85d7ba82a0a02878cc5499b2bdc199339",
+          "ok": true
+        },
+        {
+          "file": "86_10_stageii_g1.npz",
+          "frames": 3160,
+          "seconds": 63.2,
+          "bytes": 828255,
+          "sha256": "99fdce5f6636e79b66a850557278ee1b4aa762f01ad569086ee8737503c038ce",
+          "ok": true
+        },
+        {
+          "file": "A1_stand_g1_29.npz",
+          "frames": 150,
+          "seconds": 3.0,
+          "bytes": 39378,
+          "sha256": "675b9ab6e2ca5c8482935b8928523ec5125de3bb62f4c99d9dd4856560bef8c5",
+          "ok": true
+        },
+        {
+          "file": "A2_sway_g1_29.npz",
+          "frames": 601,
+          "seconds": 12.02,
+          "bytes": 156872,
+          "sha256": "2decc4b8d7c215ac0bbf58108cdd5a9403670436dcc15c03291b39c4edbced39",
+          "ok": true
+        },
+        {
+          "file": "Female1_A14_stand_to_skip_g1_29.npz",
+          "frames": 258,
+          "seconds": 5.16,
+          "bytes": 69638,
+          "sha256": "8f6bf4eb5d147cad1fcf1ce7b44bdb19e60786ac1558b2dd307e5ebe1fb6d0f6",
+          "ok": true
+        },
+        {
+          "file": "Female1_A15_skip_to_stand_g1_29.npz",
+          "frames": 213,
+          "seconds": 4.26,
+          "bytes": 57747,
+          "sha256": "31fbed26a7c65c5c8be2d65e24e01b7efb4cf1cfd6486f28054d1c080db29b7c",
+          "ok": true
+        },
+        {
+          "file": "Female1_B10_walk_turn_left_45_g1_29.npz",
+          "frames": 396,
+          "seconds": 7.92,
+          "bytes": 105811,
+          "sha256": "aa8c5e1246a9d777bd7d780572fb3c9814f2044ed31a487d77906af24acd828b",
+          "ok": true
+        },
+        {
+          "file": "Female1_B11_walk_turn_left_135_g1_29.npz",
+          "frames": 468,
+          "seconds": 9.36,
+          "bytes": 124591,
+          "sha256": "a6d02743db153490bd7162997d2fa8f6ba175d873a12bfde0c8b90ed1147a83a",
+          "ok": true
+        },
+        {
+          "file": "Female1_B13_walk_turn_right_45_g1_29.npz",
+          "frames": 415,
+          "seconds": 8.3,
+          "bytes": 110814,
+          "sha256": "00e046a163ced76a15dc3d72a46ee1df679e9746dfe21e16512e27e3325e597f",
+          "ok": true
+        },
+        {
+          "file": "Female1_B14_walk_turn_right_135_g1_29.npz",
+          "frames": 448,
+          "seconds": 8.96,
+          "bytes": 119450,
+          "sha256": "630b09e56930df0ff251c998c34f8c7e1f6e6663f29afebf78979110508a6842",
+          "ok": true
+        },
+        {
+          "file": "Female1_B15_walk_turn_around_g1_29.npz",
+          "frames": 530,
+          "seconds": 10.6,
+          "bytes": 140812,
+          "sha256": "18a5b03591569435cafdd3bab9acc6895369da0b7454266a43bb64c174fbbf20",
+          "ok": true
+        },
+        {
+          "file": "Female1_B16_walk_turn_change_direction_g1_29.npz",
+          "frames": 551,
+          "seconds": 11.02,
+          "bytes": 146003,
+          "sha256": "33f784e6d7a2523cd73419259ef20898cd7cc0c2e67b534ddcadea026c297871",
+          "ok": true
+        },
+        {
+          "file": "Female1_B1_stand_to_walk_g1_29.npz",
+          "frames": 311,
+          "seconds": 6.22,
+          "bytes": 82869,
+          "sha256": "8c77d247799cda54f86b3afd588b1517243b74379368b51348a18d2e78084ced",
+          "ok": true
+        },
+        {
+          "file": "Female1_B2_walk_to_stand_g1_29.npz",
+          "frames": 284,
+          "seconds": 5.68,
+          "bytes": 76011,
+          "sha256": "b134e3ea1589187e12aeac41a0df32cce8b82c4007832d12282288d493f281fe",
+          "ok": true
+        },
+        {
+          "file": "Female1_B2_walk_to_stand_t2_g1_29.npz",
+          "frames": 245,
+          "seconds": 4.9,
+          "bytes": 65912,
+          "sha256": "e8fa314451f7cbaca0d151bad352aa7eb07e73d0e2aa3a9afbbd3ef15a893296",
+          "ok": true
+        },
+        {
+          "file": "Female1_B3_walk1_g1_29.npz",
+          "frames": 381,
+          "seconds": 7.62,
+          "bytes": 101906,
+          "sha256": "4bd4d73f0e3d0130529ab3a119cba9b19dab17523c7531abb9a168dfeddbf705",
+          "ok": true
+        },
+        {
+          "file": "Female1_B4_stand_to_walk_back_g1_29.npz",
+          "frames": 378,
+          "seconds": 7.56,
+          "bytes": 101092,
+          "sha256": "426f59faf12e593c9198bc1a0779481fa7c398f050f6392d9c00f2e2e6be0c5c",
+          "ok": true
+        },
+        {
+          "file": "Female1_B5_walk_backwards_g1_29.npz",
+          "frames": 577,
+          "seconds": 11.54,
+          "bytes": 153472,
+          "sha256": "bdea08ba8ba8e8410da2868aa5ff45527de7c6e6daeebec4b5ebe3fa2d8f3a63",
+          "ok": true
+        },
+        {
+          "file": "Female1_B6_walk_backwards_to_stand_g1_29.npz",
+          "frames": 409,
+          "seconds": 8.18,
+          "bytes": 108816,
+          "sha256": "9537a36382fd49ef8fa6de4419441aecddaf3dbf69b56868fde95ed93d46c23e",
+          "ok": true
+        },
+        {
+          "file": "Female1_B7_walk_backwards_turn_forwards_g1_29.npz",
+          "frames": 433,
+          "seconds": 8.66,
+          "bytes": 116201,
+          "sha256": "f3e0debfad8f644f3b77a819681f53b21200dc81f4d8f9c40ed0d9084e7b7bdc",
+          "ok": true
+        },
+        {
+          "file": "Female1_B9_walk_turn_left_90_g1_29.npz",
+          "frames": 355,
+          "seconds": 7.1,
+          "bytes": 94995,
+          "sha256": "a2159e246ae924d43e2e3675d02df4bd8d69bac93e2d140ecd6e334815f59a5c",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_01-01_01_120_stageii_g1.npz",
+          "frames": 4285,
+          "seconds": 85.7,
+          "bytes": 1119371,
+          "sha256": "dcb327e1718d0aba4deed746236292a6dc9c55d697fc3d5830ccb51058cee6fc",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_01-01_02_120_stageii_g1.npz",
+          "frames": 3645,
+          "seconds": 72.9,
+          "bytes": 954751,
+          "sha256": "d573e1e86ca535cc037dc5a692ff5d365a6a5237518fbb8be83760f80b1c088b",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_01-01_03_120_stageii_g1.npz",
+          "frames": 3737,
+          "seconds": 74.74,
+          "bytes": 978182,
+          "sha256": "77b8fd294d0bf72f9f1938ad42139a2755a4e08b6ba5ae8fbc2f3c9ea186d6e5",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_02-02_01_120_stageii_g1.npz",
+          "frames": 2783,
+          "seconds": 55.66,
+          "bytes": 731401,
+          "sha256": "e43a18684a8be5484a2acb732ee0a91c030f72e9b63847689aa904083d994b26",
+          "ok": true
+        },
+        {
+          "file": "HDM_bk_02-02_02_120_stageii_g1.npz",
+          "frames": 2956,
+          "seconds": 59.12,
+          "bytes": 776286,
+          "sha256": "bc79b9f63f07a7ac84497ee3d17f891e3d0848c6c5e6d4fbc851c3b6c0f222fb",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-01_01_120_stageii_g1.npz",
+          "frames": 3143,
+          "seconds": 62.86,
+          "bytes": 820823,
+          "sha256": "953117b0085e765856e93f7a6bf5de3c4dde536b5d427197595d02733d61f62f",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-01_02_120_stageii_g1.npz",
+          "frames": 3192,
+          "seconds": 63.84,
+          "bytes": 833885,
+          "sha256": "9d1b3ecf1c2250b3ef19b718f9e7973c21eab385cd3a546ad3776d167aa3ebe8",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-01_03_120_stageii_g1.npz",
+          "frames": 3203,
+          "seconds": 64.06,
+          "bytes": 834833,
+          "sha256": "17df8e871c55df93cb256944b5039ab4804ec9ca53b96492a14cfdc38a77507f",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-03_02_120_stageii_g1.npz",
+          "frames": 1581,
+          "seconds": 31.62,
+          "bytes": 409837,
+          "sha256": "b128b69a0343fc2aeec2fd82f4da6d0c399b6626850b759ff33445fadfcc6dbc",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_01-03_03_120_stageii_g1.npz",
+          "frames": 1493,
+          "seconds": 29.86,
+          "bytes": 389948,
+          "sha256": "e6d23fb38d00e3e79664569b2f9fde031390394ba0cd6bd46be669a5646246d9",
+          "ok": true
+        },
+        {
+          "file": "HDM_dg_03-01_01_120_stageii_g1.npz",
+          "frames": 3473,
+          "seconds": 69.46,
+          "bytes": 892302,
+          "sha256": "81f505e2470d03b13a75b414e8ea1ab53d319fb430a66a68e19da8b0f6c4dfa4",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-01_01_120_stageii_g1.npz",
+          "frames": 3484,
+          "seconds": 69.68,
+          "bytes": 912205,
+          "sha256": "6c72e50e18f7202963bf898c2423a5cd90a3ff5c3b371c3d18400ad44d377a0f",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-01_02_120_stageii_g1.npz",
+          "frames": 3440,
+          "seconds": 68.8,
+          "bytes": 904525,
+          "sha256": "fc897bad6a0da73d657596ca9b96762704460fec025e3e1fe3f4604a871da0b3",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-03_01_120_stageii_g1.npz",
+          "frames": 1637,
+          "seconds": 32.74,
+          "bytes": 430243,
+          "sha256": "6a5094bd3515d6d60c5139038bc642fbde48d8c6b03b97762598f2a00447ee06",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_01-03_02_120_stageii_g1.npz",
+          "frames": 1675,
+          "seconds": 33.5,
+          "bytes": 440845,
+          "sha256": "0d489d71f55b11557f3a1e5bf078494bb6d4c362ae0a8638851c94ff2eb2e31c",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_02-02_02_120_stageii_g1.npz",
+          "frames": 3542,
+          "seconds": 70.84,
+          "bytes": 932108,
+          "sha256": "3546a111c45426de0474f55b3ed3635be2033c6d8eec4cd00ea5dc1d745c9033",
+          "ok": true
+        },
+        {
+          "file": "HDM_mm_02-02_03_120_stageii_g1.npz",
+          "frames": 1765,
+          "seconds": 35.3,
+          "bytes": 465560,
+          "sha256": "506c8c77c8babbe38b7920b97d2b2c2d32c98088bdd9a4363c72fa14b139cc9d",
+          "ok": true
+        },
+        {
+          "file": "HDM_tr_01-01_01_120_stageii_g1.npz",
+          "frames": 3705,
+          "seconds": 74.1,
+          "bytes": 969290,
+          "sha256": "e05d4d1c8663f8eed951b2c600e6b383b98958eed812be6d6bb5dfa26b3d82c4",
+          "ok": true
+        },
+        {
+          "file": "HDM_tr_03-01_01_120_stageii_g1.npz",
+          "frames": 3941,
+          "seconds": 78.82,
+          "bytes": 1035535,
+          "sha256": "a2fd6eccaf857770c60f84378c4f67ffc243ff31fbb3dec5e3359e13ee2cf4cc",
+          "ok": true
+        },
+        {
+          "file": "HDM_tr_05-03_04_120_stageii_g1.npz",
+          "frames": 2689,
+          "seconds": 53.78,
+          "bytes": 702200,
+          "sha256": "2f5d59341da4fdf79356faf131621144f5a885119cf3a391a716bb2aaa932046",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B10_turn_left_45_g1_29.npz",
+          "frames": 421,
+          "seconds": 8.42,
+          "bytes": 112203,
+          "sha256": "acbd47e8bdfa3f01af0bd47cfec4599f6890af86952deb24e630fbbd7b89688c",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B13_turn_right_45_g1_29.npz",
+          "frames": 465,
+          "seconds": 9.3,
+          "bytes": 123506,
+          "sha256": "55ad137229ce712680695fe43ed7a75318091e5b4f4d7a8ba72dd032194e4a8f",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B15_turn_around_g1_29.npz",
+          "frames": 570,
+          "seconds": 11.4,
+          "bytes": 150955,
+          "sha256": "23e18c7b85597b2a43a21330097503efc653b924c30e94cca2cc0003d0990efc",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B16_turn_change_g1_29.npz",
+          "frames": 606,
+          "seconds": 12.12,
+          "bytes": 159818,
+          "sha256": "a70a0fc15a7fbb517d72a054f66edb18f74ddcbbd6c3a0b372f7ff916fa28ba6",
+          "ok": true
+        },
+        {
+          "file": "Male1_Walk_B4_stand_to_walk_back_g1_29.npz",
+          "frames": 648,
+          "seconds": 12.96,
+          "bytes": 170387,
+          "sha256": "b5973df9c54241542e12750d25c4e3df0c5295cdfdb5ddc09dbe1224486582c5",
+          "ok": true
+        },
+        {
+          "file": "Male2_B10_turn_left_45_g1_29.npz",
+          "frames": 299,
+          "seconds": 5.98,
+          "bytes": 81063,
+          "sha256": "8416e11334cfb9656e1e8c1c748f81a1d299163254b32adcd543311bf5ade35b",
+          "ok": true
+        },
+        {
+          "file": "Male2_B11_turn_left_135_g1_29.npz",
+          "frames": 325,
+          "seconds": 6.5,
+          "bytes": 88017,
+          "sha256": "84ed40df6e2aec813154c5912cf6add1c7f6b9db09fcbaaf7d7d286f03973101",
+          "ok": true
+        },
+        {
+          "file": "Male2_B13_turn_right_90_g1_29.npz",
+          "frames": 281,
+          "seconds": 5.62,
+          "bytes": 76206,
+          "sha256": "d5a1fa061577b71caa11bde6e3e6979c0b07c764e72b25b122d475b8d6e198b0",
+          "ok": true
+        },
+        {
+          "file": "Male2_B14_turn_right_45_g1_29.npz",
+          "frames": 205,
+          "seconds": 4.1,
+          "bytes": 55291,
+          "sha256": "51993797f2d2d0bec9b88ee04e36a9658e8ad46d79d00a80b8606f4cd53fb31a",
+          "ok": true
+        },
+        {
+          "file": "Male2_B14_turn_right_45_t2_g1_29.npz",
+          "frames": 290,
+          "seconds": 5.8,
+          "bytes": 78519,
+          "sha256": "7a3f062462a7fa99f563306416c4dcf2139b306b0b21ebde31594f4d500672c5",
+          "ok": true
+        },
+        {
+          "file": "Male2_B15_turn_around_g1_29.npz",
+          "frames": 375,
+          "seconds": 7.5,
+          "bytes": 101089,
+          "sha256": "c60f56c5426448e2702e878cdc513fb21011d3245cef771453c54019e6640953",
+          "ok": true
+        },
+        {
+          "file": "Male2_B4_stand_to_walk_backwards_g1_29.npz",
+          "frames": 230,
+          "seconds": 4.6,
+          "bytes": 62814,
+          "sha256": "ba6287f7d52a01ab193c5aa817daf30b01032cf8aeedb01ca3e506e2835f7cbc",
+          "ok": true
+        },
+        {
+          "file": "Male2_B9_turn_left_90_g1_29.npz",
+          "frames": 252,
+          "seconds": 5.04,
+          "bytes": 68605,
+          "sha256": "3856cd4e81d1972dcf9c5ef8b025f528df661511bd6464db64d33cb107505804",
+          "ok": true
+        },
+        {
+          "file": "S007_qk_walk1_g1_29.npz",
+          "frames": 128,
+          "seconds": 2.56,
+          "bytes": 35295,
+          "sha256": "691e2bb6098a03b064ce816ade86bfbc02cf51a7fbe0865cb14d44d0ad8f8fd1",
+          "ok": true
+        }
+      ],
+      "problems": []
+    },
+    "walk_only_packed": {
+      "packed_dir": "E:\\G1\\G1_supermimic\\datasets\\walk_only\\packed",
+      "clip_count": 63,
+      "total_frames": 111692,
+      "total_seconds": 2233.84,
+      "fields": {
+        "joint_pos": [
+          111692,
+          29
+        ],
+        "joint_vel": [
+          111692,
+          29
+        ],
+        "root_pos_w": [
+          111692,
+          3
+        ],
+        "root_quat_w": [
+          111692,
+          4
+        ],
+        "root_lin_vel_w": [
+          111692,
+          3
+        ],
+        "root_ang_vel_w": [
+          111692,
+          3
+        ]
+      },
+      "motion_names": [
+        "120_19_stageii_g1",
+        "120_20_stageii_g1",
+        "15_03_stageii_g1",
+        "15_14_stageii_g1",
+        "35_27_stageii_g1",
+        "38_04_stageii_g1",
+        "41_09_stageii_g1",
+        "56_05_stageii_g1",
+        "56_07_stageii_g1",
+        "86_10_stageii_g1",
+        "A1_stand_g1_29",
+        "A2_sway_g1_29",
+        "Female1_A14_stand_to_skip_g1_29",
+        "Female1_A15_skip_to_stand_g1_29",
+        "Female1_B10_walk_turn_left_45_g1_29",
+        "Female1_B11_walk_turn_left_135_g1_29",
+        "Female1_B13_walk_turn_right_45_g1_29",
+        "Female1_B14_walk_turn_right_135_g1_29",
+        "Female1_B15_walk_turn_around_g1_29",
+        "Female1_B16_walk_turn_change_direction_g1_29",
+        "Female1_B1_stand_to_walk_g1_29",
+        "Female1_B2_walk_to_stand_g1_29",
+        "Female1_B2_walk_to_stand_t2_g1_29",
+        "Female1_B3_walk1_g1_29",
+        "Female1_B4_stand_to_walk_back_g1_29",
+        "Female1_B5_walk_backwards_g1_29",
+        "Female1_B6_walk_backwards_to_stand_g1_29",
+        "Female1_B7_walk_backwards_turn_forwards_g1_29",
+        "Female1_B9_walk_turn_left_90_g1_29",
+        "HDM_bk_01-01_01_120_stageii_g1",
+        "HDM_bk_01-01_02_120_stageii_g1",
+        "HDM_bk_01-01_03_120_stageii_g1",
+        "HDM_bk_02-02_01_120_stageii_g1",
+        "HDM_bk_02-02_02_120_stageii_g1",
+        "HDM_dg_01-01_01_120_stageii_g1",
+        "HDM_dg_01-01_02_120_stageii_g1",
+        "HDM_dg_01-01_03_120_stageii_g1",
+        "HDM_dg_01-03_02_120_stageii_g1",
+        "HDM_dg_01-03_03_120_stageii_g1",
+        "HDM_dg_03-01_01_120_stageii_g1",
+        "HDM_mm_01-01_01_120_stageii_g1",
+        "HDM_mm_01-01_02_120_stageii_g1",
+        "HDM_mm_01-03_01_120_stageii_g1",
+        "HDM_mm_01-03_02_120_stageii_g1",
+        "HDM_mm_02-02_02_120_stageii_g1",
+        "HDM_mm_02-02_03_120_stageii_g1",
+        "HDM_tr_01-01_01_120_stageii_g1",
+        "HDM_tr_03-01_01_120_stageii_g1",
+        "HDM_tr_05-03_04_120_stageii_g1",
+        "Male1_Walk_B10_turn_left_45_g1_29",
+        "Male1_Walk_B13_turn_right_45_g1_29",
+        "Male1_Walk_B15_turn_around_g1_29",
+        "Male1_Walk_B16_turn_change_g1_29",
+        "Male1_Walk_B4_stand_to_walk_back_g1_29",
+        "Male2_B10_turn_left_45_g1_29",
+        "Male2_B11_turn_left_135_g1_29",
+        "Male2_B13_turn_right_90_g1_29",
+        "Male2_B14_turn_right_45_g1_29",
+        "Male2_B14_turn_right_45_t2_g1_29",
+        "Male2_B15_turn_around_g1_29",
+        "Male2_B4_stand_to_walk_backwards_g1_29",
+        "Male2_B9_turn_left_90_g1_29",
+        "S007_qk_walk1_g1_29"
+      ],
+      "bytes": 31724689,
+      "problems": []
+    }
+  },
+  "problems": []
+}
