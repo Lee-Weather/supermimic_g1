@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import time
 from concurrent.futures import Future, ThreadPoolExecutor
@@ -74,7 +75,12 @@ class SuperMimicRunnerCfg:
   tasks: TasksCfg = field(default_factory=TasksCfg)
   """Per-task hyperparameters."""
   slot_mix: dict[str, float] = field(
-    default_factory=lambda: {"motion": 1.0, "velocity": 0.0}
+    # Task-slot budget (must sum to 1.0). Overridable from the environment so a
+    # downstream run only needs SM_MIX_VELOCITY=0.5 instead of editing this file.
+    default_factory=lambda: {
+      "motion": float(os.environ.get("SM_MIX_MOTION", 1.0)),
+      "velocity": float(os.environ.get("SM_MIX_VELOCITY", 0.0)),
+    }
   )
   """Fractional slot allocation per task. Must sum to 1.0."""
   policy: BpttCfg | ActorCriticCfg = field(default_factory=ActorCriticCfg)

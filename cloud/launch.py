@@ -53,12 +53,17 @@ POLLUTED_KEYS = (
 )
 
 
+# Extra environment handed to the trainer, filled from the CLI in main().
+TASK_ENV: dict[str, str] = {}
+
+
 def clean_env() -> dict[str, str]:
   env = {k: v for k, v in os.environ.items() if k not in POLLUTED_KEYS}
   env["PYTHONNOUSERSITE"] = "1"
   env["PYTHONUNBUFFERED"] = "1"
   env["SUPERMIMIC_VENV"] = str(VENV_DIR)
   env.setdefault("WANDB_MODE", "offline")
+  env.update(TASK_ENV)
   return env
 
 
@@ -106,10 +111,25 @@ def main() -> int:
   ap.add_argument("--save-interval", type=int, default=2000)
   ap.add_argument("--motion-file", default=default_motion())
   ap.add_argument("--skip-bootstrap", action="store_true")
+  # Task-slot mix: default is motion-only. --velocity-mix 0.5 trains the
+  # downstream velocity-command head alongside motion tracking.
+  ap.add_argument("--motion-mix", type=float, default=None)
+  ap.add_argument("--velocity-mix", type=float, default=None)
+  # "conservative" narrows the velocity command ranges to what walk-only data covers.
+  ap.add_argument("--vel-range", choices=("wide", "conservative"), default=None)
   args, extra = ap.parse_known_args()
 
   if args.probe:
     return probe()
+
+  if args.velocity_mix is not None:
+    motion_mix = args.motion_mix if args.motion_mix is not None else 1.0 - args.velocity_mix
+    TASK_ENV["SM_MIX_MOTION"] = str(motion_mix)
+    TASK_ENV["SM_MIX_VELOCITY"] = str(args.velocity_mix)
+    print(f"[launch] slot_mix motion={motion_mix} velocity={args.velocity_mix}", flush=True)
+  if args.vel_range is not None:
+    TASK_ENV["SM_VEL_RANGE"] = args.vel_range
+    print(f"[launch] velocity command range = {args.vel_range}", flush=True)
 
   if not VENV_PY.exists() and not args.skip_bootstrap:
     print(f"[launch] venv missing at {VENV_DIR} -> bootstrap (one-time, ~10 min)", flush=True)

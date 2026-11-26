@@ -9,6 +9,7 @@ task and lives in the WM env, not here.
 
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
@@ -178,16 +179,35 @@ def make_velocity_task(
   )
 
 
+# The wide default spans more than walk-only data can support (27% of the sampled
+# commands come out backwards, lateral is pure noise). SM_VEL_RANGE=conservative
+# tightens everything to the region the dataset actually covers so the labels stay
+# reachable: vx p95 = 0.99 m/s, |wz| p95 = 1.98 rad/s, lateral ~ 0.
+_VEL_CONSERVATIVE = os.environ.get("SM_VEL_RANGE", "wide").lower() in (
+  "conservative",
+  "narrow",
+  "tight",
+)
+
+
 @dataclass(frozen=True)
 class VelocityTaskCfg:
   """Body-frame velocity-command task."""
 
-  lin_vel_x_range: tuple[float, float] = (-1.5, 1.5)
-  lin_vel_y_range: tuple[float, float] = (-0.5, 0.5)
-  ang_vel_z_range: tuple[float, float] = (-3.14, 3.14)
+  lin_vel_x_range: tuple[float, float] = (
+    (-0.3, 1.1) if _VEL_CONSERVATIVE else (-1.5, 1.5)
+  )
+  lin_vel_y_range: tuple[float, float] = (
+    (-0.2, 0.2) if _VEL_CONSERVATIVE else (-0.5, 0.5)
+  )
+  ang_vel_z_range: tuple[float, float] = (
+    (-2.0, 2.0) if _VEL_CONSERVATIVE else (-3.14, 3.14)
+  )
   window_frames: int = 25
   """Centered-mean window over motion-velocity command. 0/1 = raw instantaneous."""
-  command_noise: tuple[float, float, float] = (0.5, 0.5, 0.785)
+  command_noise: tuple[float, float, float] = (
+    (0.25, 0.1, 0.4) if _VEL_CONSERVATIVE else (0.5, 0.5, 0.785)
+  )
   """Uniform noise half-width per axis (lin_x, lin_y, ang_z) added to the
   velocity command each step, then clamped to the configured ranges."""
 
