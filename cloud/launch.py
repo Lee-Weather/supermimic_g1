@@ -62,6 +62,15 @@ def clean_env() -> dict[str, str]:
   return env
 
 
+def default_motion() -> str:
+  """mjlab treats a directory as a *packed* motion dir (needs motion_ends.npy); per-clip
+  .npz files must be passed as a glob. Prefer the packed dir when bootstrap built it."""
+  packed = ROOT / "datasets/walk_only/packed"
+  if packed.is_dir():
+    return str(packed)
+  return str(ROOT / "datasets/walk_only/npz/*.npz")
+
+
 def probe() -> int:
   print("=== launch.py probe ===", flush=True)
   print("cwd        :", os.getcwd())
@@ -95,7 +104,7 @@ def main() -> int:
   ap.add_argument("--num-envs", type=int, default=1024)
   ap.add_argument("--iters", type=int, default=100000)
   ap.add_argument("--save-interval", type=int, default=2000)
-  ap.add_argument("--motion-file", default=str(ROOT / "datasets/walk_only/npz"))
+  ap.add_argument("--motion-file", default=default_motion())
   ap.add_argument("--skip-bootstrap", action="store_true")
   args, extra = ap.parse_known_args()
 

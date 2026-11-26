@@ -165,7 +165,7 @@ cd "$ROOT"
 # tyro bool flags need an explicit value: `--runner.headless True`, not `--runner.headless`.
 "$VENV/bin/python" -u supermimic/src/supermimic/scripts/train.py SuperMimic-GenCoord-G1 \
   --num-envs 64 \
-  --motion-file "$ROOT/datasets/walk_only/npz" \
+  --motion-file "$ROOT/datasets/walk_only/packed" \
   --runner.max-iterations 20 \
   --runner.headless True \
   || { echo "[FATAL] smoke training failed"; exit 1; }
