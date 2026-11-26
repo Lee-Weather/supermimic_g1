@@ -1,11 +1,11 @@
-﻿"""Cloud launcher shim for the Gradmotion/flux platform.
+"""Cloud launcher shim for the Gradmotion/flux platform.
 
 Why a Python shim: the platform's SDK takes the task's ``startScript``, strips the leading
 ``gm-run`` and executes the result as ``<image-python> <second-token> <rest...>``. A shell
 script (``bash``) as the second token therefore fails with
 ``can't open file '/workspace/.../bash'``. This file is a real Python script, so it is what
 the platform expects; it then does the heavy lifting: run ``cloud/bootstrap.sh`` once, and
-launch training with the venv python that bootstrap created (Python 3.13 + torch cu126).
+launch training with the venv python that bootstrap created (Python 3.13 + torch cu126/cu128).
 
 Standalone use (also handy locally)::
 
@@ -25,10 +25,11 @@ ROOT = Path(__file__).resolve().parents[1]
 VENV_PY = ROOT / "supermimic/.venv/bin/python"
 TRAIN = ROOT / "supermimic/src/supermimic/scripts/train.py"
 BOOTSTRAP = ROOT / "cloud/bootstrap.sh"
+TASK_ID = "Supermimic-GenCoord-G1".replace("Supermimic", "SuperMimic")
 
 # The pod's shell is polluted by the image's Isaac Sim / conda environment: PYTHONHOME and
 # PYTHONPATH point at IsaacLab's bundled stdlib, which makes any other interpreter abort with
-# "AssertionError: SRE module mismatch" (3.13 binary loading 3.11 stdlib). Strip them for
+# "AssertionError: SRE module mismatch" (3.13 binary loading a 3.11 stdlib). Strip them for
 # every child process we spawn.
 POLLUTED_KEYS = (
   "PYTHONHOME",
@@ -60,6 +61,8 @@ def probe() -> int:
   print("python     :", sys.version.split()[0], sys.executable)
   print("venv python:", VENV_PY, "exists:", VENV_PY.exists())
   print("train.py   :", TRAIN, "exists:", TRAIN.exists())
+  print("PYTHONHOME :", os.environ.get("PYTHONHOME", "<unset>"))
+  print("PYTHONPATH :", os.environ.get("PYTHONPATH", "<unset>"))
   print("--- repo root listing ---", flush=True)
   for p in sorted(ROOT.iterdir())[:20]:
     print("  ", p.name, "(dir)" if p.is_dir() else p.stat().st_size)
@@ -68,11 +71,10 @@ def probe() -> int:
     print("  ", p.name, "(dir)" if p.is_dir() else "")
   print("--- tools ---", flush=True)
   for tool in ("python3", "python", "bash", "git", "curl", "wget", "nvidia-smi"):
-    found = subprocess.run(["bash", "-lc", f"command -v {tool}"],
-                           capture_output=True, text=True).stdout.strip()
+    found = subprocess.run(
+      ["bash", "-lc", f"command -v {tool}"], capture_output=True, text=True
+    ).stdout.strip()
     print(f"  {tool:<12} -> {found or 'MISSING'}")
-  if Path("/opt/conda").exists():
-    print("  /opt/conda exists")
   print("=== probe done ===", flush=True)
   return 0
 
@@ -95,9 +97,6 @@ def main() -> int:
   if args.probe:
     return probe()
 
-  os.environ.setdefault("WANDB_MODE", "offline")
-  os.environ["PYTHONUNBUFFERED"] = "1"
-
   if not VENV_PY.exists() and not args.skip_bootstrap:
     print("[launch] venv missing -> bootstrap (one-time, ~10 min)", flush=True)
     code = run(["bash", str(BOOTSTRAP)])
@@ -110,7 +109,7 @@ def main() -> int:
     return 2
 
   cmd = [
-    str(VENV_PY), "-u", str(TRAIN), "Supermimic-GenCoord-G1".replace("Supermimic", "SuperMimic"),
+    str(VENV_PY), "-u", str(TRAIN), TASK_ID,
     "--num-envs", str(args.num_envs),
     "--motion-file", args.motion_file,
     "--runner.max-iterations", str(args.iters),
