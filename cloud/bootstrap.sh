@@ -2,7 +2,7 @@
 # Cloud bootstrap for SuperMimic on a fresh Gradmotion/flux pod.
 #
 # Why this script exists: the official images top out at Python 3.11 while mjlab needs 3.13,
-# and the CUDA stack (mujoco-warp / warp-lang / torch) must match the pod driver.
+# and the CUDA stack (mujoco-warp / warp-lang / torch) must match *the pod's driver*.
 #
 # The venv lives OUTSIDE the workspace (``$SUPERMIMIC_VENV``, default ``~/.cache/supermimic-venv``):
 # the platform SDK watches the workspace and uploads every new file, so a 30k-file venv
@@ -28,6 +28,7 @@ say() { echo "[$(ts)] $*"; }
 
 say "=== 0. host info ==="
 nvidia-smi || { echo "[FATAL] no GPU / no driver"; exit 1; }
+say "driver=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1)"
 df -h "$HOME" | tail -1
 
 say "=== 0b. basic tooling ==="
@@ -87,12 +88,45 @@ uv pip install --python "$VENV" \
   -e "$ROOT/mjlab_research" \
   -e "$ROOT/supermimic"
 
+say "=== 4b. find a warp-lang build the driver can actually use ==="
+# warp 1.19 wheels are built with CUDA 13.x and refuse to run on drivers < 13.0
+# ("Insufficient CUDA driver version ... 12.2"), which silently leaves zero CUDA devices and
+# then fails with "Invalid device identifier: cuda:0" deep inside mujoco-warp. Walk down the
+# release list until warp reports a CUDA device.
+warp_cuda_devices() {
+  "$VENV/bin/python" - <<'PY' 2>/dev/null || echo 0
+import warnings
+warnings.filterwarnings("ignore")
+import warp as wp
+wp.init()
+devs = [d.alias for d in wp.get_devices()]
+print(sum(1 for d in devs if d.startswith("cuda")))
+PY
+}
+WARP_OK=0
+for V in "${WARP_VERSIONS:-1.19.0 1.18.0 1.17.0 1.16.0 1.15.0}"; do
+  say "trying warp-lang==$V"
+  if uv pip install --python "$VENV" "warp-lang==$V" >/dev/null 2>&1; then
+    N=$(warp_cuda_devices)
+    say "warp $V -> cuda devices: $N"
+    if [ "${N:-0}" -gt 0 ] 2>/dev/null; then WARP_OK=1; break; fi
+  else
+    say "warp $V not installable"
+  fi
+done
+if [ "$WARP_OK" != "1" ]; then
+  echo "[FATAL] no warp-lang build sees the GPU; the pod driver is too old for every wheel tried"
+  nvidia-smi --query-gpu=driver_version --format=csv,noheader || true
+  "$VENV/bin/python" -c "import warp as wp; wp.init()" || true
+  exit 4
+fi
+
 say "=== 5. verify the CUDA stack ==="
 "$VENV/bin/python" -u - <<'PY'
 import torch, warp, mujoco
 print("torch", torch.__version__, "cuda_available", torch.cuda.is_available(),
       "cuda", torch.version.cuda, "gpu", torch.cuda.get_device_name(0), flush=True)
-print("warp", warp.__version__, flush=True)
+print("warp", warp.__version__, "devices", [d.alias for d in warp.get_devices()], flush=True)
 print("mujoco", mujoco.__version__, flush=True)
 import mjlab.tasks  # noqa: F401
 import supermimic.tasks  # noqa: F401
