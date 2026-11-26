@@ -50,3 +50,10 @@ desktop.ini
 task_payload.json
 project_payload.json
 cloud_logs_*.txt
+
+diag*_payload.json
+diag*.txt
+tid.txt
+*_info.txt
+*_log.txt
+*_log_url.txt
