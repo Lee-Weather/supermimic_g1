@@ -20,11 +20,29 @@ export WANDB_MODE="${WANDB_MODE:-offline}"
 export DEBIAN_FRONTEND=noninteractive
 export PYTHONUNBUFFERED=1
 export PYTHONNOUSERSITE=1
+# uv: be patient and retry, the pod's link to PyPI/file hosts is flaky.
+export UV_HTTP_TIMEOUT=120
+export UV_CONCURRENT_DOWNLOADS=4
 # The pod exports PYTHONHOME/PYTHONPATH for Isaac Sim; they break any other interpreter.
 unset PYTHONHOME PYTHONPATH PYTHONSTARTUP PYTHONWARNINGS || true
 
 ts() { date '+%H:%M:%S'; }
 say() { echo "[$(ts)] $*"; }
+
+# retry <attempts> <cmd...>: uv installs hit transient PyPI/metadata failures.
+retry() {
+  local n="$1"; shift
+  local i=1
+  until "$@"; do
+    if [ "$i" -ge "$n" ]; then
+      say "command failed after $n attempts: $*"
+      return 1
+    fi
+    say "attempt $i failed, retrying in 10 s: $*"
+    i=$((i + 1))
+    sleep 10
+  done
+}
 
 say "=== 0. host info ==="
 nvidia-smi || { echo "[FATAL] no GPU / no driver"; exit 1; }
@@ -62,7 +80,7 @@ say "=== 3. torch (>=2.14 required by mjlab) ==="
 install_torch() {
   local idx="$1"
   say "trying torch from $idx"
-  uv pip install --python "$VENV" torch --index-url "$idx" || return 1
+  retry 3 uv pip install --python "$VENV" torch --index-url "$idx" || return 1
   "$VENV/bin/python" - <<'PY'
 import torch
 print("torch", torch.__version__, "cuda_available", torch.cuda.is_available(), flush=True)
@@ -83,7 +101,7 @@ done
 [ "$TORCH_OK" = "1" ] || { echo "[FATAL] no torch wheel worked"; exit 3; }
 
 say "=== 4. mjlab + supermimic (editable; nvidia index for mujoco-warp) ==="
-uv pip install --python "$VENV" \
+retry 4 uv pip install --python "$VENV" \
   --extra-index-url https://pypi.nvidia.com \
   -e "$ROOT/mjlab_research" \
   -e "$ROOT/supermimic"
@@ -104,10 +122,10 @@ print(sum(1 for d in devs if d.startswith("cuda")))
 PY
 }
 WARP_OK=0
-for V in "${WARP_VERSIONS:-1.19.0 1.18.0 1.17.0 1.16.0 1.15.0}"; do
+for V in ${WARP_VERSIONS:-1.19.0 1.18.0 1.17.0 1.16.0 1.15.0}; do
   say "trying warp-lang==$V"
-  if uv pip install --python "$VENV" "warp-lang==$V" >/dev/null 2>&1; then
-    N=$(warp_cuda_devices)
+  if retry 2 uv pip install --python "$VENV" "warp-lang==$V" >/dev/null 2>&1; then
+    N=$(warp_cuda_devices || echo 0)
     say "warp $V -> cuda devices: $N"
     if [ "${N:-0}" -gt 0 ] 2>/dev/null; then WARP_OK=1; break; fi
   else
