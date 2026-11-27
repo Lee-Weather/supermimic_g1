@@ -30,8 +30,17 @@ cp    ~/sm/deploy/supermimic_patch/robots/g1_29dof/config/supermimic_velocity.ya
       ~/G1_deploy/deploy/robots/g1_29dof/config/
 cp    ~/sm/deploy/supermimic_patch/tools/supermimic_offline.cpp ~/G1_deploy/deploy/tools/
 mkdir -p ~/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1
-cp -r ~/sm/models/deploy_velocity_v1/* \
-      ~/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1/
+cp -r ~/sm/models/deploy_supermimic/v1 \
+      ~/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/
+```
+
+部署包结构（与行走控制器 `config/policy/velocity/v0` 同构）：
+
+```text
+config/policy/supermimic/v1/
+  exported/policy.onnx        # 单输入 obs[1,71] -> 单输出 actions[1,29]
+  params/deploy.yaml          # 机器人参数、entry_pose、clip、运动学链
+  params/manifest.json        # sha256 与对拍误差
 ```
 
 **B. 用 u 盘 / scp**：把你手上 `deploy/supermimic_patch/` 和 `models/deploy_velocity_v1/`
@@ -144,28 +153,33 @@ python3 tools/gen_fsm_config.py --repo ~/sm     # 或在有仓库的机器上跑
 
 自动退出条件（代码里）：倾角 > **0.85 rad**，或策略输出超过 **100 ms** 没更新。
 
-## 5. 给速度（台架先用文件，别用摇杆）
+## 5. 给速度：摇杆（和行走控制器同一套映射）
 
-另一个 ssh 窗口：
+`policy/supermimic/v1` 的目录结构和 `policy/velocity/v0` 完全一致
+（`exported/policy.onnx` + `params/deploy.yaml`），指令也走同一套摇杆映射：
+
+| 摇杆 | 含义 | 代码 |
+|---|---|---|
+| 左摇杆 上下 `ly` | 前后速度 `vx` | `vx = +ly` |
+| 左摇杆 左右 `lx` | 侧向速度 `vy` | `vy = -lx` |
+| 右摇杆 左右 `rx` | 转向 `wz` | `wz = -rx` |
+
+（和 `isaaclab/envs/mdp/observations/observations.h` 的 `velocity_commands` 逐字一致，
+包括符号；随后由部署包 clip 成 `vx[-0.1,1.0]`、`vy[-0.1,0.1]`、`wz[-1.5,1.5]`。）
+
+**推杆顺序**：先只推 `ly` 一点点（约 20%，≈0.2 m/s），站稳了再加；每档 10–15 s。
+
+**摇杆回中时**，才读 `config/velocity_cmd.yaml`（台架测试/没有手柄时用）：
 
 ```bash
-cd ~/G1_deploy/deploy/robots/g1_29dof
 printf 'vx: 0.2\nvy: 0.0\nwz: 0.0\n' > config/velocity_cmd.yaml   # 10 Hz 内生效
 ```
 
-推荐爬坡顺序（每档 10–15 s，稳了再上一档）：
+**不要**推负 `vx`：仿真里 `vx=-0.3` 会反向发散（0.83 m/s）。包里把 `vx` 卡在 `[-0.1,1.0]`
+是兜底，不是许可。
 
-1. `0.0` → 站住，看它有没有漂（里程计漂会表现为越站越往前挪）
-2. `0.2` → 慢走
-3. `0.4` → 正常走
-4. `0.6` → 快走
-5. `0.8` 是**上界**，仿真里也欠速（0.59），真机大概率更差
-6. 回 `0.0` 停下 → `L2 + B`
-
-**不要**用负 `vx`：仿真里 `vx=-0.3` 会反向发散（0.83 m/s）。包里的 clip 已把 `vx` 卡在
-`[-0.1, 1.0]`，但那是兜底，不是许可。
-
-`vy`、`wz` 暂时保持 0。想测侧移/转向，单独一轮，`vy ±0.1`、`wz ±0.5` 起，且手放 `L2 + B`。
+`vy`、`wz` 第一轮先保持中立。想测侧移/转向，单独一轮，`vy ±0.1`、`wz ±0.5` 起，
+手放 `L2 + B`。
 
 ## 6. 这一轮要盯什么、记什么
 

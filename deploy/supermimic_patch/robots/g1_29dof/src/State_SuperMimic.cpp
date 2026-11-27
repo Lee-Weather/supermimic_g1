@@ -14,11 +14,10 @@ constexpr float kCommandReloadS = 0.1f;     // velocity command file poll period
 
 State_SuperMimic::State_SuperMimic(int state, std::string name) : FSMState(state, name) {
   auto cfg = param::config["FSM"][name];
-  // NOT param::parser_policy_dir(): that helper expects an ``exported/`` subfolder (or
-  // sorts subfolders and picks the last one), while our package is a flat directory.
-  auto policy_dir = param::proj_dir / cfg["policy_dir"].as<std::string>();
+  // Same resolution as State_RLBase: the package uses exported/ + params/.
+  auto policy_dir = param::parser_policy_dir(cfg["policy_dir"].as<std::string>());
   package_ = std::make_unique<supermimic::Package>(
-      supermimic::load_package(policy_dir / "deploy.yaml"));
+      supermimic::load_package(policy_dir / "params" / "deploy.yaml"));
   core_ = std::make_unique<supermimic::Core>(package_->robot, package_->clip,
                                              package_->limits);
   runner_ = std::make_unique<supermimic::Runner>(package_->policy,
@@ -67,29 +66,45 @@ void State_SuperMimic::apply_gains() {
   }
 }
 
-// Velocity command source: a small YAML file so the operator (or a test harness) can
-// change the goal without rebuilding. Replace this with the analog stick reading
-// (``lowstate->joystick.lx/ly/rx``) once the SDK's analog accessor is confirmed; every
-// command still goes through the package's velocity clip below.
+// Velocity command source: the left/right sticks, with the same mapping and clipping
+// as the walking controller's ``velocity_commands`` observation:
+//     vx = +ly, vy = -lx, wz = -rx
+// The package clamps the result to the validated envelope. ``config/velocity_cmd.yaml``
+// is only used while both sticks are centred (bench testing without a hand controller).
 supermimic::VelocityGoal State_SuperMimic::read_command() {
-  const auto now = std::chrono::steady_clock::now();
-  if (std::chrono::duration<float>(now - last_command_read_).count() < kCommandReloadS) {
-    return command_;
+  supermimic::VelocityGoal goal{};
+  {
+    std::lock_guard<std::mutex> lock(lowstate->mutex_);
+    // ``lowstate->joystick`` is the same UnitreeJoystick the FSM DSL and the walking
+    // controller use (see unitree_articulation.h: data.joystick = &lowstate->joystick).
+    const auto& joystick = lowstate->joystick;
+    goal[0] = static_cast<float>(joystick.ly());
+    goal[1] = static_cast<float>(-joystick.lx());
+    goal[2] = static_cast<float>(-joystick.rx());
   }
-  last_command_read_ = now;
-  try {
-    const auto yaml = YAML::LoadFile(command_file_);
-    command_ = {
-        yaml["vx"].as<float>(0.0f),
-        yaml["vy"].as<float>(0.0f),
-        yaml["wz"].as<float>(0.0f),
-    };
-  } catch (const std::exception& e) {
-    // Missing/edited file: hold the last command rather than dropping to zero mid-stride.
-    spdlog::warn("Velocity command file unreadable ({}), holding {:.2f},{:.2f},{:.2f}",
-                 e.what(), command_[0], command_[1], command_[2]);
+  const bool idle = std::abs(goal[0]) + std::abs(goal[1]) + std::abs(goal[2]) < 0.02f;
+  if (idle && !command_file_.empty()) {
+    const auto now = std::chrono::steady_clock::now();
+    if (std::chrono::duration<float>(now - last_command_read_).count() >= kCommandReloadS) {
+      last_command_read_ = now;
+      try {
+        const auto yaml = YAML::LoadFile(command_file_);
+        goal = {
+            yaml["vx"].as<float>(0.0f),
+            yaml["vy"].as<float>(0.0f),
+            yaml["wz"].as<float>(0.0f),
+        };
+      } catch (const std::exception& e) {
+        spdlog::warn("Velocity command file unreadable ({}), sticks and last file value "
+                     "in use", e.what());
+        goal = command_;
+      }
+    } else {
+      goal = command_;
+    }
   }
-  return command_;
+  command_ = goal;
+  return goal;
 }
 
 void State_SuperMimic::enter() {

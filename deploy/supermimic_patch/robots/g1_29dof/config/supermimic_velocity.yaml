@@ -189,5 +189,5 @@ FSM:
   SuperMimicVelocity:
     transitions:
       Passive: LT + B.on_pressed
-    policy_dir: config/policy/supermimic/velocity_v1
+    policy_dir: config/policy/supermimic/v1
     command_file: config/velocity_cmd.yaml

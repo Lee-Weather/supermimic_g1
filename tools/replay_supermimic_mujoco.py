@@ -183,7 +183,7 @@ def main() -> int:
     ap.add_argument("--repo", default=".")
     ap.add_argument(
         "--policy-dir",
-        default="deploy/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1",
+        default="deploy/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/v1",
     )
     ap.add_argument("--task", default="velocity", choices=["velocity"])
     ap.add_argument(
@@ -200,8 +200,8 @@ def main() -> int:
 
     repo = Path(args.repo).resolve()
     policy_dir = repo / args.policy_dir
-    cfg = yaml.safe_load((policy_dir / "deploy.yaml").read_text(encoding="utf-8"))
-    session = ort.InferenceSession(str(policy_dir / cfg["policy"][args.task]),
+    cfg = yaml.safe_load((policy_dir / "params" / "deploy.yaml").read_text(encoding="utf-8"))
+    session = ort.InferenceSession(str(policy_dir / "params" / cfg["policy"][args.task]),
                                    providers=["CPUExecutionProvider"])
     print(f"[replay] policy {cfg['policy'][args.task]}  obs_dim={cfg['observation_dim'][args.task]}")
 

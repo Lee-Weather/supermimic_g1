@@ -5,7 +5,7 @@
   "tasks": [
     {
       "task": "velocity",
-      "policy": "policy_velocity.onnx",
+      "policy": "../exported/policy.onnx",
       "obs_dim": 71,
       "goal_dim": 3,
       "parity_max_abs_err": 3.5045481938666967e-06,
@@ -15,5 +15,5 @@
   "joint_order": "policy == MJCF == G1 SDK motor order (identity sdk_indices)",
   "action_scale": 0.5,
   "normalizer_epsilon": 0.01,
-  "deploy_yaml_sha256": "6f72312a3bec35ad2f2e8056f4a65d91a20205c5be2e1a5f8275c44d9cc68b55"
+  "deploy_yaml_sha256": "401e1f87a2b391ef5c01d1e8798aacfc0f6c3bdc0e29892c21632de4cfabd867"
 }

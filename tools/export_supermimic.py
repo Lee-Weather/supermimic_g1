@@ -117,7 +117,9 @@ def build_mlp_nodes(graph, weights, prefix, x_name, out_dim, in_dim):
 def export(task: str, weights: dict[str, np.ndarray], out_dir: Path) -> dict:
     goal_dim = GOAL_DIMS[task]
     obs_dim = goal_dim + REP_STATE_DIM
-    out_path = out_dir / f"policy_{task}.onnx"
+    # 与 config/policy/velocity/v0 同构： exported/policy.onnx + params/deploy.yaml
+    out_path = out_dir / "exported" / "policy.onnx"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
 
     graph = helper.make_graph(
         [],
@@ -197,7 +199,7 @@ def export(task: str, weights: dict[str, np.ndarray], out_dir: Path) -> dict:
     print(f"  {task}: obs_dim={obs_dim} parity max_abs_err={max_err:.3e}")
     return {
         "task": task,
-        "policy": out_path.name,
+        "policy": "../exported/" + out_path.name,
         "obs_dim": obs_dim,
         "goal_dim": goal_dim,
         "parity_max_abs_err": max_err,
@@ -212,7 +214,7 @@ def main() -> int:
     ap.add_argument("--tasks", nargs="+", default=["velocity"], choices=["velocity", "motion"])
     ap.add_argument(
         "--output",
-        default="deploy/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1",
+        default="deploy/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/v1",
     )
     args = ap.parse_args()
 
@@ -271,7 +273,9 @@ def main() -> int:
         "kinematics": beyond["kinematics"],
         "normalizer": {"embedded": True, "epsilon": NORMALIZER_EPS},
     }
-    (out_dir / "deploy.yaml").write_text(
+    params_dir = out_dir / "params"
+    params_dir.mkdir(parents=True, exist_ok=True)
+    (params_dir / "deploy.yaml").write_text(
         yaml.safe_dump(config, sort_keys=False, allow_unicode=True), encoding="utf-8"
     )
 
@@ -283,10 +287,10 @@ def main() -> int:
         "joint_order": "policy == MJCF == G1 SDK motor order (identity sdk_indices)",
         "action_scale": ACTION_SCALE,
         "normalizer_epsilon": NORMALIZER_EPS,
-        "deploy_yaml_sha256": sha256(out_dir / "deploy.yaml"),
+        "deploy_yaml_sha256": sha256(params_dir / "deploy.yaml"),
     }
-    (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    print(f"\nwrote {out_dir}/{{deploy.yaml,manifest.json}}")
+    (params_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    print(f"\nwrote {out_dir}/{{params/deploy.yaml,params/manifest.json,exported/policy.onnx}}")
     print(json.dumps({e['task']: f"{e['policy_sha256'][:12]} obs={e['obs_dim']}" for e in exported},
                      indent=2))
     worst = max(e["parity_max_abs_err"] for e in exported)

@@ -1,6 +1,6 @@
 format: supermimic_g1_gencoord_v1
 policy:
-  velocity: policy_velocity.onnx
+  velocity: ../exported/policy.onnx
 step_dt: 0.02
 action_dim: 29
 action_scale_mode: fixed

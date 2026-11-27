@@ -19,7 +19,9 @@
   与 `beyondmimic::Runner` 的校验逻辑完全一致，所以 C++ 侧只换常量不改架构。
 
 **验证**：64 组随机采样，`max_abs_err = 3.5e-06`（numpy 参考实现 vs onnxruntime）。
-产物 `models/deploy_velocity_v1/`：`policy_velocity.onnx`（23 MB）、`deploy.yaml`、`manifest.json`。
+产物 `models/deploy_supermimic/v1/`（与行走控制器 `config/policy/velocity/v0` 同构）：
+`exported/policy.onnx`（23 MB）、`params/deploy.yaml`、`params/manifest.json`。
+真机上的同一份：`config/policy/supermimic/v1/`。
 
 `deploy.yaml` 里的机器人参数不是抄的，是按 `g1_constants.py` 的公式重算的
 （`tools/g1_robot_constants.py`）：`kp = ARMATURE·(2π·10)²`、`kd = 2·2·ARMATURE·2π·10`，
@@ -36,7 +38,7 @@
 | `include/supermimic/package.h` | `deploy.yaml` 校验 + ONNX `Runner`（输入名/输出名/形状/dtype 全校验）+ 速度指令 clip |
 | `robots/g1_29dof/src/State_SuperMimic.cpp` | 20 ms 策略线程、1 kHz 发布、100 ms 输出看门狗、超时/倾角 → 阻尼兜底、`REGISTER_FSM` |
 | `robots/g1_29dof/config/supermimic_velocity.yaml` | `Passive` / `FixStand` / `SuperMimicVelocity` 三段 FSM |
-| `robots/g1_29dof/config/velocity_cmd.yaml` | 速度指令（10 Hz 轮询，便于台架试） |
+| `robots/g1_29dof/config/velocity_cmd.yaml` | 速度指令：**摇杆回中时**才用（台架试） |
 | `tools/supermimic_offline.cpp` | 无硬件对拍：CSV 快照 → 动作/目标 |
 
 **复用而非重写**的部分：`beyondmimic::Snapshot/Config/Chain/forward_kinematics/LegOdometry`
@@ -87,8 +89,7 @@
 
 1. **编译**：`cd G1_deploy && bash tools/build_g1_deploy.sh`（或按 README 手工 cmake），
    然后把 `supermimic_offline` 跑一遍，用同一段快照 CSV 与 Python 对拍。
-2. **摇杆接入**：现在速度来自 `velocity_cmd.yaml`；换成
-   `lowstate->joystick.lx/ly/rx` 的模拟量（`unitree_joystick.hpp` 的数值接口待确认）。
+2. ~~摇杆接入~~ **已接**：`vx=+ly, vy=-lx, wz=-rx`，与 `velocity_commands` 观测逐字一致。
 3. **里程计漂移**：速度模式下 `v_b` 全靠 `LegOdometry`，训练时用的是**真值速度**；
    这是 sim2real 最大的未验证项，先低速、短时、吊带。
 4. **进态姿态**：`enter()` 只检查倾角，没有检查「当前关节是否接近训练分布」；
