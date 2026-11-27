@@ -201,9 +201,10 @@ def main() -> int:
     repo = Path(args.repo).resolve()
     policy_dir = repo / args.policy_dir
     cfg = yaml.safe_load((policy_dir / "params" / "deploy.yaml").read_text(encoding="utf-8"))
-    session = ort.InferenceSession(str(policy_dir / "params" / cfg["policy"][args.task]),
+    policy_path = (policy_dir / "params" / cfg["policy"][args.task]).resolve()
+    session = ort.InferenceSession(str(policy_path),
                                    providers=["CPUExecutionProvider"])
-    print(f"[replay] policy {cfg['policy'][args.task]}  obs_dim={cfg['observation_dim'][args.task]}")
+    print(f"[replay] policy {policy_path}  obs_dim={cfg['observation_dim'][args.task]}")
 
     kp = np.array(cfg["kp"], dtype=np.float64)
     kd = np.array(cfg["kd"], dtype=np.float64)
