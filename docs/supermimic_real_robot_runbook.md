@@ -1,0 +1,167 @@
+# SuperMimic 真机操作手册（G1 EDU U2 · 29 DoF）
+
+适用：把 `models/deploy_velocity_v1/` 这个部署包 + `deploy/supermimic_patch/` 这套代码
+装到 G1 上，用遥控器切进 `SuperMimicVelocity`，摇杆/指令文件给速度，让它按速度走。
+
+**当前状态（务必先看）**：ONNX 与 torch 策略数值一致（3.5e-06），部署观测链路已在训练用
+MuJoCo 场景里闭环验证过（30 s 视频，六段速度均能站稳/加速/减速）。但
+`deploy/supermimic_patch/` 这套 C++ **从未在 Linux 上编译过**，也**没有上过真机**。
+第一次一定是「吊装 + 低速 + 有人盯着 `LT + B`」。
+
+---
+
+## 0. 把代码和包弄到机器人上
+
+G1 机载电脑拉的是 `weilai-robot/G1_deploy`，我们提交在他们仓库的是本地 commit，
+**没往他们远端推**。所以两条路，选一条：
+
+**A. 从我们的公开仓库拷（推荐）**
+
+```bash
+cd ~
+git clone https://github.com/Lee-Weather/supermimic_g1.git sm   # 只需拷文件，不用编译它
+cp -r ~/sm/deploy/supermimic_patch/include/supermimic          ~/G1_deploy/deploy/include/
+cp    ~/sm/deploy/supermimic_patch/robots/g1_29dof/include/State_SuperMimic.h \
+      ~/G1_deploy/deploy/robots/g1_29dof/include/
+cp    ~/sm/deploy/supermimic_patch/robots/g1_29dof/src/State_SuperMimic.cpp \
+      ~/G1_deploy/deploy/robots/g1_29dof/src/
+cp    ~/sm/deploy/supermimic_patch/robots/g1_29dof/config/supermimic_velocity.yaml \
+      ~/sm/deploy/supermimic_patch/robots/g1_29dof/config/velocity_cmd.yaml \
+      ~/G1_deploy/deploy/robots/g1_29dof/config/
+cp    ~/sm/deploy/supermimic_patch/tools/supermimic_offline.cpp ~/G1_deploy/deploy/tools/
+mkdir -p ~/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1
+cp -r ~/sm/models/deploy_velocity_v1/* \
+      ~/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1/
+```
+
+**B. 用 u 盘 / scp**：把你手上 `deploy/supermimic_patch/` 和 `models/deploy_velocity_v1/`
+按上表结构拷过去，效果一样。
+
+然后补 `deploy/robots/g1_29dof/CMakeLists.txt` 两行（`State_SuperMimic.cpp` 会被
+`file(GLOB_RECURSE src/*.cpp)` 自动收编，不用加）：
+
+```cmake
+  add_executable(supermimic_offline ../../tools/supermimic_offline.cpp)
+  target_link_libraries(supermimic_offline PRIVATE beyondmimic_runtime)
+```
+
+## 1. 编译（第一次必做）
+
+```bash
+cd ~/G1_deploy
+bash tools/build_g1_deploy.sh            # SDK 在 /opt 时加 UNITREE_SDK_PREFIX=/opt/unitree_robotics
+ls -l deploy/robots/g1_29dof/build/g1_ctrl deploy/robots/g1_29dof/build/supermimic_offline
+./deploy/robots/g1_29dof/build/g1_ctrl --help
+ldd ./deploy/robots/g1_29dof/build/g1_ctrl | grep -i 'not found' || echo "依赖 OK"
+```
+
+编译报错集中在三处（我按 BeyondMimic 的同名 API 写的，但没编译过）：
+`Ort::Session` 构造、`lowstate->mutex_`、`param::proj_dir`。报错把行号发我。
+
+**不动机器人先自检**（纯本地，不发 DDS 指令）：
+
+```bash
+cd ~/G1_deploy
+sha256sum deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1/policy_velocity.onnx
+cat      deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1/manifest.json   # 比 sha256
+# 离线对拍（可选，需要一份 CSV 快照；格式见 tools/supermimic_offline.cpp 头注释）
+./deploy/robots/g1_29dof/build/supermimic_offline \
+   deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1 snapshots.csv | head
+```
+
+## 2. 机器人准备
+
+1. **吊装**（吊带吃力，脚能踩地但摔不倒）。
+2. 遥控器 `L2 + R2` 进开发/调试模式；确认机身内置运动控制**不再发包**。
+3. 找内部网卡（`192.168.123.x`）：
+
+```bash
+ip -br -4 addr
+G1_NET=<你看到的网卡名>      # 常见 eth0，但不一定
+```
+
+## 3. 启动
+
+```bash
+cd ~/G1_deploy/deploy/robots/g1_29dof
+./build/g1_ctrl --network "$G1_NET" --domain 0 \
+  --config config/supermimic_velocity.yaml --log
+```
+
+正常应该看到：
+
+```text
+Connected to robot.
+SuperMimic loaded: obs 71 (goal 3 + rep 68), 29 actions, clip vx[-0.10,1.00] vy[-0.10,0.10] wz[-1.50,1.50], command file .../config/velocity_cmd.yaml
+FSM: Start Passive
+```
+
+看到最后一行就是**阻尼态**，还没跑策略。策略会读 `config/velocity_cmd.yaml`，
+**初始值是 `vx: 0`**，所以进态后先站在原地。
+
+## 4. 遥控器操作
+
+| 操作 | 结果 |
+|---|---|
+| `L2 + ↑` | `FixStand`：3 s 过渡到站立姿态并保持（仍是 PD 定姿，不是策略） |
+| 让双脚**平踩地面**，等 2–3 s | 腿式里程计需要支撑脚接地；悬空/半悬空会让 `v_b` 估计失真 |
+| `L2` 按住 2 s，再按 `→` | `SuperMimicVelocity`：策略接管，50 Hz；此时 `vx=0`，应该站住 |
+| `L2 + B` | 任何时刻退回 `Passive` 阻尼 |
+| 终端 `Ctrl+C` | 程序请求阻尼后退出 |
+
+自动退出条件（代码里）：倾角 > **0.85 rad**，或策略输出超过 **100 ms** 没更新。
+
+## 5. 给速度（台架先用文件，别用摇杆）
+
+另一个 ssh 窗口：
+
+```bash
+cd ~/G1_deploy/deploy/robots/g1_29dof
+printf 'vx: 0.2\nvy: 0.0\nwz: 0.0\n' > config/velocity_cmd.yaml   # 10 Hz 内生效
+```
+
+推荐爬坡顺序（每档 10–15 s，稳了再上一档）：
+
+1. `0.0` → 站住，看它有没有漂（里程计漂会表现为越站越往前挪）
+2. `0.2` → 慢走
+3. `0.4` → 正常走
+4. `0.6` → 快走
+5. `0.8` 是**上界**，仿真里也欠速（0.59），真机大概率更差
+6. 回 `0.0` 停下 → `L2 + B`
+
+**不要**用负 `vx`：仿真里 `vx=-0.3` 会反向发散（0.83 m/s）。包里的 clip 已把 `vx` 卡在
+`[-0.1, 1.0]`，但那是兜底，不是许可。
+
+`vy`、`wz` 暂时保持 0。想测侧移/转向，单独一轮，`vy ±0.1`、`wz ±0.5` 起，且手放 `L2 + B`。
+
+## 6. 这一轮要盯什么、记什么
+
+- 终端里有没有 `SuperMimic stopping: ... (clipped N targets)`，`clipped` 增长说明关节目标
+  在撞限位或撞速率限幅（8 rad/s）。
+- **实际速度**只能靠肉眼/卷尺量：走 5 s，看走了几米 → 除以 5。跟指令比。
+- 脚有没有打滑、膝/踝有没有明显抖动（仿真里没有伺服延迟，真机会抖）。
+- 站住时会不会缓慢前移（里程计漂移的直接症状）。
+
+## 7. 已知风险 / 下一轮要补的
+
+| 风险 | 说明 |
+|---|---|
+| C++ 没编译过 | 第 1 步就可能报错，别在机器人上首次编译时试动作 |
+| `v_b` 来源 | 训练用**真值速度**，真机用 `LegOdometry`（IMU+编码器，假设脚不打滑）。最大 sim2real 差距 |
+| 摇杆未接 | 现在走 `velocity_cmd.yaml`；接摇杆要改 `read_command()`（`lowstate->joystick` 的模拟量接口待确认） |
+| 进态姿态 | `enter()` 只查倾角，不查关节是否在训练分布内；一定先 `FixStand` 站稳再切 |
+| 阻尼撑不住 | `damping()` 是 kp=0/kd=3，只能卸力，不能扶住；首测必须吊装 |
+| 0.8 m/s 欠速 | 策略特性，不是接线错误；真机别指望精确跟 0.8 |
+
+## 8. 出问题怎么报
+
+把这几样发我，基本能定位：
+
+```bash
+# 1) 启动后到退出前的完整终端输出（含 SuperMimic loaded / stopping 那几行）
+# 2) 策略是否真的在读指令文件
+grep -n command_file ~/G1_deploy/deploy/robots/g1_29dof/config/supermimic_velocity.yaml
+cat ~/G1_deploy/deploy/robots/g1_29dof/config/velocity_cmd.yaml
+# 3) 部署包完整性
+cat ~/G1_deploy/deploy/robots/g1_29dof/config/policy/supermimic/velocity_v1/manifest.json
+```

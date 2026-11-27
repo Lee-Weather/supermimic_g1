@@ -14,7 +14,9 @@ constexpr float kCommandReloadS = 0.1f;     // velocity command file poll period
 
 State_SuperMimic::State_SuperMimic(int state, std::string name) : FSMState(state, name) {
   auto cfg = param::config["FSM"][name];
-  auto policy_dir = param::parser_policy_dir(cfg["policy_dir"].as<std::string>());
+  // NOT param::parser_policy_dir(): that helper expects an ``exported/`` subfolder (or
+  // sorts subfolders and picks the last one), while our package is a flat directory.
+  auto policy_dir = param::proj_dir / cfg["policy_dir"].as<std::string>();
   package_ = std::make_unique<supermimic::Package>(
       supermimic::load_package(policy_dir / "deploy.yaml"));
   core_ = std::make_unique<supermimic::Core>(package_->robot, package_->clip,

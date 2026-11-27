@@ -87,7 +87,7 @@ FSM:
   FixStand:
     transitions:
       Passive: LT + B.on_pressed
-      SuperMimicVelocity: RB + X.on_pressed
+      SuperMimicVelocity: LT + right.on_pressed
     kp:
     - 40.17923847137318
     - 99.09842777666113
@@ -182,16 +182,6 @@ FSM:
       - -0.788828
       - 0.417847
       - -0.065713
-  BeyondMimic:
-    transitions:
-      Passive: LT + B.on_pressed
-    policy_dir: config/policy/beyondmimic/dance2_subject3_30s
-    start_frame: 0
-    duration_s: 29.98
-    max_start_error: 0.6
-    max_tilt: 0.85
-    max_target_speed: 8.0
-    max_anchor_error: 0.5
   SuperMimicVelocity:
     transitions:
       Passive: LT + B.on_pressed
