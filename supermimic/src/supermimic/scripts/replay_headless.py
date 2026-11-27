@@ -111,6 +111,81 @@ def parse_velocity_script(text: str) -> list[tuple[float, float, float]]:
   return out or [(0.0, 0.0, 0.0)]
 
 
+def parse_ramp(text: str) -> list[tuple[int, tuple[float, float, float]]]:
+  """'100@0,0,0:150@1.1,0,0' -> [(100, (0,0,0)), (150, (1.1,0,0))]."""
+  phases: list[tuple[int, tuple[float, float, float]]] = []
+  for tok in text.split(":"):
+    tok = tok.strip()
+    if not tok:
+      continue
+    steps_txt, vals_txt = tok.split("@", 1)
+    vals = [float(v) for v in vals_txt.split(",")]
+    if len(vals) != 3:
+      raise ValueError(f"ramp phase must be '<steps>@vx,vy,wz': {tok!r}")
+    phases.append((int(steps_txt), (vals[0], vals[1], vals[2])))
+  return phases
+
+
+def run_ramp(env, player, args, out_dir, mediapy) -> int:
+  import csv as _csv
+  import shutil as _shutil
+
+  phases = parse_ramp(args.velocity_ramp)
+  env.reset()
+  player.reset_env_supermimic()
+  player._gt_history = None
+
+  mcmd = env.unwrapped.command_manager.get_term("motion")
+  frames: list[np.ndarray] = []
+  phase_rows: list[dict] = []
+  prev = (0.0, 0.0, 0.0)
+
+  for p_idx, (steps, target) in enumerate(phases):
+    positions = []
+    for i in range(steps):
+      # linear ramp from the previous phase target to this one
+      frac = (i + 1) / steps
+      cmd = tuple(prev[j] + (target[j] - prev[j]) * frac for j in range(3))
+      for axis in range(3):
+        player.set_raw_goal(player.current_task, axis, cmd[axis])
+      _, _ = player._step_once()
+      frame = _render(env)
+      if frame is not None:
+        frames.append(frame)
+      positions.append(mcmd.robot_anchor_pos_w[0, :2].detach().cpu().numpy())
+
+    arr = np.stack(positions)
+    deltas = np.linalg.norm(np.diff(arr, axis=0), axis=1) if len(arr) > 1 else np.zeros(1)
+    duration = max((len(arr) - 1) * 0.02, 1e-6)
+    mean_speed = float(deltas.sum() / duration)
+    displacement = float(np.linalg.norm(arr[-1] - arr[0])) if len(arr) > 1 else 0.0
+    cmd_txt = f"{target[0]:+.2f},{target[1]:+.2f},{target[2]:+.2f}"
+    print(
+      f"[replay] phase{p_idx:02d} cmd_target={cmd_txt} steps={steps} "
+      f"mean_speed={mean_speed:.3f} m/s disp={displacement:.2f} m",
+      flush=True,
+    )
+    phase_rows.append({"phase": p_idx, "steps": steps, "cmd_target": cmd_txt,
+                       "mean_speed_mps": f"{mean_speed:.3f}",
+                       "displacement_m": f"{displacement:.2f}"})
+    prev = target
+
+  video = out_dir / "joystick_sweep.mp4"
+  if frames:
+    mediapy.write_video(str(video), frames, fps=50)
+    _shutil.copy2(video, out_dir / "joystick_sweep_mp4.pt")
+    mediapy.write_image(str(out_dir / "joystick_sweep_mid.png"), frames[len(frames) // 2])
+    _shutil.copy2(out_dir / "joystick_sweep_mid.png", out_dir / "joystick_sweep_mid_png.pt")
+    print(f"[replay] wrote {video} ({len(frames)} frames = {len(frames)/50:.1f}s)", flush=True)
+
+  with (out_dir / "joystick_sweep_phases.csv").open("w", newline="", encoding="utf-8") as fh:
+    w = _csv.DictWriter(fh, fieldnames=list(phase_rows[0]))
+    w.writeheader()
+    w.writerows(phase_rows)
+  print("[replay] ramp done", flush=True)
+  return 0
+
+
 def main() -> int:
   ap = argparse.ArgumentParser()
   ap.add_argument("--task-id", default="SuperMimic-GenCoord-G1")
@@ -121,6 +196,12 @@ def main() -> int:
   ap.add_argument("--clips", type=int, default=1, help="how many motion clips to replay")
   ap.add_argument("--steps", type=int, default=500, help="steps per segment (50 Hz)")
   ap.add_argument("--velocity-script", default="0,0,0")
+  ap.add_argument(
+    "--velocity-ramp",
+    default=None,
+    help="joystick sweep: '<steps>@vx,vy,wz' phases joined by ':' , linearly interpolated "
+    "between phase targets; records one long video plus per-phase measured speeds",
+  )
   ap.add_argument("--flush-sleep", type=float, default=0.0,
                   help="seconds to idle at the end so the uploader can drain its queue")
   ap.add_argument("--width", type=int, default=640)
@@ -173,6 +254,15 @@ def main() -> int:
   )
 
   import mediapy
+
+  if args.velocity_ramp:
+    code = run_ramp(env, player, args, out_dir, mediapy)
+    if args.flush_sleep > 0:
+      import time
+
+      print(f"[replay] idling {args.flush_sleep:.0f}s so uploads drain", flush=True)
+      time.sleep(args.flush_sleep)
+    return code
 
   rows: list[dict] = []
   if args.task == "motion":
