@@ -90,6 +90,56 @@ class HeadlessReplay(SuperMimicViewerMixin):
     return actor_goal, actions
 
 
+def _quat_rot_inv(q: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
+  """Rotate a world vector into the body frame (inverse rotation, wxyz quat)."""
+  w, x, y, z = q[0], q[1], q[2], q[3]
+  tmp = 2.0 * torch.stack([
+    y * v[2] - z * v[1],
+    z * v[0] - x * v[2],
+    x * v[1] - y * v[0],
+  ])
+  return v - w * tmp + torch.stack([
+    y * tmp[2] - z * tmp[1],
+    z * tmp[0] - x * tmp[2],
+    x * tmp[1] - y * tmp[0],
+  ])
+
+
+def _text_strip(lines: list[str], scale: int = 2):
+  """Render lines into a small mask, then upscale so the bitmap font is readable."""
+  from PIL import Image, ImageDraw, ImageFont
+
+  font = ImageFont.load_default()
+  probe = ImageDraw.Draw(Image.new("L", (1, 1)))
+  metas = []
+  for line in lines:
+    box = probe.textbbox((0, 0), line, font=font)
+    metas.append((line, box[2] - box[0], box[3] - box[1]))
+  width = max(m[1] for m in metas) + 6
+  height = sum(m[2] + 5 for m in metas) + 3
+  strip = Image.new("L", (width, height), 0)
+  draw = ImageDraw.Draw(strip)
+  y = 2
+  for line, _, hh in metas:
+    draw.text((3, y), line, fill=255, font=font)
+    y += hh + 5
+  return strip.resize((width * scale, height * scale), Image.NEAREST)
+
+
+def _draw_overlay(frame: np.ndarray, lines: list[str], scale: int = 2) -> np.ndarray:
+  """Blit a dark banner with white text into the top-left of the frame."""
+  try:
+    mask = np.asarray(_text_strip(lines, scale), dtype=np.float32) / 255.0
+  except Exception as exc:  # pillow missing or font problem: keep the video, lose the text
+    print(f"[replay] overlay skipped: {exc}", flush=True)
+    return frame
+  h, w = mask.shape
+  region = frame[:h, :w].astype(np.float32)
+  shaded = region * 0.25
+  frame[:h, :w] = np.where(mask[..., None] > 0.5, 235.0, shaded).astype(np.uint8)
+  return frame
+
+
 def _render(env) -> np.ndarray | None:
   frame = env.unwrapped.render()
   if frame is None:
@@ -140,6 +190,7 @@ def run_ramp(env, player, args, out_dir, mediapy) -> int:
   phase_rows: list[dict] = []
   prev = (0.0, 0.0, 0.0)
 
+  p_idx_steps = 0
   for p_idx, (steps, target) in enumerate(phases):
     positions = []
     for i in range(steps):
@@ -151,6 +202,16 @@ def run_ramp(env, player, args, out_dir, mediapy) -> int:
       _, _ = player._step_once()
       frame = _render(env)
       if frame is not None:
+        if args.overlay:
+          lin_b = _quat_rot_inv(mcmd.robot_anchor_quat_w[0], mcmd.robot_anchor_lin_vel_w[0])
+          ang_b = _quat_rot_inv(mcmd.robot_anchor_quat_w[0], mcmd.robot_anchor_ang_vel_w[0])
+          elapsed = (p_idx_steps + i + 1) / 50.0
+          frame = _draw_overlay(frame, [
+            f"CMD  vx {cmd[0]:+.2f}  vy {cmd[1]:+.2f}  wz {cmd[2]:+.2f}",
+            f"ACT  vx {float(lin_b[0]):+.2f}  vy {float(lin_b[1]):+.2f}  "
+            f"wz {float(ang_b[2]):+.2f}",
+            f"phase {p_idx + 1}/{len(phases)}   t {elapsed:5.1f}s",
+          ])
         frames.append(frame)
       positions.append(mcmd.robot_anchor_pos_w[0, :2].detach().cpu().numpy())
 
@@ -168,6 +229,7 @@ def run_ramp(env, player, args, out_dir, mediapy) -> int:
     phase_rows.append({"phase": p_idx, "steps": steps, "cmd_target": cmd_txt,
                        "mean_speed_mps": f"{mean_speed:.3f}",
                        "displacement_m": f"{displacement:.2f}"})
+    p_idx_steps += steps
     prev = target
 
   video = out_dir / "joystick_sweep.mp4"
@@ -202,6 +264,9 @@ def main() -> int:
     help="joystick sweep: '<steps>@vx,vy,wz' phases joined by ':' , linearly interpolated "
     "between phase targets; records one long video plus per-phase measured speeds",
   )
+  ap.add_argument("--overlay", action="store_true", default=True,
+                  help="burn target/actual velocity text into the video")
+  ap.add_argument("--no-overlay", dest="overlay", action="store_false")
   ap.add_argument("--flush-sleep", type=float, default=0.0,
                   help="seconds to idle at the end so the uploader can drain its queue")
   ap.add_argument("--width", type=int, default=640)
