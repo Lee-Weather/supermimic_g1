@@ -173,8 +173,9 @@ def main() -> int:
 
   rows: list[dict] = []
   if args.task == "motion":
-    clips = sorted(Path(args.motion_file or "").glob("*.npz"))[: max(1, args.clips)]
-    segments = [(f"clip{i:02d}", None) for i in range(max(1, len(clips)))]
+    # The env samples clips from the (packed) motion file itself; each segment is a fresh
+    # reset, so several segments cover several clips without reconfiguring the command.
+    segments = [(f"motion_seg{i:02d}", None) for i in range(max(1, args.clips))]
   else:
     segments = [
       (f"vel_{i:02d}_{vx:+.2f}_{vy:+.2f}_{wz:+.2f}", cmd)
@@ -196,8 +197,7 @@ def main() -> int:
       frame = _render(env)
       if frame is not None:
         frames.append(frame)
-      if env.unwrapped.episode_length_buf is not None:
-        done_steps = step
+      done_steps = step
     video = out_dir / f"{name}.mp4"
     if frames:
       mediapy.write_video(str(video), frames, fps=50)
