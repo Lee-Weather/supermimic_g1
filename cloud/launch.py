@@ -125,6 +125,8 @@ def main() -> int:
   ap.add_argument("--replay-steps", type=int, default=500)
   ap.add_argument("--replay-clips", type=int, default=1)
   ap.add_argument("--velocity-script", default="0,0,0")
+  ap.add_argument("--velocity-ramp", default=None)
+  ap.add_argument("--flush-sleep", type=float, default=0.0)
   args, extra = ap.parse_known_args()
 
   if args.probe:
@@ -165,6 +167,12 @@ def main() -> int:
       "--motion-file", args.motion_file,
       "--out-dir", str(ROOT / "replay_out"),
     ]
+    if args.velocity_ramp:
+      cmd += ["--velocity-ramp", args.velocity_ramp]
+    if args.flush_sleep:
+      cmd += ["--flush-sleep", str(args.flush_sleep)]
+    # Anything we did not model explicitly still reaches the replay script.
+    cmd += extra
     return run(cmd)
 
   cmd = [
