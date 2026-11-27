@@ -53,6 +53,9 @@ class HeadlessReplay(SuperMimicViewerMixin):
     self.env = env
     self.policy = policy
     self._gt_history: torch.Tensor | None = None
+    self.compare_torch = False
+    self.compare_max = 0.0
+    self.compare_last = 0.0
 
   def _step_once(self):
     obs = self.env.get_observations()
@@ -112,10 +115,25 @@ class HeadlessReplay(SuperMimicViewerMixin):
       mcmd.robot_joint_vel[0].cpu().numpy(),
     ]).astype(np.float32)
 
+  def torch_action_for(self, cmd, rep: "np.ndarray") -> "np.ndarray":
+    """Action from the training-time actor for the same deploy inputs."""
+    device = self.env.unwrapped.device
+    goal = torch.as_tensor(np.asarray(cmd, dtype=np.float32), device=device)[None]
+    history = torch.as_tensor(rep, dtype=torch.float32, device=device)[None, None]
+    actor_obs = build_actor_obs_td({self.current_task: goal}, history)
+    with torch.no_grad():
+      return self.policy(actor_obs)[0].cpu().numpy()
+
   def deploy_step(self, session, cmd) -> "np.ndarray":
     """One 20 ms control step driven by the exported ONNX policy."""
-    obs = np.concatenate([np.asarray(cmd, dtype=np.float32), self.deploy_rep_state()])[None, :]
+    rep = self.deploy_rep_state()
+    obs = np.concatenate([np.asarray(cmd, dtype=np.float32), rep])[None, :]
     action = session.run(["actions"], {"obs": obs})[0][0]
+    if self.compare_torch:
+      reference = self.torch_action_for(cmd, rep)
+      diff = float(np.abs(action - reference).max())
+      self.compare_max = max(self.compare_max, diff)
+      self.compare_last = diff
     actions = torch.as_tensor(
       action, dtype=torch.float32, device=self.env.unwrapped.device
     )[None]
@@ -309,12 +327,19 @@ def run_deploy(env, player, args, out_dir, mediapy) -> int:
   prev = (0.0, 0.0, 0.0)
   step_total = 0
 
+  player.compare_torch = bool(args.compare_torch)
   for p_idx, (steps, target) in enumerate(phases):
     positions = []
     for i in range(steps):
       frac = (i + 1) / steps
       cmd = tuple(prev[j] + (target[j] - prev[j]) * frac for j in range(3))
       player.deploy_step(session, cmd)
+      if player.compare_torch and step_total % 25 == 0:
+        print(
+          f"[replay] torch-vs-onnx action diff {player.compare_last:.2e} "
+          f"(max so far {player.compare_max:.2e})",
+          flush=True,
+        )
       step_total += 1
       positions.append(mcmd.robot_anchor_pos_w[0, :2].detach().cpu().numpy())
       frame = _render(env)
@@ -382,6 +407,8 @@ def main() -> int:
   ap.add_argument("--overlay", action="store_true", default=True,
                   help="burn target/actual velocity text into the video")
   ap.add_argument("--no-overlay", dest="overlay", action="store_false")
+  ap.add_argument("--compare-torch", action="store_true", default=False,
+                  help="diff the ONNX action against the training actor each step")
   ap.add_argument("--deploy-onnx", default=None,
                   help="exported policy .onnx; runs the deploy obs/action path")
   ap.add_argument("--flush-sleep", type=float, default=0.0,
