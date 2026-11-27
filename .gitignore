@@ -60,3 +60,18 @@ tid.txt
 
 # 训练产物：权重需要进 pod 做回放/评估，所以 models/ 下的 .pt 例外放行
 !models/**/*.pt
+
+# 一次性产物 / 运行日志（2026-11-27 清理后约定）
+cloud_ckpt*/            # 平台下载的 checkpoint 副本，规范位置是 models/
+replay_out/**/*.pt      # 回放产物的 .pt 镜像（仅用于平台上传）
+final_log.txt
+logs_*.txt
+logs_archive_*.txt
+progress_*.log
+monitor_*.log
+diag*.json
+diag*.txt
+task_payload.json
+project_payload.json
+run_payload.json
+tid.txt
