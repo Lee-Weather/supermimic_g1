@@ -98,8 +98,9 @@ def _render(env) -> np.ndarray | None:
 
 
 def parse_velocity_script(text: str) -> list[tuple[float, float, float]]:
+  # ':' is the shell-safe separator; ';' is accepted for local use but is stripped by shells.
   out = []
-  for chunk in text.split(";"):
+  for chunk in text.replace(";", ":").split(":"):
     chunk = chunk.strip()
     if not chunk:
       continue
@@ -205,6 +206,10 @@ def main() -> int:
       # The platform's file watcher only uploads *.pt, so mirror the video under a .pt name:
       # we download that artifact and rename it back to .mp4 locally.
       shutil.copy2(video, out_dir / f"{name}_mp4.pt")
+      mid = frames[len(frames) // 2]
+      still = out_dir / f"{name}_mid.png"
+      mediapy.write_image(str(still), mid)
+      shutil.copy2(still, out_dir / f"{name}_mid_png.pt")
       print(f"[replay] wrote {video} ({len(frames)} frames)", flush=True)
     else:
       print("[replay] no frames captured (render returned None)", flush=True)
