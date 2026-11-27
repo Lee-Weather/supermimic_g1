@@ -121,6 +121,8 @@ def main() -> int:
   ap.add_argument("--clips", type=int, default=1, help="how many motion clips to replay")
   ap.add_argument("--steps", type=int, default=500, help="steps per segment (50 Hz)")
   ap.add_argument("--velocity-script", default="0,0,0")
+  ap.add_argument("--flush-sleep", type=float, default=0.0,
+                  help="seconds to idle at the end so the uploader can drain its queue")
   ap.add_argument("--width", type=int, default=640)
   ap.add_argument("--height", type=int, default=480)
   args = ap.parse_args()
@@ -239,6 +241,11 @@ def main() -> int:
       w.writeheader()
       w.writerows(rows)
   print(f"[replay] done -> {out_dir}", flush=True)
+  if args.flush_sleep > 0:
+    import time
+
+    print(f"[replay] idling {args.flush_sleep:.0f}s so uploads drain", flush=True)
+    time.sleep(args.flush_sleep)
   return 0
 
 
