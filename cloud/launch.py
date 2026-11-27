@@ -31,6 +31,7 @@ VENV_DIR = Path(
 )
 VENV_PY = VENV_DIR / "bin/python"
 TRAIN = ROOT / "supermimic/src/supermimic/scripts/train.py"
+REPLAY = ROOT / "supermimic/src/supermimic/scripts/replay_headless.py"
 BOOTSTRAP = ROOT / "cloud/bootstrap.sh"
 TASK_ID = "Supermimic-GenCoord-G1".replace("Supermimic", "SuperMimic")
 
@@ -117,6 +118,13 @@ def main() -> int:
   ap.add_argument("--velocity-mix", type=float, default=None)
   # "conservative" narrows the velocity command ranges to what walk-only data covers.
   ap.add_argument("--vel-range", choices=("wide", "conservative"), default=None)
+  # Replay mode: skip training, drive the trained actor headless and record mp4 segments.
+  ap.add_argument("--replay", action="store_true")
+  ap.add_argument("--model-dir", default=None)
+  ap.add_argument("--replay-task", choices=("motion", "velocity"), default="motion")
+  ap.add_argument("--replay-steps", type=int, default=500)
+  ap.add_argument("--replay-clips", type=int, default=1)
+  ap.add_argument("--velocity-script", default="0,0,0")
   args, extra = ap.parse_known_args()
 
   if args.probe:
@@ -141,6 +149,23 @@ def main() -> int:
   if not VENV_PY.exists():
     print("[launch] no venv python; abort", flush=True)
     return 2
+
+  if args.replay:
+    if not args.model_dir:
+      print("[launch] --replay needs --model-dir", flush=True)
+      return 2
+    cmd = [
+      str(VENV_PY), "-u", str(REPLAY),
+      "--task-id", TASK_ID,
+      "--model-dir", args.model_dir,
+      "--task", args.replay_task,
+      "--steps", str(args.replay_steps),
+      "--clips", str(args.replay_clips),
+      "--velocity-script", args.velocity_script,
+      "--motion-file", args.motion_file,
+      "--out-dir", str(ROOT / "replay_out"),
+    ]
+    return run(cmd)
 
   cmd = [
     str(VENV_PY), "-u", str(TRAIN), TASK_ID,

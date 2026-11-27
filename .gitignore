@@ -1,4 +1,4 @@
-﻿# 鈹€鈹€ 澶栭儴 / 娲剧敓鏁版嵁锛坖unction 鎸囧悜 E:\G1\datasets锛夆攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+# 鈹€鈹€ 澶栭儴 / 娲剧敓鏁版嵁锛坖unction 鎸囧悜 E:\G1\datasets锛夆攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 datasets/source/
 datasets/lafan1_g1/
 datasets/walk_gapfill/
@@ -57,3 +57,6 @@ tid.txt
 *_info.txt
 *_log.txt
 *_log_url.txt
+
+# 训练产物：权重需要进 pod 做回放/评估，所以 models/ 下的 .pt 例外放行
+!models/**/*.pt
