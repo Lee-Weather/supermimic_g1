@@ -1,0 +1,5 @@
+# Velocity goal polled by State_SuperMimic (10 Hz). Body frame, m/s and rad/s.
+# Values are clamped inside the package; keep vy at 0 unless you are testing it.
+vx: 0.0
+vy: 0.0
+wz: 0.0

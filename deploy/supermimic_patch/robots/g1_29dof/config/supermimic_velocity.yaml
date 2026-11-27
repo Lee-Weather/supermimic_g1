@@ -1,0 +1,199 @@
+# SuperMimic velocity-command state for the G1 EDU U2 (29 DoF).
+#
+# Operator flow:
+#   [L2 + UP]        FixStand: ramp to the standing pose and hold
+#   [RB + X]         SuperMimicVelocity: the exported ONNX policy takes over at 50 Hz
+#   edit config/velocity_cmd.yaml   change vx/vy/wz (file is polled at 10 Hz, then clipped)
+#   [L2 + B]         abort to Passive damping at any point
+#
+# The velocity goal is body-frame [vx, vy, wz] and is clamped inside the package to
+# vx[-0.10, 1.00], vy[-0.10, 0.10], wz[-1.50, 1.50] m/s, rad/s. Measured on the trained
+# policy: 1.1 m/s tracks within 2 %, backward commands diverge (0.3 -> 0.83), sideways is
+# weak and asymmetric, so the clip keeps the operator inside the validated envelope.
+# Keep the gantry attached for the first runs: damping after an abort does not hold the
+# robot up.
+FSM:
+  _:
+    Passive:
+      id: 1
+    FixStand:
+      id: 2
+    SuperMimicVelocity:
+      id: 301
+      type: SuperMimic
+  Passive:
+    transitions:
+      FixStand: LT + up.on_pressed
+    mode:
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    kd:
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+    - 3.0
+  FixStand:
+    transitions:
+      Passive: LT + B.on_pressed
+      SuperMimicVelocity: RB + X.on_pressed
+    kp:
+    - 40.17923847137318
+    - 99.09842777666113
+    - 40.17923847137318
+    - 99.09842777666113
+    - 28.50124619574858
+    - 28.50124619574858
+    - 40.17923847137318
+    - 99.09842777666113
+    - 40.17923847137318
+    - 99.09842777666113
+    - 28.50124619574858
+    - 28.50124619574858
+    - 40.17923847137318
+    - 28.50124619574858
+    - 28.50124619574858
+    - 14.25062309787429
+    - 14.25062309787429
+    - 14.25062309787429
+    - 14.25062309787429
+    - 14.25062309787429
+    - 16.77832748089279
+    - 16.77832748089279
+    - 14.25062309787429
+    - 14.25062309787429
+    - 14.25062309787429
+    - 14.25062309787429
+    - 14.25062309787429
+    - 16.77832748089279
+    - 16.77832748089279
+    kd:
+    - 2.5578897650279457
+    - 6.3088018534966395
+    - 2.5578897650279457
+    - 6.3088018534966395
+    - 1.814445686584846
+    - 1.814445686584846
+    - 2.5578897650279457
+    - 6.3088018534966395
+    - 2.5578897650279457
+    - 6.3088018534966395
+    - 1.814445686584846
+    - 1.814445686584846
+    - 2.5578897650279457
+    - 1.814445686584846
+    - 1.814445686584846
+    - 0.907222843292423
+    - 0.907222843292423
+    - 0.907222843292423
+    - 0.907222843292423
+    - 0.907222843292423
+    - 1.06814150219
+    - 1.06814150219
+    - 0.907222843292423
+    - 0.907222843292423
+    - 0.907222843292423
+    - 0.907222843292423
+    - 0.907222843292423
+    - 1.06814150219
+    - 1.06814150219
+    ts:
+    - 0
+    - 3
+    qs:
+    - []
+    - - 0.036554
+      - 0.013113
+      - 0.082659
+      - 0.348689
+      - -0.397142
+      - -0.091035
+      - -0.297875
+      - -0.343904
+      - 0.097994
+      - 0.394633
+      - -0.100339
+      - 0.231544
+      - -0.005332
+      - -0.048278
+      - 0.07215
+      - 0.114842
+      - 0.095608
+      - -0.20136
+      - 0.620923
+      - 0.594038
+      - 0.32031
+      - 0.217648
+      - 0.284601
+      - -0.095418
+      - 0.100145
+      - 0.663005
+      - -0.788828
+      - 0.417847
+      - -0.065713
+  BeyondMimic:
+    transitions:
+      Passive: LT + B.on_pressed
+    policy_dir: config/policy/beyondmimic/dance2_subject3_30s
+    start_frame: 0
+    duration_s: 29.98
+    max_start_error: 0.6
+    max_tilt: 0.85
+    max_target_speed: 8.0
+    max_anchor_error: 0.5
+  SuperMimicVelocity:
+    transitions:
+      Passive: LT + B.on_pressed
+    policy_dir: config/policy/supermimic/velocity_v1
+    command_file: config/velocity_cmd.yaml
