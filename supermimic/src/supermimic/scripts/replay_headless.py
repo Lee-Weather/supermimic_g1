@@ -90,6 +90,41 @@ class HeadlessReplay(SuperMimicViewerMixin):
     return actor_goal, actions
 
 
+  def deploy_rep_state(self) -> "np.ndarray":
+    """``[z, g_b, v_b, w_b, qj, vj]`` built the way ``supermimic/core.h`` builds it.
+
+    Uses the env's ground-truth robot state (pelvis pose/velocity + joint encoders), so it
+    exercises the deploy math rather than the training-time representation modules.
+    """
+    mcmd = self.env.unwrapped.command_manager.get_term("motion")
+    quat = mcmd.robot_anchor_quat_w[0]
+    world_down = torch.zeros(3, device=quat.device)
+    world_down[2] = -1.0
+    g_b = _quat_rot_inv(quat, world_down)
+    v_b = _quat_rot_inv(quat, mcmd.robot_anchor_lin_vel_w[0])
+    w_b = _quat_rot_inv(quat, mcmd.robot_anchor_ang_vel_w[0])
+    return np.concatenate([
+      [float(mcmd.robot_anchor_pos_w[0, 2])],
+      g_b.cpu().numpy(),
+      v_b.cpu().numpy(),
+      w_b.cpu().numpy(),
+      mcmd.robot_joint_pos[0].cpu().numpy(),
+      mcmd.robot_joint_vel[0].cpu().numpy(),
+    ]).astype(np.float32)
+
+  def deploy_step(self, session, cmd) -> "np.ndarray":
+    """One 20 ms control step driven by the exported ONNX policy."""
+    obs = np.concatenate([np.asarray(cmd, dtype=np.float32), self.deploy_rep_state()])[None, :]
+    action = session.run(["actions"], {"obs": obs})[0][0]
+    actions = torch.as_tensor(
+      action, dtype=torch.float32, device=self.env.unwrapped.device
+    )[None]
+    _, _, dones, _ = self.env.step(actions)
+    if bool(torch.any(dones)):
+      self.reset_env_supermimic()
+    return actions
+
+
 def _quat_rot_inv(q: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
   """Rotate a world vector into the body frame (inverse rotation, wxyz quat)."""
   w, x, y, z = q[0], q[1], q[2], q[3]
@@ -248,6 +283,86 @@ def run_ramp(env, player, args, out_dir, mediapy) -> int:
   return 0
 
 
+def run_deploy(env, player, args, out_dir, mediapy) -> int:
+  """Ramp-mode rollout where the policy is the exported ONNX artifact."""
+  import csv as _csv
+  import shutil as _shutil
+
+  import onnxruntime as _ort
+
+  session = _ort.InferenceSession(args.deploy_onnx, providers=["CPUExecutionProvider"])
+  meta = session.get_inputs()[0]
+  print(
+    f"[replay] deploy ONNX {Path(args.deploy_onnx).name} "
+    f"input {meta.name}{tuple(meta.shape)}",
+    flush=True,
+  )
+
+  phases = parse_ramp(args.velocity_ramp)
+  env.reset()
+  player.reset_env_supermimic()
+  player._gt_history = None
+
+  mcmd = env.unwrapped.command_manager.get_term("motion")
+  frames: list[np.ndarray] = []
+  rows: list[dict] = []
+  prev = (0.0, 0.0, 0.0)
+  step_total = 0
+
+  for p_idx, (steps, target) in enumerate(phases):
+    positions = []
+    for i in range(steps):
+      frac = (i + 1) / steps
+      cmd = tuple(prev[j] + (target[j] - prev[j]) * frac for j in range(3))
+      player.deploy_step(session, cmd)
+      step_total += 1
+      positions.append(mcmd.robot_anchor_pos_w[0, :2].detach().cpu().numpy())
+      frame = _render(env)
+      if frame is not None:
+        if args.overlay:
+          quat = mcmd.robot_anchor_quat_w[0]
+          lin_b = _quat_rot_inv(quat, mcmd.robot_anchor_lin_vel_w[0]).cpu().numpy()
+          ang_b = _quat_rot_inv(quat, mcmd.robot_anchor_ang_vel_w[0]).cpu().numpy()
+          frame = _draw_overlay(frame, [
+            f"CMD  vx {cmd[0]:+.2f}  vy {cmd[1]:+.2f}  wz {cmd[2]:+.2f}",
+            f"ACT  vx {lin_b[0]:+.2f}  vy {lin_b[1]:+.2f}  wz {ang_b[2]:+.2f}",
+            f"phase {p_idx + 1}/{len(phases)}   t {step_total / 50.0:5.1f}s   "
+            f"ONNX deploy path",
+          ])
+        frames.append(frame)
+
+    arr = np.stack(positions)
+    deltas = np.linalg.norm(np.diff(arr, axis=0), axis=1) if len(arr) > 1 else np.zeros(1)
+    duration = max((len(arr) - 1) * 0.02, 1e-6)
+    mean_speed = float(deltas.sum() / duration)
+    displacement = float(np.linalg.norm(arr[-1] - arr[0])) if len(arr) > 1 else 0.0
+    cmd_txt = f"{target[0]:+.2f},{target[1]:+.2f},{target[2]:+.2f}"
+    print(
+      f"[replay] phase{p_idx:02d} cmd_target={cmd_txt} steps={steps} "
+      f"mean_speed={mean_speed:.3f} m/s disp={displacement:.2f} m",
+      flush=True,
+    )
+    rows.append({"phase": p_idx, "steps": steps, "cmd_target": cmd_txt,
+                 "mean_speed_mps": f"{mean_speed:.3f}",
+                 "displacement_m": f"{displacement:.2f}"})
+    prev = target
+
+  video = out_dir / "deploy_onnx_mujoco.mp4"
+  if frames:
+    mediapy.write_video(str(video), frames, fps=50)
+    _shutil.copy2(video, out_dir / "deploy_onnx_mujoco_mp4.pt")
+    mediapy.write_image(str(out_dir / "deploy_onnx_mujoco_mid.png"), frames[len(frames) // 2])
+    _shutil.copy2(out_dir / "deploy_onnx_mujoco_mid.png",
+                  out_dir / "deploy_onnx_mujoco_mid_png.pt")
+    print(f"[replay] wrote {video} ({len(frames)} frames = {len(frames) / 50:.1f}s)", flush=True)
+  with (out_dir / "deploy_onnx_phases.csv").open("w", newline="", encoding="utf-8") as fh:
+    w = _csv.DictWriter(fh, fieldnames=list(rows[0]))
+    w.writeheader()
+    w.writerows(rows)
+  print("[replay] deploy rollout done", flush=True)
+  return 0
+
+
 def main() -> int:
   ap = argparse.ArgumentParser()
   ap.add_argument("--task-id", default="SuperMimic-GenCoord-G1")
@@ -267,6 +382,8 @@ def main() -> int:
   ap.add_argument("--overlay", action="store_true", default=True,
                   help="burn target/actual velocity text into the video")
   ap.add_argument("--no-overlay", dest="overlay", action="store_false")
+  ap.add_argument("--deploy-onnx", default=None,
+                  help="exported policy .onnx; runs the deploy obs/action path")
   ap.add_argument("--flush-sleep", type=float, default=0.0,
                   help="seconds to idle at the end so the uploader can drain its queue")
   ap.add_argument("--width", type=int, default=640)
@@ -319,6 +436,15 @@ def main() -> int:
   )
 
   import mediapy
+
+  if args.deploy_onnx:
+    code = run_deploy(env, player, args, out_dir, mediapy)
+    if args.flush_sleep > 0:
+      import time
+
+      print(f"[replay] idling {args.flush_sleep:.0f}s so uploads drain", flush=True)
+      time.sleep(args.flush_sleep)
+    return code
 
   if args.velocity_ramp:
     code = run_ramp(env, player, args, out_dir, mediapy)

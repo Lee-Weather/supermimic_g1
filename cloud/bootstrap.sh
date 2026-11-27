@@ -110,6 +110,8 @@ say "=== 4a. pillow (replay video text overlay) ==="
 # Replay draws "target vs actual velocity" on the frames; there is no other text renderer in
 # the venv, so pillow is a hard replay dependency. Failure here is not fatal for training.
 retry 3 uv pip install --python "$VENV" pillow || say "pillow install failed (overlay will be skipped)"
+# onnxruntime: the replay can drive the exported deploy ONNX instead of the torch actor
+retry 3 uv pip install --python "$VENV" onnxruntime || say "onnxruntime install failed (deploy-onnx replay unavailable)"
 
 say "=== 4b. pin a warp-lang build the driver can actually use ==="
 # warp 1.19/1.18 wheels are built with CUDA 13.4 and refuse to run on a 12.x driver
