@@ -1,0 +1,43 @@
+﻿# 来自 monitor_replay_119.log
+    RESULT [replay] vel_00_+0.00_+0.00_+0.00: cmd=+0.00,+0.00,+0.00 mean_speed=0.025 m/s displacement=0.09 m
+    RESULT [replay] vel_02_+0.80_+0.00_+0.00: cmd=+0.80,+0.00,+0.00 mean_speed=0.815 m/s displacement=4.66 m
+    RESULT [replay] vel_03_+0.30_+0.00_+1.00: cmd=+0.30,+0.00,+1.00 mean_speed=0.313 m/s displacement=0.04 m
+    GOT vel_03_+0.30_+0.00_+1.00_mp4.pt 1.14 MB
+TASK ENDED status=5
+# 来自 monitor_replay_130.log
+    RESULT [replay] vel_00_+0.30_+0.00_+0.00: cmd=+0.30,+0.00,+0.00 mean_speed=0.280 m/s displacement=2.06 m
+    GOT vel_00_+0.30_+0.00_+0.00_mp4.pt 1.34 MB
+    GOT vel_01_+0.80_+0.00_+0.00_mp4.pt 1.57 MB
+TASK ENDED status=5
+# 来自 monitor_replay_155.log
+    GOT vel_00_+0.00_+0.00_+0.00_mp4.pt 0.83 MB
+TASK ENDED status=5
+# 来自 monitor_replay_170.log
+    RESULT [replay] phase00 cmd_target=+0.00,+0.00,+0.00 steps=100 mean_speed=0.060 m/s disp=0.07 m
+    RESULT [replay] phase01 cmd_target=+1.10,+0.00,+0.00 steps=150 mean_speed=0.446 m/s disp=1.30 m
+    RESULT [replay] phase02 cmd_target=+1.10,+0.00,+0.00 steps=100 mean_speed=1.124 m/s disp=2.18 m
+    RESULT [replay] phase03 cmd_target=+0.00,+0.00,+0.00 steps=150 mean_speed=0.513 m/s disp=1.47 m
+    RESULT [replay] phase04 cmd_target=+0.00,+0.00,+0.00 steps=50 mean_speed=0.012 m/s disp=0.00 m
+    RESULT [replay] phase05 cmd_target=-0.30,+0.00,+0.00 steps=100 mean_speed=0.024 m/s disp=0.04 m
+    RESULT [replay] phase06 cmd_target=-0.30,+0.00,+0.00 steps=50 mean_speed=0.488 m/s disp=0.45 m
+    RESULT [replay] phase07 cmd_target=+0.00,+0.20,+0.00 steps=100 mean_speed=0.172 m/s disp=0.23 m
+    RESULT [replay] phase08 cmd_target=+0.00,-0.20,+0.00 steps=100 mean_speed=0.067 m/s disp=0.07 m
+    RESULT [replay] phase09 cmd_target=+0.00,+0.00,+2.00 steps=100 mean_speed=0.080 m/s disp=0.09 m
+    RESULT [replay] phase10 cmd_target=+0.00,+0.00,-2.00 steps=100 mean_speed=0.083 m/s disp=0.07 m
+    RESULT [replay] phase11 cmd_target=+0.60,+0.15,+1.00 steps=100 mean_speed=0.206 m/s disp=0.32 m
+    RESULT [replay] phase12 cmd_target=+0.90,-0.15,-1.50 steps=100 mean_speed=0.769 m/s disp=1.44 m
+    RESULT [replay] phase13 cmd_target=+0.00,+0.00,+0.00 steps=100 mean_speed=0.601 m/s disp=0.94 m
+    GOT joystick_sweep_mp4.pt 3.84 MB
+TASK ENDED status=5
+# 来自 monitor_replay_325.log
+    RESULT [replay] phase00 cmd_target=+0.00,+0.00,+0.00 steps=250 mean_speed=0.040 m/s disp=0.09 m
+    RESULT [replay] phase02 cmd_target=+1.10,+0.00,+0.00 steps=250 mean_speed=1.022 m/s disp=5.02 m
+    RESULT [replay] phase04 cmd_target=+0.00,+0.00,+0.00 steps=250 mean_speed=0.055 m/s disp=0.22 m
+    RESULT [replay] phase05 cmd_target=-0.30,+0.00,+0.00 steps=250 mean_speed=0.032 m/s disp=0.16 m
+    RESULT [replay] phase06 cmd_target=-0.30,+0.00,+0.00 steps=250 mean_speed=0.832 m/s disp=4.06 m
+    RESULT [replay] phase07 cmd_target=+0.00,+0.20,+0.00 steps=250 mean_speed=0.151 m/s disp=0.52 m
+    RESULT [replay] phase09 cmd_target=+0.00,+0.00,+2.00 steps=250 mean_speed=0.080 m/s disp=0.04 m
+    RESULT [replay] phase10 cmd_target=+0.00,+0.00,-2.00 steps=250 mean_speed=0.098 m/s disp=0.14 m
+    RESULT [replay] phase11 cmd_target=+0.60,+0.15,+1.00 steps=250 mean_speed=0.257 m/s disp=0.98 m
+    RESULT [replay] phase12 cmd_target=+0.90,-0.15,-1.50 steps=250 mean_speed=0.754 m/s disp=2.72 m
+TASK ENDED status=5
