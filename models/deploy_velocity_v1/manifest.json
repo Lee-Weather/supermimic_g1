@@ -1,0 +1,19 @@
+{
+  "checkpoint": "actor.pt",
+  "checkpoint_path": "E:\\G1\\G1_supermimic\\models\\g1_walk_velocity_30k_20261126\\actor.pt",
+  "checkpoint_sha256": "6f9b6d5300ded0723aef1801b5f774dd7966d486cbe76a5c365fd38abb2cb30b",
+  "tasks": [
+    {
+      "task": "velocity",
+      "policy": "policy_velocity.onnx",
+      "obs_dim": 71,
+      "goal_dim": 3,
+      "parity_max_abs_err": 3.5045481938666967e-06,
+      "policy_sha256": "36543fe2f33b7e86e7287607f81ac27f386c2637b679759a0bfc31d6ecc090c3"
+    }
+  ],
+  "joint_order": "policy == MJCF == G1 SDK motor order (identity sdk_indices)",
+  "action_scale": 0.5,
+  "normalizer_epsilon": 0.01,
+  "deploy_yaml_sha256": "85e32fed62498033bc89ebeba61905084c70953d1efd9abf98306b2c871a3e4b"
+}
