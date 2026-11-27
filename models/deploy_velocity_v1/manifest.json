@@ -15,5 +15,5 @@
   "joint_order": "policy == MJCF == G1 SDK motor order (identity sdk_indices)",
   "action_scale": 0.5,
   "normalizer_epsilon": 0.01,
-  "deploy_yaml_sha256": "85e32fed62498033bc89ebeba61905084c70953d1efd9abf98306b2c871a3e4b"
+  "deploy_yaml_sha256": "6f72312a3bec35ad2f2e8056f4a65d91a20205c5be2e1a5f8275c44d9cc68b55"
 }

@@ -39,6 +39,8 @@ struct Package {
   beyondmimic::Config robot;
   VelocityClip clip;
   SafetyLimits limits;
+  Joints entry_pose{};        // where FixStand should leave the robot
+  float max_start_error = 0.6f;  // rad, per-joint deviation accepted at takeover
   int goal_dim = VELOCITY_GOAL_DIM;
   std::filesystem::path policy;
 };
@@ -106,6 +108,8 @@ inline Package load_package(const std::filesystem::path& deploy_yaml) {
   pkg.clip.wz_lo = safety["velocity_command_clip"]["wz"][0].as<float>();
   pkg.clip.wz_hi = safety["velocity_command_clip"]["wz"][1].as<float>();
   pkg.clip.validate();
+  pkg.entry_pose = read_array<J>(yaml["entry_pose"]);
+  pkg.max_start_error = safety["max_start_error"].as<float>();
   pkg.limits.max_tilt_rad = safety["max_tilt_rad"].as<float>();
   pkg.limits.max_target_speed = safety["max_target_speed_rad_s"].as<float>();
   pkg.limits.validate();

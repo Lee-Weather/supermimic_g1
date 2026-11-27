@@ -231,6 +231,10 @@ def main() -> int:
     lower, upper = g1.joint_limits(repo / g1.G1_XML)
 
     beyond = yaml.safe_load((repo / BEYONDMIMIC_YAML).read_text(encoding="utf-8"))
+    # Entry pose for FixStand / takeover check: the training data's mean joint angles,
+    # i.e. the centre of the distribution the velocity policy was trained on.
+    entry_pose = [round(float(v), 6)
+                  for v in weights["obs_normalizer._mean"].reshape(-1)[10:39]]
     config = {
         "format": "supermimic_g1_gencoord_v1",
         "policy": {e["task"]: e["policy"] for e in exported},
@@ -256,7 +260,9 @@ def main() -> int:
         "velocity_limit": [table[j]["velocity"] for j in g1.JOINT_ORDER],
         "joint_lower": lower,
         "joint_upper": upper,
+        "entry_pose": entry_pose,
         "safety": {
+            "max_start_error": 0.6,
             "max_tilt_rad": 0.85,
             "max_anchor_error_m": 0.35,
             "max_target_speed_rad_s": 8.0,

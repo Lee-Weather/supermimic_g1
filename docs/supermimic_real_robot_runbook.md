@@ -99,11 +99,44 @@ FSM: Start Passive
 看到最后一行就是**阻尼态**，还没跑策略。策略会读 `config/velocity_cmd.yaml`，
 **初始值是 `vx: 0`**，所以进态后先站在原地。
 
+## 3.5 「站姿」是哪来的（重要）
+
+`FixStand` 不是硬编码的姿势，它读 `config/supermimic_velocity.yaml` 里的：
+
+```yaml
+FixStand:
+  ts: [0, 3]      # 两个时间节点（秒）
+  qs:             # 两行 29 维关节角
+    - []          # 第 0 行只是占位：State_FixStand 进态时用「实测姿态」覆盖它
+    - [ -0.092, 0.009, 0.039, 0.342, -0.122, ... ]   # 第 1 行 = 目标站姿
+```
+
+**第 1 行才是站姿**，它是 `tools/gen_fsm_config.py` 从 actor 权重里算出来的：
+`obs_normalizer._mean` 的 `qj` 段（第 10–38 维）= **训练数据里关节角的均值**，也就是
+策略训练分布的**中心**（膝 0.342、踝 -0.122、肘 0.971、肩 roll ±0.2/∓0.546）。
+
+为什么不沿用 BeyondMimic 的那一行：`dance2_subject3_30s.yaml` 里的 `qs[1]` 是**那段舞蹈
+参考的第 0 帧**（右髋 roll -0.344、手腕上抬），对速度策略来说是分布外姿势，一进态就会
+先"摔一下再找平衡"。
+
+为什么不直接用 `default_joint_pos`（KNEES_BENT，膝 0.669）：那是 `q_des = default + 0.5a`
+的零点，蹲得比数据深（膝 0.669 vs 数据均值 0.342，约 0.85σ），进态瞬间策略要先把腿伸直。
+
+进态那一刻还会**校验**：`State_SuperMimic::enter()` 逐关节比对当前姿态与部署包里的
+`entry_pose`，任一处偏差 > `max_start_error`（0.6 rad）就拒绝启动并打日志，提示先回
+`FixStand`。所以流程必须是 `FixStand` 站稳 → 再 `L2 + →`。
+
+改了姿态想重新生成（会自动同步到 `deploy/supermimic_patch/` 和 `G1_deploy/`）：
+
+```bash
+python3 tools/gen_fsm_config.py --repo ~/sm     # 或在有仓库的机器上跑完再拷过去
+```
+
 ## 4. 遥控器操作
 
 | 操作 | 结果 |
 |---|---|
-| `L2 + ↑` | `FixStand`：3 s 过渡到站立姿态并保持（仍是 PD 定姿，不是策略） |
+| `L2 + ↑` | `FixStand`：3 s 过渡到**训练数据均值站姿**并保持（PD 定姿，还不是策略） |
 | 让双脚**平踩地面**，等 2–3 s | 腿式里程计需要支撑脚接地；悬空/半悬空会让 `v_b` 估计失真 |
 | `L2` 按住 2 s，再按 `→` | `SuperMimicVelocity`：策略接管，50 Hz；此时 `vx=0`，应该站住 |
 | `L2 + B` | 任何时刻退回 `Passive` 阻尼 |

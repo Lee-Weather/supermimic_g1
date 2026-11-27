@@ -103,6 +103,23 @@ void State_SuperMimic::enter() {
     if (supermimic::tilt_angle(current.orientation) > package_->limits.max_tilt_rad) {
       throw std::runtime_error("Robot is tilted too far to start SuperMimic");
     }
+    // Takeover is only allowed near the pose FixStand was configured to reach; a large
+    // offset means the first observation is outside the training distribution.
+    float worst = 0.0f;
+    int worst_joint = -1;
+    for (int i = 0; i < beyondmimic::J; ++i) {
+      const float error = std::abs(current.q[i] - package_->entry_pose[i]);
+      if (error > worst) {
+        worst = error;
+        worst_joint = i;
+      }
+    }
+    if (worst > package_->max_start_error) {
+      throw std::runtime_error(
+          "Joint " + std::to_string(worst_joint) + " is " + std::to_string(worst) +
+          " rad from the entry pose (limit " + std::to_string(package_->max_start_error) +
+          "); reach FixStand first");
+    }
     core_->reset(current, core_->estimate_height(current));
     command_ = {0.0f, 0.0f, 0.0f};
     last_command_read_ = std::chrono::steady_clock::now();
