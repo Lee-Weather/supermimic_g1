@@ -178,7 +178,7 @@ def main() -> int:
     segments = [(f"motion_seg{i:02d}", None) for i in range(max(1, args.clips))]
   else:
     segments = [
-      (f"vel_{i:02d}_{vx:+.2f}_{vy:+.2f}_{wz:+.2f}", cmd)
+      (f"vel_{i:02d}_{cmd[0]:+.2f}_{cmd[1]:+.2f}_{cmd[2]:+.2f}", cmd)
       for i, cmd in enumerate(parse_velocity_script(args.velocity_script))
     ]
 
@@ -191,13 +191,14 @@ def main() -> int:
         player.set_raw_goal(player.current_task, idx, value)
       print(f"[replay] segment {name}: cmd={cmd}", flush=True)
 
-    frames, rewards, done_steps = [], [], 0
+    mcmd = env.unwrapped.command_manager.get_term("motion")
+    frames, positions = [], []
     for step in range(args.steps):
       _, _ = player._step_once()
       frame = _render(env)
       if frame is not None:
         frames.append(frame)
-      done_steps = step
+      positions.append(mcmd.robot_anchor_pos_w[0, :2].detach().cpu().numpy())
     video = out_dir / f"{name}.mp4"
     if frames:
       mediapy.write_video(str(video), frames, fps=50)
@@ -207,7 +208,24 @@ def main() -> int:
       print(f"[replay] wrote {video} ({len(frames)} frames)", flush=True)
     else:
       print("[replay] no frames captured (render returned None)", flush=True)
-    rows.append({"segment": name, "steps": args.steps, "frames": len(frames),
+    mean_speed = 0.0
+    displacement = 0.0
+    if len(positions) > 1:
+      arr = np.stack(positions)
+      deltas = np.linalg.norm(np.diff(arr, axis=0), axis=1)
+      duration = (len(arr) - 1) * 0.02  # 50 Hz control
+      mean_speed = float(deltas.sum() / duration)
+      displacement = float(np.linalg.norm(arr[-1] - arr[0]))
+    cmd_txt = "motion" if cmd is None else f"{cmd[0]:+.2f},{cmd[1]:+.2f},{cmd[2]:+.2f}"
+    print(
+      f"[replay] {name}: cmd={cmd_txt} mean_speed={mean_speed:.3f} m/s "
+      f"displacement={displacement:.2f} m",
+      flush=True,
+    )
+    rows.append({"segment": name, "cmd": cmd_txt, "steps": args.steps,
+                 "frames": len(frames),
+                 "mean_speed_mps": f"{mean_speed:.3f}",
+                 "displacement_m": f"{displacement:.2f}",
                  "video": video.name if frames else ""})
 
   with (out_dir / "replay_summary.csv").open("w", newline="", encoding="utf-8") as fh:
