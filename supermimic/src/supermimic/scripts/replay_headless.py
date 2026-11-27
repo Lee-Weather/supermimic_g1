@@ -388,6 +388,24 @@ def run_deploy(env, player, args, out_dir, mediapy) -> int:
   return 0
 
 
+def dump_compiled_model(env, out_dir) -> None:
+  """Write the env's compiled MJCF (plus the resolved sim options) for local parity work."""
+  import mujoco as _mj
+
+  path = out_dir / "mjlab_compiled.xml"
+  model = env.unwrapped.sim.mj_model
+  _mj.mj_saveLastXML(str(path), model)
+  print(f"[replay] saved compiled model {path} ({path.stat().st_size} bytes)", flush=True)
+  opt = (
+    f"timestep={model.opt.timestep} integrator={model.opt.integrator} "
+    f"cone={model.opt.cone} solver={model.opt.solver} iterations={model.opt.iterations} "
+    f"ls_iterations={model.opt.ls_iterations} impratio={model.opt.impratio} "
+    f"gravity={model.opt.gravity.tolist()}"
+  )
+  (out_dir / "mjlab_sim_options.txt").write_text(opt + "\n", encoding="utf-8")
+  print(f"[replay] sim options: {opt}", flush=True)
+
+
 def main() -> int:
   ap = argparse.ArgumentParser()
   ap.add_argument("--task-id", default="SuperMimic-GenCoord-G1")
@@ -407,6 +425,8 @@ def main() -> int:
   ap.add_argument("--overlay", action="store_true", default=True,
                   help="burn target/actual velocity text into the video")
   ap.add_argument("--no-overlay", dest="overlay", action="store_false")
+  ap.add_argument("--dump-model", action="store_true", default=False,
+                  help="write the env's compiled MJCF and exit (local parity work)")
   ap.add_argument("--compare-torch", action="store_true", default=False,
                   help="diff the ONNX action against the training actor each step")
   ap.add_argument("--deploy-onnx", default=None,
@@ -463,6 +483,10 @@ def main() -> int:
   )
 
   import mediapy
+
+  if args.dump_model:
+    dump_compiled_model(env, out_dir)
+    return 0
 
   if args.deploy_onnx:
     code = run_deploy(env, player, args, out_dir, mediapy)
